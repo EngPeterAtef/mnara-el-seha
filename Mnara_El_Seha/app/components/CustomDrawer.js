@@ -10,7 +10,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-
+import {Avatar, Badge, Icon, withBadge} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 const CustomDrawer = props => {
@@ -94,11 +94,9 @@ const CustomDrawer = props => {
               borderTopColor: Colors.secondary1,
             }}></View>
         </View>
-        {/* <View
+        <View
           style={{
             padding: 20,
-            borderTopWidth: 1,
-            borderTopColor: Colors.secondary1,
           }}>
           <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -111,13 +109,47 @@ const CustomDrawer = props => {
                 }}>
                 تبديل الوان الوجهة
               </Text>
-              <View>
-                <Image />
-                <Image />
-              </View>
             </View>
           </TouchableOpacity>
-        </View> */}
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignContent: 'center',
+              paddingTop: 30,
+              paddingHorizontal: 40,
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity>
+              <View>
+                <Image
+                  source={require('../assets/images/menu_style_icon1.png')}
+                />
+                {/* <Badge
+                  status="success"
+                  containerStyle={{position: 'absolute', top: -4, right: -4}}
+                /> */}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View>
+                <Image
+                  source={require('../assets/images/menu_style_icon2.png')}
+                />
+                <Badge
+                  value="✔"
+                  badgeStyle={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 20,
+                  }}
+                  status="success"
+                  containerStyle={{position: 'absolute', top: -4, right: -4}}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       </DrawerContentScrollView>
     </View>
   );
