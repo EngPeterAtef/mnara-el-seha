@@ -1,10 +1,9 @@
 const Colors = {
-  primaryBackground1: '#3282B8',
-  primaryBackground2: '#0F4C75',
-  secondaryBackground: '#BBE1FA',
+  primary1: '#1d5c8c',
+  primary2: '#daf0ee',
+  secondary1: '#1fab91',
   white: '#fff',
   black: '#333',
-  primaryDark: '#1B262C',
 };
 
 export default Colors;
