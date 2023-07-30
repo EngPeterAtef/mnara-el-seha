@@ -51,7 +51,7 @@ export default function LoginScreen() {
           {/* <MyAppBar /> */}
           {/* Add logoImg */}
           <View style={styles.logoImgView}>
-            <Image source={require('../images/assets/logoImg.png')} />
+            <Image source={require('../assets/images/logoImg.png')} />
           </View>
           <View style={styles.allInputs}>
             <View style={styles.inputView}>
@@ -94,7 +94,7 @@ export default function LoginScreen() {
             <Text style={styles.loginText}>تسجيل دخول</Text>
           </TouchableOpacity>
           <View style={styles.titleImg}>
-            <Image source={require('../images/assets/title.png')} />
+            <Image source={require('../assets/images/title.png')} />
           </View>
         </View>
       </ScrollView>
