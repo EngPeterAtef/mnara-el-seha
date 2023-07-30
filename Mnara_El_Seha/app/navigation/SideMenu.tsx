@@ -1,15 +1,17 @@
-import {Image, Text} from 'react-native';
+import React from 'react';
+import { Image, Text } from 'react-native';
 import Colors from '../assets/values/Colors';
 import CustomDrawer from '../components/CustomDrawer';
-import {LoginScreen} from '../screens';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
+import { LoginScreen } from '../screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 
 const Drawer = createDrawerNavigator();
 
 function Home() {
-  return <Text style={{fontFamily: 'lucida grande'}}>Home</Text>;
+  return <Text style={{ fontFamily: 'lucida grande' }}>Home</Text>;
 }
 
 export default function SideMenu(): JSX.Element {
@@ -33,7 +35,7 @@ export default function SideMenu(): JSX.Element {
           component={LoginScreen}
           options={{
             title: list[0],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon1.png')} />
             ),
           }}
@@ -43,7 +45,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[1],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon2.png')} />
             ),
           }}
@@ -53,7 +55,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[2],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon3.png')} />
             ),
           }}
@@ -63,7 +65,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[3],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon4.png')} />
             ),
           }}
@@ -73,7 +75,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[4],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon5.png')} />
             ),
           }}
@@ -83,7 +85,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[5],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon6.png')} />
             ),
           }}
@@ -93,7 +95,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[6],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon7.png')} />
             ),
           }}
@@ -103,7 +105,7 @@ export default function SideMenu(): JSX.Element {
           component={Home}
           options={{
             title: list[7],
-            drawerIcon: ({focused, color, size}) => (
+            drawerIcon: () => (
               <Image source={require('../assets/images/menu_icon8.png')} />
             ),
           }}
