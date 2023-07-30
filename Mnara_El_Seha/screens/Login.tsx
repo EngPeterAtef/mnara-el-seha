@@ -46,7 +46,7 @@ export default function LoginScreen() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scroll}>
-       
+
         <View style={styles.container}>
           {/* <MyAppBar /> */}
           {/* Add logoImg */}
