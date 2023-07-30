@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,34 +12,53 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Modal from 'react-native-modal';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }: any) {
   const [id, setID] = useState('');
   const [medFile, setMedFile] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
+  const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
+  const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState('');
 
+
+  const validatePhoneNumber = (text: string) => {
+    setPhoneNum(text);
+    console.log(phoneNum);
+    const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
+    if (text.length === 0) {
+      setPhoneNumberError('Phone number is required');
+    }
+    else if (!phoneNumberRegex.test(text)) {
+      setPhoneNumberError('Please enter a valid phone number');
+    } else {
+      setPhoneNumberError('');
+    }
+  };
+  const toggleModalSucess = () => {
+    setModalSucessVisible(!isModalVisibleSucess);
+  };
+  const toggleModalFailure = () => {
+    setModalFailureVisible(!isModalVisibleFailure);
+  };
   const handleLogin = () => {
     // Handle login logic here
-    console.log('id: ', id);
-    console.log('medFile: ', medFile);
-    console.log('phoneNum: ', phoneNum);
+    // console.log('id: ', id);
+    // console.log('medFile: ', medFile);
+    // console.log('phoneNum: ', phoneNum);
     // open message to the user to enter the data if there is any missing field
     if (id === '' || medFile === '') {
-      Alert.alert('ERROR', 'Please Fill all the required information', [
-        // {
-        //   text: 'Cancel',
-        //   onPress: () => console.log('Cancel Pressed'),
-        //   style: 'cancel',
-        // },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]);
+      toggleModalFailure();
+    }
+    else {
+      toggleModalSucess();
     }
   };
   const isDarkMode = useColorScheme() === 'dark';
-  const goBack = () => {
-    console.log('go back');
-    Alert.alert('Go Back', 'This button is used to go back');
-  };
+
   return (
     <SafeAreaView>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -83,16 +102,53 @@ export default function LoginScreen() {
                 placeholder="رقم الجوال المسجل بالمدينة"
                 placeholderTextColor="#8DA9B6"
                 // secureTextEntry={true}
-                onChangeText={text => setPhoneNum(text)}
+                onChangeText={text => validatePhoneNumber(text)}
                 value={phoneNum}
                 textAlign="right"
-                keyboardType="numeric"
+                keyboardType="phone-pad"
+                maxLength={11}
               />
             </View>
+            {phoneNumberError !== '' ? (
+              <Text style={styles.errorText}>{phoneNumberError}</Text>
+            ) : null}
           </View>
           <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
             <Text style={styles.loginText}>تسجيل دخول</Text>
           </TouchableOpacity>
+          <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
+            <View style={styles.successContent}>
+              <FontAwesome5 name="laugh" size={100} color="white" />
+              <Text style={styles.popupTitle}>YES!!</Text>
+              <Text style={styles.popupSubTitle}>Everything is working</Text>
+              <View style={styles.sucessBtnView}>
+                <TouchableOpacity onPress={
+                  // TODO: navigate to the next screen here
+                  () => {
+                    toggleModalSucess();
+                    setID('');
+                    setMedFile('');
+                    setPhoneNum('');
+                    navigation.navigate('Home');
+                  }
+                }>
+                  <Text style={styles.successBtnText}>Continue</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+          <Modal isVisible={isModalVisibleFailure} style={styles.mainModel}>
+            <View style={styles.failureContent}>
+              <Ionicons name="sad-outline" size={100} color="white" />
+              <Text style={styles.popupTitle}>UH-SNAP!</Text>
+              <Text style={styles.popupSubTitle}>Something just broke</Text>
+              <View style={styles.failureBtnView}>
+                <TouchableOpacity onPress={toggleModalFailure}>
+                  <Text style={styles.failureBtnText}>Go Back</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
           <View style={styles.titleImg}>
             <Image source={require('../assets/images/title.png')} />
           </View>
@@ -154,7 +210,7 @@ const styles = StyleSheet.create({
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
   },
   scroll: {
     backgroundColor: '#D7EFEE',
@@ -183,5 +239,73 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Arial',
     color: '#fff',
+  },
+  mainModel: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popupTitle: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  popupSubTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 5,
+  },
+  failureContent: {
+    backgroundColor: '#D50000',
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    width: '95%',
+  },
+  failureBtnView: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    paddingVertical: 5,
+    width: '95%',
+    marginVertical: 10,
+  },
+  failureBtnText: {
+    color: '#D50000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  successContent: {
+    backgroundColor: '#00C853',
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    width: '95%',
+  },
+  sucessBtnView: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    paddingVertical: 5,
+    width: '95%',
+    marginVertical: 10,
+  },
+  successBtnText: {
+    color: '#00C853',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: '#ffe6e6',
+    borderRadius: 5,
+    marginBottom: 10,
   },
 });

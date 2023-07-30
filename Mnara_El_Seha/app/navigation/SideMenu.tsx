@@ -1,17 +1,23 @@
 import React from 'react';
-import { Image, Text } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import Colors from '../assets/values/Colors';
 import CustomDrawer from '../components/CustomDrawer';
 import { LoginScreen } from '../screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 
 const Drawer = createDrawerNavigator();
 
 function Home() {
-  return <Text style={{ fontFamily: 'lucida grande' }}>Home</Text>;
+  return (
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontFamily: 'lucida grande', color: 'black' }}>Home</Text>
+    </SafeAreaView>
+  );
 }
 
 export default function SideMenu(): JSX.Element {
@@ -19,8 +25,9 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
+        initialRouteName="Login" //TODO: should be the grid screen
         screenOptions={{
-          // headerShown: false,
+          headerShown: false,
           drawerActiveBackgroundColor: Colors.primary2,
           drawerActiveTintColor: Colors.primary1,
           drawerInactiveTintColor: Colors.primary1,
@@ -33,6 +40,16 @@ export default function SideMenu(): JSX.Element {
         <Drawer.Screen
           name={'Login'}
           component={LoginScreen}
+          options={{
+            title: 'تسجيل الدخول',
+            drawerIcon: () => (
+              <Entypo name="login" size={22} color={Colors.primary1} style={{ paddingRight: 5 }} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name={'Home'}
+          component={Home}
           options={{
             title: list[0],
             drawerIcon: () => (

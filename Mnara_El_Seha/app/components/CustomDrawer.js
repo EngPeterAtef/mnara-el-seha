@@ -5,17 +5,20 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {Avatar, Badge, Icon, withBadge} from 'react-native-elements';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
+import Entypo from 'react-native-vector-icons/Entypo';
+
 const CustomDrawer = props => {
   return (
-    <View style={{flex: 1, backgroundColor: Colors.primary2}}>
+    <View style={{ flex: 1, backgroundColor: Colors.primary2 }}>
       <View
         style={{
           backgroundColor: Colors.primary1,
@@ -26,9 +29,9 @@ const CustomDrawer = props => {
           justifyContent: 'space-between',
         }}>
         <TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Ionicons name="globe" size={22} color={Colors.white} />
-            <Text style={{color: Colors.white, paddingHorizontal: 20}}>
+            <Text style={{ color: Colors.white, paddingHorizontal: 20 }}>
               English
             </Text>
           </View>
@@ -39,25 +42,25 @@ const CustomDrawer = props => {
       </View>
       <DrawerContentScrollView
         {...props}
-        contentContainerStyle={{backgroundColor: Colors.primary2}}>
+        contentContainerStyle={{ backgroundColor: Colors.primary2 }}>
         <View
-          style={{flex: 1, backgroundColor: Colors.primary2, paddingTop: 10}}>
+          style={{ flex: 1, backgroundColor: Colors.primary2, paddingTop: 10 }}>
           <DrawerItemList {...props} />
         </View>
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{ paddingHorizontal: 20 }}>
           <View
             style={{
               borderTopWidth: 1,
               borderTopColor: Colors.secondary1,
-            }}></View>
+            }} />
         </View>
         <View
           style={{
             paddingVertical: 10,
             paddingHorizontal: 20,
           }}>
-          <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => { }} style={{ paddingVertical: 15 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={require('../assets/images/menu_icon9.png')} />
               <Text
                 style={{
@@ -71,8 +74,8 @@ const CustomDrawer = props => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => { }} style={{ paddingVertical: 15 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={require('../assets/images/menu_icon10.png')} />
               <Text
                 style={{
@@ -87,19 +90,19 @@ const CustomDrawer = props => {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{ paddingHorizontal: 20 }}>
           <View
             style={{
               borderTopWidth: 1,
               borderTopColor: Colors.secondary1,
-            }}></View>
+            }} />
         </View>
         <View
           style={{
             padding: 20,
           }}>
-          <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => { }} style={{ paddingVertical: 15 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={require('../assets/images/menu_icon11.png')} />
               <Text
                 style={{
@@ -146,15 +149,34 @@ const CustomDrawer = props => {
                     borderRadius: 20,
                   }}
                   status="success"
-                  containerStyle={{position: 'absolute', top: -4, right: -4}}
+                  containerStyle={{ position: 'absolute', top: -4, right: -4 }}
                 />
               </View>
             </TouchableOpacity>
           </View>
         </View>
       </DrawerContentScrollView>
+      <View
+        style={{
+          backgroundColor: Colors.primary1,
+          padding: 20,
+          borderTopEndRadius: 20,
+          borderTopStartRadius: 20,
+        }}>
+        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
+          onPress={() => {
+            props.navigation.navigate('Login');
+          }}
+        >
+          <Entypo name="login" size={22} color={Colors.white} />
+          <Text style={{ color: Colors.white, paddingHorizontal: 20, fontSize: 18, fontWeight: 'bold' }}>
+            تسجيل دخول
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+});
 export default CustomDrawer;
