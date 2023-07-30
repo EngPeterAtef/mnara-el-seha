@@ -33,7 +33,7 @@ const CustomDrawer = props => {
                 fontFamily: 'Roboto-Medium',
                 marginLeft: 5,
               }}>
-              Tell a Friend
+              الشكاوى والاقتراحات
             </Text>
           </View>
         </TouchableOpacity>
@@ -46,7 +46,22 @@ const CustomDrawer = props => {
                 fontFamily: 'Roboto-Medium',
                 marginLeft: 5,
               }}>
-              Sign Out
+              اتصل بنا
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
+        <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Ionicons name="settings" size={22} />
+            <Text
+              style={{
+                fontSize: 15,
+                fontFamily: 'Roboto-Medium',
+                marginLeft: 5,
+              }}>
+              تبديل الوان الوجهة
             </Text>
           </View>
         </TouchableOpacity>
