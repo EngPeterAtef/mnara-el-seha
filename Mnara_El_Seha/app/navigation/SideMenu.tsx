@@ -157,6 +157,13 @@ export default function SideMenu(): JSX.Element {
             ),
           }}
         />
+        <Drawer.Screen
+          name={'Login'}
+          component={LoginScreen}
+          options={{
+            drawerLabel: () => null,
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -16,7 +16,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
-
 const CustomDrawer = props => {
   const navigation = useNavigation();
   return (
@@ -173,7 +172,7 @@ const CustomDrawer = props => {
         <TouchableOpacity
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() => {
-            props.navigation.navigate('Login');
+            navigation.navigate('Login');
           }}>
           <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
           <Text
