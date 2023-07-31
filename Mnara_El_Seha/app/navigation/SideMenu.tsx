@@ -7,8 +7,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {colors} from 'react-native-elements';
 
 const Drawer = createDrawerNavigator();
 
@@ -60,6 +58,9 @@ export default function SideMenu(): JSX.Element {
           headerLeft: () => (
             <CustomHeaderIcon onPress={navigation.openDrawer} />
           ),
+          sceneContainerStyle: {
+            backgroundColor: Colors.primary2,
+          },
         })}>
         <Drawer.Screen
           name={'MainScreen'}
@@ -67,7 +68,7 @@ export default function SideMenu(): JSX.Element {
           options={{
             title: 'الخدمات العامة',
             drawerIcon: () => (
-              <Entypo
+              <FontAwesome5
                 name="home"
                 size={22}
                 color={Colors.primary1}
