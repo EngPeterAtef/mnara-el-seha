@@ -120,6 +120,21 @@ export default function MainScreen({navigation}: any) {
             onPress={() => navigation.navigate('ContactUs')}
           />
         </View>
+        <View style={styles.user}>
+          <Text style={styles.infoText}>
+            للإستفادة من خدمات المدينة, رجاء تسجيل الدخول{' '}
+          </Text>
+          <TouchableOpacity
+            style={styles.loginBtn}
+            onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.loginText}>تسجيل دخول</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.loginBtn}
+            onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.loginText}>انشئ حساب جديد</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -166,6 +181,34 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  user: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  loginBtn: {
+    width: '80%',
+    backgroundColor: Colors.secondary1,
+    borderRadius: 15,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  loginText: {
+    color: 'white',
+    fontSize: 21,
+    fontWeight: 'bold',
+  },
+  infoText: {
+    color: Colors.grey,
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
 });
 const list = [
