@@ -1,33 +1,51 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
 import CustomDrawer from '../components/CustomDrawer';
-import { LoginScreen } from '../screens';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {LoginScreen, MainScreen} from '../screens';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+import {colors} from 'react-native-elements';
 
 const Drawer = createDrawerNavigator();
 
 function Home() {
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontFamily: 'lucida grande', color: 'black' }}>Home</Text>
+    <SafeAreaView
+      style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{color: 'black'}}>Home</Text>
     </SafeAreaView>
   );
 }
+const CustomHeaderIcon = ({onPress}: any) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 15}}>
+      <Image
+        source={require('../assets/images/menu_icon.png')}
+        style={{width: 30, height: 30, transform: [{scaleX: -1}]}}
+        tintColor={Colors.primary2}
+      />
+    </TouchableOpacity>
+  );
+};
 
 export default function SideMenu(): JSX.Element {
   return (
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="Login" //TODO: should be the grid screen
-        screenOptions={{
-          headerShown: false,
+        initialRouteName="MainScreen"
+        screenOptions={({navigation}) => ({
+          headerStyle: {
+            backgroundColor: Colors.primary1,
+            height: 80,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+          },
+          headerShown: true,
           drawerActiveBackgroundColor: Colors.primary2,
           drawerActiveTintColor: Colors.primary1,
           drawerInactiveTintColor: Colors.primary1,
@@ -36,14 +54,25 @@ export default function SideMenu(): JSX.Element {
             fontSize: 15,
             fontWeight: 'bold',
           },
-        }}>
+          headerTitleStyle: {
+            color: Colors.primary1,
+          },
+          headerLeft: () => (
+            <CustomHeaderIcon onPress={navigation.openDrawer} />
+          ),
+        })}>
         <Drawer.Screen
-          name={'Login'}
-          component={LoginScreen}
+          name={'MainScreen'}
+          component={MainScreen}
           options={{
-            title: 'تسجيل الدخول',
+            title: 'الخدمات العامة',
             drawerIcon: () => (
-              <Entypo name="login" size={22} color={Colors.primary1} style={{ paddingRight: 5 }} />
+              <Entypo
+                name="home"
+                size={22}
+                color={Colors.primary1}
+                style={{paddingRight: 5}}
+              />
             ),
           }}
         />
