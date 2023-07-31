@@ -19,6 +19,7 @@ import Modal from 'react-native-modal';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function LoginScreen({ navigation }: any) {
+  //to avoid using the side menu inside the login screen
   navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
   const [id, setID] = useState('');
@@ -87,7 +88,7 @@ export default function LoginScreen({ navigation }: any) {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scroll}>
         <View style={{
-          backgroundColor: Colors.primary1,
+          backgroundColor: '#1D5B8C',
           height: '100%',
           width: '100%',
         }}>
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    backgroundColor: Colors.primary2,
+    backgroundColor: '#D7EFEE',
     width: '100%',
     height: '100%',
     borderTopRightRadius: 50,
@@ -242,12 +243,12 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.8 }],
   },
   scroll: {
-    backgroundColor: Colors.primary2,
+    backgroundColor: '#D7EFEE',
     width: '100%',
     height: '100%',
   },
   appBarView: {
-    backgroundColor: Colors.primary1,
+    backgroundColor: '#1D5B8C',
   },
   appBar: {
     // width: '100%',
