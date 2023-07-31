@@ -15,8 +15,12 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
+// import firebase from '../services/firebase';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function LoginScreen({ navigation }: any) {
+  navigation.setOptions({ headerShown: false });
+  
   const [id, setID] = useState('');
   const [medFile, setMedFile] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
@@ -27,7 +31,7 @@ export default function LoginScreen({ navigation }: any) {
 
   const validatePhoneNumber = (text: string) => {
     setPhoneNum(text);
-    console.log(phoneNum);
+    // console.log(firebase);
     const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
     if (text.length === 0) {
       setPhoneNumberError('Phone number is required');
@@ -38,12 +42,15 @@ export default function LoginScreen({ navigation }: any) {
       setPhoneNumberError('');
     }
   };
+
   const toggleModalSucess = () => {
     setModalSucessVisible(!isModalVisibleSucess);
   };
+
   const toggleModalFailure = () => {
     setModalFailureVisible(!isModalVisibleFailure);
   };
+
   const handleLogin = () => {
     // Handle login logic here
     // console.log('id: ', id);
@@ -59,16 +66,28 @@ export default function LoginScreen({ navigation }: any) {
   };
   const isDarkMode = useColorScheme() === 'dark';
 
+  function appBar() {
+    return (
+      <View style={styles.appBarView}>
+        <TouchableOpacity style={styles.appBar}>
+          <Ionicons name="arrow-redo-circle-outline" size={20} color="white" style={styles.backArrow} />
+          <Text style={styles.header}>الرئيسية</Text>
+        </TouchableOpacity>
+      </View >
+    );
+  }
+
   return (
     <SafeAreaView>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle="light-content"
+        backgroundColor="#1D5B8C"
+      />
+      {appBar()}
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scroll}>
 
         <View style={styles.container}>
-          {/* <MyAppBar /> */}
-          {/* Add logoImg */}
           <View style={styles.logoImgView}>
             <Image source={require('../assets/images/logoImg.png')} />
           </View>
@@ -83,6 +102,7 @@ export default function LoginScreen({ navigation }: any) {
                 // start writing from the right side
                 textAlign="right"
                 keyboardType="numeric"
+                maxLength={14}
               />
             </View>
             <View style={styles.inputView}>
@@ -94,6 +114,7 @@ export default function LoginScreen({ navigation }: any) {
                 onChangeText={text => setMedFile(text)}
                 value={medFile}
                 textAlign="right"
+                maxLength={7}
               />
             </View>
             <View style={styles.inputView}>
@@ -217,28 +238,27 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  appBar: {
-    width: '100%',
-    height: 50,
+  appBarView: {
     backgroundColor: '#1D5B8C',
-    direction: 'ltr',
-    flexDirection: 'row-reverse',
+  },
+  appBar: {
+    // width: '100%',
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   header: {
-    direction: 'ltr',
+    direction: 'rtl',
     color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 10,
-    marginRight: 10,
-  },
-  backArrow: {
-    marginTop: 10,
-    marginRight: 20,
     fontSize: 20,
     fontWeight: 'bold',
     fontFamily: 'Arial',
-    color: '#fff',
+    paddingRight: 10,
+  },
+  backArrow: {
+    // fontWeight: 'bold',
+    // fontFamily: 'Arial',
+    paddingRight: 10,
   },
   mainModel: {
     justifyContent: 'center',
