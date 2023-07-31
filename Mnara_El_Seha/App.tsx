@@ -9,8 +9,8 @@ import SignupScreen from './app/screens/Singup';
 
 function App(): JSX.Element {
   init();
-  // return <SideMenu />;
-  return <SignupScreen />;
+  return <SideMenu />;
+  // return <SignupScreen />;
 }
 
 export default App;
