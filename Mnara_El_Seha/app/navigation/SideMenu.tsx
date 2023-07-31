@@ -27,7 +27,7 @@ export default function SideMenu(): JSX.Element {
         drawerContent={(props: any) => <CustomDrawer {...props} />}
         initialRouteName="Login" //TODO: should be the grid screen
         screenOptions={{
-          headerShown: false,
+          // headerShown: false,
           drawerActiveBackgroundColor: Colors.primary2,
           drawerActiveTintColor: Colors.primary1,
           drawerInactiveTintColor: Colors.primary1,

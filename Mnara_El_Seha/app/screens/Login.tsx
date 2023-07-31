@@ -19,8 +19,8 @@ import Modal from 'react-native-modal';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function LoginScreen({ navigation }: any) {
-  navigation.setOptions({ headerShown: false });
-  
+  navigation.setOptions({ headerShown: false, swipeEnabled: false });
+
   const [id, setID] = useState('');
   const [medFile, setMedFile] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
@@ -86,92 +86,97 @@ export default function LoginScreen({ navigation }: any) {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scroll}>
-
-        <View style={styles.container}>
-          <View style={styles.logoImgView}>
-            <Image source={require('../assets/images/logoImg.png')} />
-          </View>
-          <View style={styles.allInputs}>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="رقم الهوية الزامي"
-                placeholderTextColor="#8DA9B6"
-                onChangeText={text => setID(text)}
-                value={id}
-                // start writing from the right side
-                textAlign="right"
-                keyboardType="numeric"
-                maxLength={14}
-              />
+        <View style={{
+          backgroundColor: '#1D5B8C',
+          height: '100%',
+          width: '100%',
+        }}>
+          <View style={styles.container}>
+            <View style={styles.logoImgView}>
+              <Image source={require('../assets/images/logoImg.png')} />
             </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="الملف الطبي الزامي"
-                placeholderTextColor="#8DA9B6"
-                // secureTextEntry={true}
-                onChangeText={text => setMedFile(text)}
-                value={medFile}
-                textAlign="right"
-                maxLength={7}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="رقم الجوال المسجل بالمدينة"
-                placeholderTextColor="#8DA9B6"
-                // secureTextEntry={true}
-                onChangeText={text => validatePhoneNumber(text)}
-                value={phoneNum}
-                textAlign="right"
-                keyboardType="phone-pad"
-                maxLength={11}
-              />
-            </View>
-            {phoneNumberError !== '' ? (
-              <Text style={styles.errorText}>{phoneNumberError}</Text>
-            ) : null}
-          </View>
-          <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-            <Text style={styles.loginText}>تسجيل دخول</Text>
-          </TouchableOpacity>
-          <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
-            <View style={styles.successContent}>
-              <FontAwesome5 name="laugh" size={100} color="white" />
-              <Text style={styles.popupTitle}>YES!!</Text>
-              <Text style={styles.popupSubTitle}>Everything is working</Text>
-              <View style={styles.sucessBtnView}>
-                <TouchableOpacity onPress={
-                  // TODO: navigate to the next screen here
-                  () => {
-                    toggleModalSucess();
-                    setID('');
-                    setMedFile('');
-                    setPhoneNum('');
-                    navigation.navigate('Home');
-                  }
-                }>
-                  <Text style={styles.successBtnText}>Continue</Text>
-                </TouchableOpacity>
+            <View style={styles.allInputs}>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="رقم الهوية الزامي"
+                  placeholderTextColor="#8DA9B6"
+                  onChangeText={text => setID(text)}
+                  value={id}
+                  // start writing from the right side
+                  textAlign="right"
+                  keyboardType="numeric"
+                  maxLength={14}
+                />
               </View>
-            </View>
-          </Modal>
-          <Modal isVisible={isModalVisibleFailure} style={styles.mainModel}>
-            <View style={styles.failureContent}>
-              <Ionicons name="sad-outline" size={100} color="white" />
-              <Text style={styles.popupTitle}>UH-SNAP!</Text>
-              <Text style={styles.popupSubTitle}>Something just broke</Text>
-              <View style={styles.failureBtnView}>
-                <TouchableOpacity onPress={toggleModalFailure}>
-                  <Text style={styles.failureBtnText}>Go Back</Text>
-                </TouchableOpacity>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="الملف الطبي الزامي"
+                  placeholderTextColor="#8DA9B6"
+                  // secureTextEntry={true}
+                  onChangeText={text => setMedFile(text)}
+                  value={medFile}
+                  textAlign="right"
+                  maxLength={7}
+                />
               </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="رقم الجوال المسجل بالمدينة"
+                  placeholderTextColor="#8DA9B6"
+                  // secureTextEntry={true}
+                  onChangeText={text => validatePhoneNumber(text)}
+                  value={phoneNum}
+                  textAlign="right"
+                  keyboardType="phone-pad"
+                  maxLength={11}
+                />
+              </View>
+              {phoneNumberError !== '' ? (
+                <Text style={styles.errorText}>{phoneNumberError}</Text>
+              ) : null}
             </View>
-          </Modal>
-          <View style={styles.titleImg}>
-            <Image source={require('../assets/images/title.png')} />
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+              <Text style={styles.loginText}>تسجيل دخول</Text>
+            </TouchableOpacity>
+            <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
+              <View style={styles.successContent}>
+                <FontAwesome5 name="laugh" size={100} color="white" />
+                <Text style={styles.popupTitle}>YES!!</Text>
+                <Text style={styles.popupSubTitle}>Everything is working</Text>
+                <View style={styles.sucessBtnView}>
+                  <TouchableOpacity onPress={
+                    // TODO: navigate to the next screen here
+                    () => {
+                      toggleModalSucess();
+                      setID('');
+                      setMedFile('');
+                      setPhoneNum('');
+                      navigation.navigate('Home');
+                    }
+                  }>
+                    <Text style={styles.successBtnText}>Continue</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+            <Modal isVisible={isModalVisibleFailure} style={styles.mainModel}>
+              <View style={styles.failureContent}>
+                <Ionicons name="sad-outline" size={100} color="white" />
+                <Text style={styles.popupTitle}>UH-SNAP!</Text>
+                <Text style={styles.popupSubTitle}>Something just broke</Text>
+                <View style={styles.failureBtnView}>
+                  <TouchableOpacity onPress={toggleModalFailure}>
+                    <Text style={styles.failureBtnText}>Go Back</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+            <View style={styles.titleImg}>
+              <Image source={require('../assets/images/title.png')} />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -184,7 +189,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    borderTopLeftRadius: 20,
+    backgroundColor: '#D7EFEE',
+    width: '100%',
+    height: '100%',
+    borderTopRightRadius: 50,
   },
   logo: {
     fontWeight: 'bold',
