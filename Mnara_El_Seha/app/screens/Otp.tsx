@@ -21,8 +21,16 @@ export default function OtpScreen({navigation}: any) {
   // one minute timer
   useEffect(() => {
     const interval = setInterval(() => {
-      setCounter(prevCounter => prevCounter - 1);
+      setCounter(prevCounter => {
+        if (prevCounter > 0) {
+          return prevCounter - 1;
+        } else {
+          clearInterval(interval); // Stop the interval when counter reaches 0
+          return 0;
+        }
+      });
     }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -67,10 +75,8 @@ export default function OtpScreen({navigation}: any) {
             <Text style={styles.subText}>تم إرسال رمز التحقق علي رقمك</Text>
             <Text style={styles.subText2}>ادخل رمز التحقق</Text>
             <OTPInputView
-              style={{width: '80%', height: 200}}
+              style={{width: '80%', height: '20%'}}
               pinCount={4}
-              // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-              // onCodeChanged = {code => { this.setState({code})}}
               autoFocusOnLoad
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
@@ -136,10 +142,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   logoImgView: {
-    width: '80%',
-    height: '20%',
-    marginBottom: 20,
     alignItems: 'center',
+    marginVertical: 20,
   },
 
   titleImg: {
@@ -177,19 +181,15 @@ const styles = StyleSheet.create({
   },
   subText: {
     color: Colors.grey,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     padding: 20,
   },
   subText2: {
     color: Colors.secondary1,
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     padding: 10,
-  },
-
-  borderStyleHighLighted: {
-    borderColor: '#03DAC6',
   },
 
   underlineStyleBase: {
@@ -203,6 +203,6 @@ const styles = StyleSheet.create({
   },
 
   underlineStyleHighLighted: {
-    borderColor: '#03DAC6',
+    borderColor: Colors.secondary1,
   },
 });
