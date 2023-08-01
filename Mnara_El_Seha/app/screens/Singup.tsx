@@ -22,7 +22,7 @@ import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
 
 export default function SignupScreen({ navigation }: any) {
     //to avoid using the side menu inside the login screen
-    // navigation.setOptions({ headerShown: false, swipeEnabled: false });
+    navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
     const [id, setID] = useState('');
     const [name, setName] = useState('');
@@ -33,7 +33,6 @@ export default function SignupScreen({ navigation }: any) {
 
     const [idError, setIDError] = useState('');
     const [nameError, setNameError] = useState('');
-    const [genderError, setGenderError] = useState('');
     const [ageError, setAgeError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
@@ -41,7 +40,7 @@ export default function SignupScreen({ navigation }: any) {
     const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
     const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
 
-    const [selectedId, setSelectedId] = useState<string | undefined>();
+    const [selectedId, setSelectedId] = useState<string | undefined>('1');
 
     const radioButtons: RadioButtonProps[] = useMemo(() => ([
         {
@@ -87,7 +86,8 @@ export default function SignupScreen({ navigation }: any) {
     };
     const nameValidation = (text: string) => {
         setName(text);
-        const nameRegex = /^[a-zA-Z ]{2,30}$/;
+        // email should be letters only
+        const nameRegex = /^(?!.*[\u0660-\u0669])[a-zA-Z\u0600-\u06FF]{5,20}$/;
         if (text.length === 0) {
             setNameError('الاسم مطلوب');
         }
@@ -97,6 +97,7 @@ export default function SignupScreen({ navigation }: any) {
         else {
             setNameError('');
         }
+
     };
 
 
@@ -126,6 +127,20 @@ export default function SignupScreen({ navigation }: any) {
         }
     };
 
+    const ageValidation = (text: string) => {
+        setAge(text);
+        const ageRegex = /^\d{1,2}$/;
+        if (text.length === 0) {
+            setAgeError('العمر مطلوب');
+        }
+        else if (!ageRegex.test(text) || text === '0') {
+            setAgeError('العمر غير صحيح');
+        }
+        else {
+            setAgeError('');
+        }
+    };
+
     const toggleModalSucess = () => {
         setModalSucessVisible(!isModalVisibleSucess);
     };
@@ -135,12 +150,7 @@ export default function SignupScreen({ navigation }: any) {
     };
 
     const handleSingup = () => {
-        // Handle login logic here
-        // console.log('id: ', id);
-        // console.log('medFile: ', medFile);
-        // console.log('phoneNum: ', phoneNum);
-        // open message to the user to enter the data if there is any missing field
-        if (id === '' || name === '' || age === '' || gender === '' || phoneNumberError !== '' || emailError !== '') {
+        if (id === '' || name === '' || age === '' || gender === '' || phoneNum === '' || email === '' || phoneNumberError !== '' || emailError !== '' || idError !== '' || nameError !== '' || ageError !== '') {
             toggleModalFailure();
         }
         else {
@@ -152,7 +162,8 @@ export default function SignupScreen({ navigation }: any) {
     function appBar() {
         return (
             <View style={styles.appBarView}>
-                <TouchableOpacity style={styles.appBar}>
+                <TouchableOpacity style={styles.appBar}
+                    onPress={() => navigation.navigate('MainScreen')}>
                     <Ionicons name="arrow-redo-circle-outline" size={20} color="white" style={styles.backArrow} />
                     <Text style={styles.header}>الرئيسية</Text>
                 </TouchableOpacity>
@@ -182,7 +193,7 @@ export default function SignupScreen({ navigation }: any) {
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.inputText}
-                                    placeholder="رقم الهوية الزامي"
+                                    placeholder="رقم الهوية من 14 رقم"
                                     placeholderTextColor="#8DA9B6"
                                     onChangeText={text => idValidation(text)}
                                     value={id}
@@ -198,13 +209,13 @@ export default function SignupScreen({ navigation }: any) {
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.inputText}
-                                    placeholder="الاسم"
+                                    placeholder="الاسم بالكامل بالعربية"
                                     placeholderTextColor="#8DA9B6"
                                     // secureTextEntry={true}
                                     onChangeText={text => nameValidation(text)}
                                     value={name}
                                     textAlign="right"
-                                    maxLength={30}
+                                    maxLength={20}
                                 />
                             </View>
                             {nameError !== '' ? (
@@ -213,20 +224,23 @@ export default function SignupScreen({ navigation }: any) {
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.inputText}
-                                    placeholder="العمر"
+                                    placeholder="البريد الالكتروني"
+                                    aria-label="email"
                                     placeholderTextColor="#8DA9B6"
                                     // secureTextEntry={true}
-                                    onChangeText={text => setAge(text)}
-                                    value={age}
+                                    onChangeText={text => validateEmail(text)}
+                                    value={email}
                                     textAlign="right"
-                                    maxLength={2}
-                                    keyboardType="numeric"
+                                    maxLength={30}
                                 />
                             </View>
+                            {emailError !== '' ? (
+                                <Text style={styles.errorText}>{emailError}</Text>
+                            ) : null}
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.inputText}
-                                    placeholder="رقم الجوال المسجل بالمدينة"
+                                    placeholder="رقم الجوال من 11 رقم"
                                     placeholderTextColor="#8DA9B6"
                                     // secureTextEntry={true}
                                     onChangeText={text => validatePhoneNumber(text)}
@@ -238,6 +252,22 @@ export default function SignupScreen({ navigation }: any) {
                             </View>
                             {phoneNumberError !== '' ? (
                                 <Text style={styles.errorText}>{phoneNumberError}</Text>
+                            ) : null}
+                            <View style={styles.inputView}>
+                                <TextInput
+                                    style={styles.inputText}
+                                    placeholder="العمر"
+                                    placeholderTextColor="#8DA9B6"
+                                    // secureTextEntry={true}
+                                    onChangeText={text => ageValidation(text)}
+                                    value={age}
+                                    textAlign="right"
+                                    maxLength={2}
+                                    keyboardType="numeric"
+                                />
+                            </View>
+                            {ageError !== '' ? (
+                                <Text style={styles.errorText}>{ageError}</Text>
                             ) : null}
                             <View style={{
                                 // flexDirection: 'row-reverse',
@@ -297,7 +327,7 @@ export default function SignupScreen({ navigation }: any) {
                                 <Entypo name="circle-with-cross" size={100} color="white" />
                                 {/* <Ionicons name="sad-outline" size={100} color="white" /> */}
                                 <Text style={styles.popupTitle}>فشل!!</Text>
-                                <Text style={styles.popupSubTitle}>يوجد مشكلة في تسجيل الدخول</Text>
+                                <Text style={styles.popupSubTitle}>يوجد مشكلة في انشاء الحساب</Text>
                                 <View style={styles.failureBtnView}>
                                     <TouchableOpacity onPress={toggleModalFailure}>
                                         <Text style={styles.failureBtnText}>الرجوع</Text>
@@ -348,8 +378,8 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 40,
-        marginBottom: 10,
+        // marginTop: -40,
+        // marginBottom: 10,
     },
     loginText: {
         color: 'white',

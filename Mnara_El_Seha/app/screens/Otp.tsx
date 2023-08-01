@@ -22,14 +22,15 @@ export default function OtpScreen({ navigation }: any) {
   const [counter, setCounter] = useState(60);
 
   // If null, no SMS has been sent
-  const [confirm, setConfirm] = useState(null);
+  // const [confirm, setConfirm] = useState(null);
+  const [confirm, setConfirm] = useState();
 
   const [code, setCode] = useState('');
 
   // Handle login
   function onAuthStateChanged(user: any) {
     console.log('Auth State Changed', user);
-    if (user) navigation.navigate('MainScreen');
+    if (user) { navigation.navigate('MainScreen'); }
   }
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -47,7 +48,9 @@ export default function OtpScreen({ navigation }: any) {
   async function confirmCode(code: any) {
     console.log('Confirming');
     try {
-      await confirm.confirm(code);
+      if (confirm != null) {
+        await confirm.confirm(code);
+      }
     } catch (error) {
       console.log('Invalid code.');
     }

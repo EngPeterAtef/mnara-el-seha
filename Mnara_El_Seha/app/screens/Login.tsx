@@ -7,10 +7,8 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  Alert,
   SafeAreaView,
   StatusBar,
-  useColorScheme,
 } from 'react-native';
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -93,19 +91,19 @@ export default function LoginScreen({ navigation }: any) {
     // console.log('medFile: ', medFile);
     // console.log('phoneNum: ', phoneNum);
     // open message to the user to enter the data if there is any missing field
-    if (id === '' || medFile === '' || phoneNumberError !== '') {
+    if (id === '' || medFile === '' || phoneNumberError !== '' || idError !== '' || medFileError !== '') {
       toggleModalFailure();
     }
     else {
       toggleModalSucess();
     }
   };
-  const isDarkMode = useColorScheme() === 'dark';
 
   function appBar() {
     return (
       <View style={styles.appBarView}>
-        <TouchableOpacity style={styles.appBar}>
+        <TouchableOpacity style={styles.appBar}
+          onPress={() => navigation.navigate('MainScreen')}>
           <Ionicons name="arrow-redo-circle-outline" size={20} color="white" style={styles.backArrow} />
           <Text style={styles.header}>الرئيسية</Text>
         </TouchableOpacity>
