@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "845463856292-echtg8j3qm8cvoj0t01sri21p9q1miu3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mnara_el_seha",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "845463856292-6unubf17ll60norjthv7q1at2e78egjg.apps.googleusercontent.com",
           "client_type": 3
         }
