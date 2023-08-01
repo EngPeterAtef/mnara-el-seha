@@ -20,7 +20,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
 import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
 
-export default function SignupScreen() {
+export default function SignupScreen({ navigation }: any) {
     //to avoid using the side menu inside the login screen
     // navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
@@ -284,8 +284,7 @@ export default function SignupScreen() {
                                             // and save the user data in the shared prefrences
                                             setID('');
                                             setPhoneNum('');
-                                            // TODO: navigate to the next screen here
-                                            // navigation.navigate('Home');
+                                            navigation.navigate('MainScreen');
                                         }
                                     }>
                                         <Text style={styles.successBtnText}>الاستمرار</Text>

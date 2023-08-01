@@ -5,12 +5,11 @@ import {useTranslation} from 'react-i18next';
 import {I18nManager} from 'react-native';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import SignupScreen from './app/screens/Singup';
 
 function App(): JSX.Element {
   init();
-  // return <SideMenu />;
-  return <SignupScreen />;
+  return <SideMenu />;
+  // return <SignupScreen />;
 }
 
 export default App;

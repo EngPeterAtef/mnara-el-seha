@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -16,9 +16,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import auth from '@react-native-firebase/auth';
 
-export default function OtpScreen({navigation}: any) {
+export default function OtpScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({headerShown: false, swipeEnabled: false});
+  navigation.setOptions({ headerShown: false, swipeEnabled: false });
   const [counter, setCounter] = useState(60);
 
   // If null, no SMS has been sent
@@ -44,7 +44,7 @@ export default function OtpScreen({navigation}: any) {
     console.log('Confirmation Code Sent');
   }
 
-  async function confirmCode(code) {
+  async function confirmCode(code: any) {
     console.log('Confirming');
     try {
       await confirm.confirm(code);
@@ -112,12 +112,12 @@ export default function OtpScreen({navigation}: any) {
             <Text style={styles.subText}>تم إرسال رمز التحقق علي رقمك</Text>
             <Text style={styles.subText2}>ادخل رمز التحقق</Text>
             <OTPInputView
-              style={{width: '80%', height: '20%'}}
+              style={{ width: '80%', height: '20%' }}
               pinCount={6}
               autoFocusOnLoad
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
-              onCodeFilled={code => {
+              onCodeFilled={(code: any) => {
                 console.log(`Code is ${code}, you are good to go!`);
                 confirmCode(code);
                 setCode('');
@@ -188,12 +188,14 @@ const styles = StyleSheet.create({
   logoImgView: {
     alignItems: 'center',
     marginVertical: 20,
+    transform: [{ scale: 0.8 }],
+    marginTop: -30,
   },
 
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
     marginBottom: 110,
   },
   scroll: {

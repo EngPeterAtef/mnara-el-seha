@@ -7,6 +7,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import SignupScreen from '../screens/Singup';
 
 const Drawer = createDrawerNavigator();
 
@@ -35,7 +36,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="Otp"
+        initialRouteName="MainScreen"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
@@ -167,6 +168,13 @@ export default function SideMenu(): JSX.Element {
         <Drawer.Screen
           name={'Otp'}
           component={OtpScreen}
+          options={{
+            drawerLabel: () => null,
+          }}
+        />
+        <Drawer.Screen
+          name={'signup'}
+          component={SignupScreen}
           options={{
             drawerLabel: () => null,
           }}
