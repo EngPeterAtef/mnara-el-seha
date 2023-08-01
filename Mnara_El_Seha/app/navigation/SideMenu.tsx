@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
 import CustomDrawer from '../components/CustomDrawer';
-import {LoginScreen, MainScreen} from '../screens';
+import {LoginScreen, MainScreen, OtpScreen} from '../screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -35,7 +35,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="MainScreen"
+        initialRouteName="Otp"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
@@ -160,6 +160,13 @@ export default function SideMenu(): JSX.Element {
         <Drawer.Screen
           name={'Login'}
           component={LoginScreen}
+          options={{
+            drawerLabel: () => null,
+          }}
+        />
+        <Drawer.Screen
+          name={'Otp'}
+          component={OtpScreen}
           options={{
             drawerLabel: () => null,
           }}
