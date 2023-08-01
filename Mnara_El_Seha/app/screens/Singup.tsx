@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     View,
     Text,
@@ -13,11 +13,12 @@ import {
     useColorScheme,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
-// import firebase from '../services/firebase';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import user from '../utils/user';
+import user from '../utils/User';
+import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
 
 export default function SignupScreen() {
     //to avoid using the side menu inside the login screen
@@ -25,38 +26,101 @@ export default function SignupScreen() {
 
     const [id, setID] = useState('');
     const [name, setName] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('male');
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
-    const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
-    const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
+
+    const [idError, setIDError] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [genderError, setGenderError] = useState('');
+    const [ageError, setAgeError] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
 
+    const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
+    const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
+
+    const [selectedId, setSelectedId] = useState<string | undefined>();
+
+    const radioButtons: RadioButtonProps[] = useMemo(() => ([
+        {
+            id: '1', // acts as primary key, should be unique and non-empty string
+            label: 'ذكر',
+            value: 'male',
+            color: '#1fab91',
+            labelStyle: { fontSize: 18, color: '#1D5B8C' },
+        },
+        {
+            id: '2',
+            label: 'انثي',
+            value: 'female',
+            color: '#1fab91',
+            labelStyle: { fontSize: 18, color: '#1D5B8C' },
+        },
+    ]), []);
+
+    const chooseGender = (selected: string) => {
+        setSelectedId(selected);
+        // get tha value of the selected radio button from radioButtons
+        radioButtons.map((button) => {
+            if (button.id === selected) {
+                setGender(button.value ?? '');
+            }
+        });
+        // console.log(selected);
+        // console.log(gender);
+    };
+
+    const idValidation = (text: string) => {
+        setID(text);
+        const idRegex = /^\d{14}$/;
+        if (text.length === 0) {
+            setIDError('رقم الهوية مطلوب');
+        }
+        else if (!idRegex.test(text)) {
+            setIDError('رقم الهوية غير صحيح');
+        }
+        else {
+            setIDError('');
+        }
+    };
+    const nameValidation = (text: string) => {
+        setName(text);
+        const nameRegex = /^[a-zA-Z ]{2,30}$/;
+        if (text.length === 0) {
+            setNameError('الاسم مطلوب');
+        }
+        else if (!nameRegex.test(text)) {
+            setNameError('الاسم غير صحيح');
+        }
+        else {
+            setNameError('');
+        }
+    };
 
 
     const validateEmail = (text: string) => {
         setEmail(text);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (text.length === 0) {
-            setEmailError('Email is required');
+            setEmailError('البريد الالكتروني مطلوب');
         }
-        else if (!emailRegex.test(email)) {
-            setEmailError('Please enter a valid email address');
-        } else {
+        else if (!emailRegex.test(text)) {
+            setEmailError('البريد الالكتروني غير صحيح');
+        }
+        else {
             setEmailError('');
         }
     };
     const validatePhoneNumber = (text: string) => {
         setPhoneNum(text);
-        // console.log(firebase);
         const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
         if (text.length === 0) {
             setPhoneNumberError('Phone number is required');
         }
         else if (!phoneNumberRegex.test(text)) {
-            setPhoneNumberError('Please enter a valid phone number');
+            setPhoneNumberError('رقم الجوال غير صحيح');
         } else {
             setPhoneNumberError('');
         }
@@ -70,7 +134,7 @@ export default function SignupScreen() {
         setModalFailureVisible(!isModalVisibleFailure);
     };
 
-    const handleLogin = () => {
+    const handleSingup = () => {
         // Handle login logic here
         // console.log('id: ', id);
         // console.log('medFile: ', medFile);
@@ -83,7 +147,7 @@ export default function SignupScreen() {
             toggleModalSucess();
         }
     };
-    const isDarkMode = useColorScheme() === 'dark';
+
 
     function appBar() {
         return (
@@ -120,7 +184,7 @@ export default function SignupScreen() {
                                     style={styles.inputText}
                                     placeholder="رقم الهوية الزامي"
                                     placeholderTextColor="#8DA9B6"
-                                    onChangeText={text => setID(text)}
+                                    onChangeText={text => idValidation(text)}
                                     value={id}
                                     // start writing from the right side
                                     textAlign="right"
@@ -128,18 +192,24 @@ export default function SignupScreen() {
                                     maxLength={14}
                                 />
                             </View>
+                            {idError !== '' ? (
+                                <Text style={styles.errorText}>{idError}</Text>
+                            ) : null}
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.inputText}
                                     placeholder="الاسم"
                                     placeholderTextColor="#8DA9B6"
                                     // secureTextEntry={true}
-                                    onChangeText={text => setName(text)}
+                                    onChangeText={text => nameValidation(text)}
                                     value={name}
                                     textAlign="right"
-                                    maxLength={15}
+                                    maxLength={30}
                                 />
                             </View>
+                            {nameError !== '' ? (
+                                <Text style={styles.errorText}>{nameError}</Text>
+                            ) : null}
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.inputText}
@@ -169,48 +239,69 @@ export default function SignupScreen() {
                             {phoneNumberError !== '' ? (
                                 <Text style={styles.errorText}>{phoneNumberError}</Text>
                             ) : null}
+                            <View style={{
+                                // flexDirection: 'row-reverse',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                            }}>
+                                <Text style={{
+                                    color: '#8DA9B6',
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+                                }}>الجنس</Text>
+                                <RadioGroup
+                                    radioButtons={radioButtons}
+                                    onPress={chooseGender}
+                                    selectedId={selectedId}
+                                    containerStyle={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-evenly',
+                                        alignItems: 'center',
+                                    }}
+                                />
+
+                            </View>
                         </View>
-                        <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+                        <TouchableOpacity style={styles.loginBtn} onPress={handleSingup}>
                             <Text style={styles.loginText}>انشاء حساب</Text>
                         </TouchableOpacity>
                         <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
                             <View style={styles.successContent}>
-                                <FontAwesome5 name="laugh" size={100} color="white" />
-                                <Text style={styles.popupTitle}>YES!!</Text>
-                                <Text style={styles.popupSubTitle}>Everything is working</Text>
+                                <Ionicons name="checkmark-done-circle" size={100} color="white" />
+                                {/* <FontAwesome5 name="laugh" size={100} color="white" /> */}
+                                <Text style={styles.popupTitle}>تم!!</Text>
+                                <Text style={styles.popupSubTitle}>تم انشاء الحساب</Text>
                                 <View style={styles.sucessBtnView}>
                                     <TouchableOpacity onPress={
-                                        // TODO: navigate to the next screen here
                                         () => {
                                             toggleModalSucess();
+                                            // set the user data\
                                             user.id = id;
-                                            user.name = name;
-                                            user.age = age;
-                                            user.gender = gender;
                                             user.phoneNum = phoneNum;
-                                            user.email = email;
+                                            console.log('user: ', user);
+                                            // TODO: should send request to get the user data to login
+                                            // and save the user data in the shared prefrences
                                             setID('');
-                                            setName('');
                                             setPhoneNum('');
-                                            setAge('');
-                                            setEmail('');
-
+                                            // TODO: navigate to the next screen here
                                             // navigation.navigate('Home');
                                         }
                                     }>
-                                        <Text style={styles.successBtnText}>Continue</Text>
+                                        <Text style={styles.successBtnText}>الاستمرار</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </Modal>
                         <Modal isVisible={isModalVisibleFailure} style={styles.mainModel}>
                             <View style={styles.failureContent}>
-                                <Ionicons name="sad-outline" size={100} color="white" />
-                                <Text style={styles.popupTitle}>UH-SNAP!</Text>
-                                <Text style={styles.popupSubTitle}>Something just broke</Text>
+                                <Entypo name="circle-with-cross" size={100} color="white" />
+                                {/* <Ionicons name="sad-outline" size={100} color="white" /> */}
+                                <Text style={styles.popupTitle}>فشل!!</Text>
+                                <Text style={styles.popupSubTitle}>يوجد مشكلة في تسجيل الدخول</Text>
                                 <View style={styles.failureBtnView}>
                                     <TouchableOpacity onPress={toggleModalFailure}>
-                                        <Text style={styles.failureBtnText}>Go Back</Text>
+                                        <Text style={styles.failureBtnText}>الرجوع</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -266,13 +357,15 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
     logoImgView: {
-        width: '80%',
-        height: '20%',
         alignItems: 'center',
+        transform: [{ scale: 0.8 }],
+        marginTop: -60,
+
     },
     allInputs: {
         width: '100%',
         alignItems: 'center',
+        marginTop: -50,
     },
     titleImg: {
         alignItems: 'center',

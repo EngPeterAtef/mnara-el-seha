@@ -12,10 +12,11 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
-// import firebase from '../services/firebase';
+
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
 
@@ -31,12 +32,15 @@ export default function LoginScreen({ navigation }: any) {
   const [phoneNumberError, setPhoneNumberError] = useState('');
   const [idError, setIDError] = useState('');
   const [medFileError, setMedFileError] = useState('');
-
+  const [secureMedFile, setSecureMedFile] = useState(true);
 
   const idValidation = (text: string) => {
     setID(text);
     const idRegex = /^\d{14}$/;
-    if (!idRegex.test(text)) {
+    if (text.length === 0) {
+      setIDError('رقم الهوية مطلوب');
+    }
+    else if (!idRegex.test(text)) {
       setIDError('رقم الهوية غير صحيح');
     }
     else {
@@ -46,8 +50,12 @@ export default function LoginScreen({ navigation }: any) {
 
   const medFileValidation = (text: string) => {
     setMedFile(text);
+    // regex of string of 7 characters
     const medFileRegex = /^\d{7}$/;
-    if (!medFileRegex.test(text)) {
+    if (text.length === 0) {
+      setMedFileError('رقم الملف الطبي مطلوب');
+    }
+    else if (!medFileRegex.test(text)) {
       setMedFileError('رقم الملف الطبي غير صحيح');
     }
     else {
@@ -129,7 +137,7 @@ export default function LoginScreen({ navigation }: any) {
                   style={styles.inputText}
                   placeholder="رقم الهوية الزامي"
                   placeholderTextColor="#8DA9B6"
-                  onChangeText={text => setID(text)}
+                  onChangeText={text => idValidation(text)}
                   value={id}
                   // start writing from the right side
                   textAlign="right"
@@ -137,22 +145,32 @@ export default function LoginScreen({ navigation }: any) {
                   maxLength={14}
                 />
               </View>
+              {idError !== '' ? (
+                <Text style={styles.errorText}>{idError}</Text>
+              ) : null}
               <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}
                   placeholder="الملف الطبي الزامي"
                   placeholderTextColor="#8DA9B6"
-                  // secureTextEntry={true}
-                  onChangeText={text => setMedFile(text)}
+                  secureTextEntry={secureMedFile}
+                  onChangeText={text => medFileValidation(text)}
                   value={medFile}
                   textAlign="right"
+                  keyboardType="numeric"
                   maxLength={7}
                 />
+                <TouchableOpacity onPress={() => setSecureMedFile(!secureMedFile)} style={styles.secureBtn}>
+                  <Ionicons name={secureMedFile ? 'eye-off-outline' : 'eye-outline'} size={20} color="#8DA9B6" />
+                </TouchableOpacity>
               </View>
+              {medFileError !== '' ? (
+                <Text style={styles.errorText}>{medFileError}</Text>
+              ) : null}
               <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}
-                  placeholder="(اختياري) رقم الجوال المسجل بالمدينة"
+                  placeholder="رقم الجوال المسجل بالمدينة اختياري"
                   placeholderTextColor="#8DA9B6"
                   // secureTextEntry={true}
                   onChangeText={text => validatePhoneNumber(text)}
@@ -171,12 +189,12 @@ export default function LoginScreen({ navigation }: any) {
             </TouchableOpacity>
             <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
               <View style={styles.successContent}>
-                <FontAwesome5 name="laugh" size={100} color="white" />
-                <Text style={styles.popupTitle}>YES!!</Text>
-                <Text style={styles.popupSubTitle}>Everything is working</Text>
+                <Ionicons name="checkmark-done-circle" size={100} color="white" />
+                {/* <FontAwesome5 name="laugh" size={100} color="white" /> */}
+                <Text style={styles.popupTitle}>تم!!</Text>
+                <Text style={styles.popupSubTitle}>تم تسجيل الدخول</Text>
                 <View style={styles.sucessBtnView}>
                   <TouchableOpacity onPress={
-                    // TODO: navigate to the next screen here
                     () => {
                       toggleModalSucess();
                       // set the user data\
@@ -184,25 +202,29 @@ export default function LoginScreen({ navigation }: any) {
                       user.medFile = medFile;
                       user.phoneNum = phoneNum;
                       console.log('user: ', user);
+                      // TODO: should send request to get the user data to login
+                      // and save the user data in the shared prefrences
                       setID('');
                       setMedFile('');
                       setPhoneNum('');
+                      // TODO: navigate to the next screen here
                       navigation.navigate('Home');
                     }
                   }>
-                    <Text style={styles.successBtnText}>Continue</Text>
+                    <Text style={styles.successBtnText}>الاستمرار</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </Modal>
             <Modal isVisible={isModalVisibleFailure} style={styles.mainModel}>
               <View style={styles.failureContent}>
-                <Ionicons name="sad-outline" size={100} color="white" />
-                <Text style={styles.popupTitle}>UH-SNAP!</Text>
-                <Text style={styles.popupSubTitle}>Something just broke</Text>
+                <Entypo name="circle-with-cross" size={100} color="white" />
+                {/* <Ionicons name="sad-outline" size={100} color="white" /> */}
+                <Text style={styles.popupTitle}>فشل!!</Text>
+                <Text style={styles.popupSubTitle}>يوجد مشكلة في تسجيل الدخول</Text>
                 <View style={styles.failureBtnView}>
                   <TouchableOpacity onPress={toggleModalFailure}>
-                    <Text style={styles.failureBtnText}>Go Back</Text>
+                    <Text style={styles.failureBtnText}>الرجوع</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -368,5 +390,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffe6e6',
     borderRadius: 5,
     marginBottom: 10,
+  },
+  secureBtn: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
 });
