@@ -102,11 +102,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     backgroundColor: '#D7EFEE',
-    width: '100%',
-    height: '100%',
     borderTopRightRadius: 50,
+    paddingTop: 50,
   },
   logo: {
     fontWeight: 'bold',
@@ -150,11 +149,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // modify the size of the image
     transform: [{scale: 0.8}],
+    marginBottom: 110,
   },
   scroll: {
     backgroundColor: '#D7EFEE',
-    width: '100%',
-    height: '100%',
   },
   appBarView: {
     backgroundColor: '#1D5B8C',
