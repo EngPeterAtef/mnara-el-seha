@@ -37,6 +37,7 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) {
     const app = firebase.initializeApp(firebaseConfig);
+    console.log(app);
 }
 
 export default firebase;

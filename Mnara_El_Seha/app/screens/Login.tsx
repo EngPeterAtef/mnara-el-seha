@@ -17,6 +17,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 // import firebase from '../services/firebase';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import user from '../utils/User';
 
 export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
@@ -28,21 +29,47 @@ export default function LoginScreen({ navigation }: any) {
   const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
   const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState('');
+  const [idError, setIDError] = useState('');
+  const [medFileError, setMedFileError] = useState('');
 
+
+  const idValidation = (text: string) => {
+    setID(text);
+    const idRegex = /^\d{14}$/;
+    if (!idRegex.test(text)) {
+      setIDError('رقم الهوية غير صحيح');
+    }
+    else {
+      setIDError('');
+    }
+  };
+
+  const medFileValidation = (text: string) => {
+    setMedFile(text);
+    const medFileRegex = /^\d{7}$/;
+    if (!medFileRegex.test(text)) {
+      setMedFileError('رقم الملف الطبي غير صحيح');
+    }
+    else {
+      setMedFileError('');
+    }
+  };
 
   const validatePhoneNumber = (text: string) => {
     setPhoneNum(text);
     // console.log(firebase);
     const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
-    if (text.length === 0) {
-      setPhoneNumberError('Phone number is required');
-    }
-    else if (!phoneNumberRegex.test(text)) {
-      setPhoneNumberError('Please enter a valid phone number');
+    // if (text.length === 0) {
+    //   setPhoneNumberError('Phone number is required');
+    // }
+    // else
+    if (!phoneNumberRegex.test(text)) {
+      setPhoneNumberError('رقم الجوال غير صحيح');
     } else {
       setPhoneNumberError('');
     }
   };
+
 
   const toggleModalSucess = () => {
     setModalSucessVisible(!isModalVisibleSucess);
@@ -125,7 +152,7 @@ export default function LoginScreen({ navigation }: any) {
               <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}
-                  placeholder="رقم الجوال المسجل بالمدينة"
+                  placeholder="(اختياري) رقم الجوال المسجل بالمدينة"
                   placeholderTextColor="#8DA9B6"
                   // secureTextEntry={true}
                   onChangeText={text => validatePhoneNumber(text)}
@@ -152,6 +179,11 @@ export default function LoginScreen({ navigation }: any) {
                     // TODO: navigate to the next screen here
                     () => {
                       toggleModalSucess();
+                      // set the user data\
+                      user.id = id;
+                      user.medFile = medFile;
+                      user.phoneNum = phoneNum;
+                      console.log('user: ', user);
                       setID('');
                       setMedFile('');
                       setPhoneNum('');
