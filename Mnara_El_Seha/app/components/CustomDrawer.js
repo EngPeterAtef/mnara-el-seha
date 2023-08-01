@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 const CustomDrawer = props => {
   const navigation = useNavigation();
   return (
@@ -169,22 +170,42 @@ const CustomDrawer = props => {
           borderTopEndRadius: 20,
           borderTopStartRadius: 20,
         }}>
-        <TouchableOpacity
-          style={{flexDirection: 'row', alignItems: 'center'}}
-          onPress={() => {
-            navigation.navigate('Login');
-          }}>
-          <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
-          <Text
-            style={{
-              color: Colors.white,
-              paddingHorizontal: 20,
-              fontSize: 18,
-              fontWeight: 'bold',
+        {!auth().currentUser ? (
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            onPress={() => {
+              navigation.navigate('Login');
             }}>
-            تسجيل دخول
-          </Text>
-        </TouchableOpacity>
+            <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
+            <Text
+              style={{
+                color: Colors.white,
+                paddingHorizontal: 20,
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}>
+              تسجيل دخول
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            onPress={() => {
+              auth().signOut();
+              navigation.navigate('Login');
+            }}>
+            <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
+            <Text
+              style={{
+                color: Colors.white,
+                paddingHorizontal: 20,
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}>
+              تسجيل خروج
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

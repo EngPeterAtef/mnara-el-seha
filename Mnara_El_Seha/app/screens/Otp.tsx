@@ -8,15 +8,50 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  Button,
+  TextInput,
 } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
+import auth from '@react-native-firebase/auth';
 
 export default function OtpScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
   navigation.setOptions({headerShown: false, swipeEnabled: false});
   const [counter, setCounter] = useState(60);
+
+  // If null, no SMS has been sent
+  const [confirm, setConfirm] = useState(null);
+
+  const [code, setCode] = useState('');
+
+  // Handle login
+  function onAuthStateChanged(user: any) {
+    console.log('Auth State Changed', user);
+    if (user) navigation.navigate('MainScreen');
+  }
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+  // Handle the button press
+  async function signInWithPhoneNumber(phoneNumber: any) {
+    console.log('Sending code to', phoneNumber);
+    setCounter(60);
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+    console.log('Confirmation Code Sent');
+  }
+
+  async function confirmCode(code) {
+    console.log('Confirming');
+    try {
+      await confirm.confirm(code);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  }
 
   // one minute timer
   useEffect(() => {
@@ -43,7 +78,9 @@ export default function OtpScreen({navigation}: any) {
   function appBar() {
     return (
       <View style={styles.appBarView}>
-        <TouchableOpacity style={styles.appBar}>
+        <TouchableOpacity
+          style={styles.appBar}
+          onPress={() => navigation.navigate('MainScreen')}>
           <Ionicons
             name="arrow-redo"
             size={25}
@@ -76,17 +113,25 @@ export default function OtpScreen({navigation}: any) {
             <Text style={styles.subText2}>ادخل رمز التحقق</Text>
             <OTPInputView
               style={{width: '80%', height: '20%'}}
-              pinCount={4}
+              pinCount={6}
               autoFocusOnLoad
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
               onCodeFilled={code => {
                 console.log(`Code is ${code}, you are good to go!`);
+                confirmCode(code);
+                setCode('');
               }}
             />
             <Text style={styles.subText}>{formatTime(counter)}</Text>
 
             <Text style={styles.subText}>لم يتم استلام الكود؟</Text>
+            <TouchableOpacity
+              onPress={() => {
+                signInWithPhoneNumber('+201554886299');
+              }}>
+              <Text style={styles.subText2}>إعادة إرسال الكود</Text>
+            </TouchableOpacity>
 
             <View style={styles.titleImg}>
               <Image source={require('../assets/images/title.png')} />
@@ -191,7 +236,7 @@ const styles = StyleSheet.create({
   },
 
   underlineStyleBase: {
-    width: 60,
+    width: 40,
     height: 60,
     borderWidth: 1,
     backgroundColor: Colors.white,
