@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: Colors.grey,
-    width: 110,
+    width: "30%",
     height: 110,
   },
   cardIcon: {
