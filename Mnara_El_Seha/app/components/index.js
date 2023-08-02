@@ -1,5 +1,5 @@
 import CustomCard from "./CustomCard";
 import CustomDrawer from "./CustomDrawer";
+import DateInput from "./DateInput";
 
-
-export { CustomCard, CustomDrawer };
+export { CustomCard, CustomDrawer, DateInput };
