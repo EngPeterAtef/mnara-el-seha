@@ -131,7 +131,7 @@ export default function MainScreen({navigation}: any) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.loginBtn}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => navigation.navigate('signup')}>
             <Text style={styles.loginText}>انشئ حساب جديد</Text>
           </TouchableOpacity>
         </View>
