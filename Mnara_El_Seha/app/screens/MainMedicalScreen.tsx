@@ -4,8 +4,62 @@ import Colors from '../assets/values/Colors';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Image} from 'react-native-elements';
 import {CustomCard} from '../components';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
 
 export default function MedicalServicesScreen({navigation}: any) {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: Colors.white,
+          borderTopWidth: 0,
+          height: 60,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: 'bold',
+        },
+        tabBarActiveTintColor: Colors.primary1,
+        tabBarInactiveTintColor: Colors.grey,
+      }}>
+      <Tab.Screen
+        name="MyCalender"
+        component={MyCalender}
+        options={{
+          title: 'تقويمي',
+          tabBarIcon: ({color, size}: any) => (
+            <FontAwesome5 name="calendar" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={MedicalServicesContent}
+        options={{
+          title: 'الرئيسية',
+          tabBarIcon: ({color, size}: any) => (
+            <FontAwesome5 name="star" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: 'الملف الشخصي',
+          tabBarIcon: ({color, size}: any) => (
+            <FontAwesome5 name="user" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+function MedicalServicesContent({navigation}: any) {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -103,6 +157,21 @@ export default function MedicalServicesScreen({navigation}: any) {
           />
         </View>
       </ScrollView>
+    </View>
+  );
+}
+function MyCalender() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>تقويمي</Text>
+    </View>
+  );
+}
+
+function ProfileScreen() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>الملف الشخصي</Text>
     </View>
   );
 }
