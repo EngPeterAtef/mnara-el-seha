@@ -1,9 +1,16 @@
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Colors from '../assets/values/Colors';
 import DatePicker from 'react-native-date-picker';
 import {useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { DateInput } from '../components';
+import {DateInput} from '../components';
 export default function LabResultsScreen({navigation}: any) {
   const [dateFrom, setDateFrom]: [Date | null, any] = useState(null);
   const [dateTo, setDateTo]: [Date | null, any] = useState(null);
@@ -17,6 +24,11 @@ export default function LabResultsScreen({navigation}: any) {
         setDateTo={setDateTo}
         setDateFrom={setDateFrom}
       />
+      <View style={styles.innerContainer}>
+        <TouchableOpacity style={styles.searchBtn}>
+          <Text style={styles.searchText}>بحث</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -26,11 +38,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primary2,
   },
-  cardContainer: {
+  innerContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    marginTop: 20,
   },
   text: {
     color: Colors.primary1,
@@ -44,19 +56,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-  loginBtn: {
-    width: '80%',
+  searchBtn: {
     backgroundColor: Colors.secondary1,
     borderRadius: 15,
     height: 50,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
   },
-  loginText: {
+  searchText: {
     color: 'white',
     fontSize: 21,
     fontWeight: 'bold',
+    alignContent: 'center',
   },
   infoText: {
     color: Colors.grey,

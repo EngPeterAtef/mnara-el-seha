@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderColor: Colors.secondary1,
         borderRadius: 5,
-        margin: 10,
+        marginVertical: 10,
+        marginHorizontal: 10,
         paddingLeft: 10,
     },
     dateInput: {
