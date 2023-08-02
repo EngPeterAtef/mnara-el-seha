@@ -2,5 +2,11 @@ import LoginScreen from './Login';
 import MainScreen from './MainScreen';
 import OtpScreen from './Otp';
 import MedicalServicesScreen from './MainMedicalScreen';
-
-export {LoginScreen, MainScreen, OtpScreen, MedicalServicesScreen};
+import LabResultsScreen from './LabResults';
+export {
+  LoginScreen,
+  MainScreen,
+  OtpScreen,
+  LabResultsScreen,
+  MedicalServicesScreen,
+};
