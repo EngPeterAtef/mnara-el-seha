@@ -201,7 +201,7 @@ export default function LoginScreen({ navigation }: any) {
                       setMedFile('');
                       setPhoneNum('');
                       // TODO: navigate to the next screen here
-                      navigation.navigate('Home');
+                      navigation.navigate('Otp');
                     }
                   }>
                     <Text style={styles.successBtnText}>الاستمرار</Text>
