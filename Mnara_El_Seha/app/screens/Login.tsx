@@ -63,12 +63,7 @@ export default function LoginScreen({ navigation }: any) {
 
   const validatePhoneNumber = (text: string) => {
     setPhoneNum(text);
-    // console.log(firebase);
     const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
-    // if (text.length === 0) {
-    //   setPhoneNumberError('Phone number is required');
-    // }
-    // else
     if (!phoneNumberRegex.test(text)) {
       setPhoneNumberError('رقم الجوال غير صحيح');
     } else {

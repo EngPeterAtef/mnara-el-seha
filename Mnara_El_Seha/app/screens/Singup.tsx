@@ -118,7 +118,7 @@ export default function SignupScreen({ navigation }: any) {
         setPhoneNum(text);
         const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
         if (text.length === 0) {
-            setPhoneNumberError('Phone number is required');
+            setPhoneNumberError('رقم الجوال مطلوب');
         }
         else if (!phoneNumberRegex.test(text)) {
             setPhoneNumberError('رقم الجوال غير صحيح');
