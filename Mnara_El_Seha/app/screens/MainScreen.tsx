@@ -3,6 +3,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Image} from 'react-native-elements';
+import React from 'react';
+import user from '../utils/User';
 
 const CustomCard = ({title, icons, onPress}: any) => {
   return (
@@ -14,6 +16,7 @@ const CustomCard = ({title, icons, onPress}: any) => {
 };
 
 export default function MainScreen({navigation}: any) {
+  console.log(`user: ${user}`);
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -132,7 +135,7 @@ export default function MainScreen({navigation}: any) {
           <TouchableOpacity
             style={styles.loginBtn}
             onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.loginText}>انشئ حساب جديد</Text>
+            <Text style={styles.loginText}>انشاء حساب جديد</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: Colors.grey,
-    width: "30%",
+    width: '30%',
     height: 110,
   },
   cardIcon: {

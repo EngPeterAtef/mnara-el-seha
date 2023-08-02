@@ -7,10 +7,9 @@ import {
     StyleSheet,
     Image,
     ScrollView,
-    Alert,
     SafeAreaView,
     StatusBar,
-    useColorScheme,
+    ActivityIndicator,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -19,6 +18,8 @@ import Modal from 'react-native-modal';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
 import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
+import { FIREBASE_AUTH, firebaseSingup } from '../services/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignupScreen({ navigation }: any) {
     //to avoid using the side menu inside the login screen
@@ -30,17 +31,25 @@ export default function SignupScreen({ navigation }: any) {
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
+    const [securePassword1, setSecurePassword1] = useState(true);
+    const [securePassword2, setSecurePassword2] = useState(true);
 
     const [idError, setIDError] = useState('');
     const [nameError, setNameError] = useState('');
     const [ageError, setAgeError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
+    const [passwordError1, setPasswordError1] = useState('');
+    const [passwordError2, setPasswordError2] = useState('');
 
     const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
     const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
 
     const [selectedId, setSelectedId] = useState<string | undefined>('1');
+
+    const [loading, setLoading] = useState(false);
 
     const radioButtons: RadioButtonProps[] = useMemo(() => ([
         {
@@ -87,7 +96,7 @@ export default function SignupScreen({ navigation }: any) {
     const nameValidation = (text: string) => {
         setName(text);
         // email should be letters only
-        const nameRegex = /^(?!.*[\u0660-\u0669])[a-zA-Z\u0600-\u06FF]{5,20}$/;
+        const nameRegex = /^(?!.*[\u0660-\u0669])[a-zA-Z\u0600-\u06FF\s]{5,20}$/;
         if (text.length === 0) {
             setNameError('الاسم مطلوب');
         }
@@ -98,6 +107,59 @@ export default function SignupScreen({ navigation }: any) {
             setNameError('');
         }
 
+    };
+
+
+    const passwordValidation1 = (text: string) => {
+        setPassword1(text);
+        const lowercaseRegex = /[a-z]/;
+        const uppercaseRegex = /[A-Z]/;
+        const numberRegex = /\d/;
+        const specialCharRegex = /[!@#$%^&*()_+=[{\]};:'",.<>?]/;
+        const passwordLengthRegex = /.{8,}/;
+
+        const lowercaseErrorMessage =
+            'كلمة السر يجب ان تحتوي على حرف صغير واحد على الاقل';
+        const uppercaseErrorMessage =
+            'كلمة السر يجب ان تحتوي على حرف كبير واحد على الاقل';
+        const numberErrorMessage = 'كلمة السر يجب ان تحتوي على رقم واحد على الاقل';
+        const specialCharErrorMessage =
+            'كلمة السر يجب ان تحتوي على رمز واحد على الاقل (!@#$%^&*()_+=[{]};:\'",.<>?).';
+        const passwordLengthErrorMessage =
+            'كلمة السر يجب ان تحتوي على 8 احرف على الاقل';
+
+        let passwordErrorTemp = '';
+
+
+        if (text.length === 0) {
+            passwordErrorTemp = 'كلمة السر مطلوبة';
+        }
+        else if (!lowercaseRegex.test(text)) {
+            passwordErrorTemp = lowercaseErrorMessage;
+        } else if (!uppercaseRegex.test(text)) {
+            passwordErrorTemp = uppercaseErrorMessage;
+        } else if (!numberRegex.test(text)) {
+            passwordErrorTemp = numberErrorMessage;
+        } else if (!specialCharRegex.test(text)) {
+            passwordErrorTemp = specialCharErrorMessage;
+        } else if (!passwordLengthRegex.test(text)) {
+            passwordErrorTemp = passwordLengthErrorMessage;
+        }
+
+        setPasswordError1(passwordErrorTemp);
+    };
+
+    const passwordValidation2 = (text: string) => {
+        setPassword2(text);
+        if (text.length === 0) {
+            setPasswordError2('تأكيد كلمة السر مطلوب');
+        }
+        else if (text !== password1) {
+            setPasswordError2('كلمة السر غير متطابقة');
+        }
+        else {
+            setPasswordError2('');
+        }
     };
 
 
@@ -150,12 +212,42 @@ export default function SignupScreen({ navigation }: any) {
     };
 
     const handleSingup = () => {
-        if (id === '' || name === '' || age === '' || gender === '' || phoneNum === '' || email === '' || phoneNumberError !== '' || emailError !== '' || idError !== '' || nameError !== '' || ageError !== '') {
+        if (id === '' || name === '' ||
+            age === '' || gender === '' ||
+            phoneNum === '' || email === '' ||
+            password1 === '' || password2 === '' ||
+            phoneNumberError !== '' || emailError !== '' ||
+            idError !== '' || nameError !== '' || ageError !== ''
+            || passwordError1 !== '' || passwordError2 !== '') {
             toggleModalFailure();
         }
         else {
-            toggleModalSucess();
+            signupAuth();
         }
+    };
+
+    const signupAuth = async () => {
+        // set the user data\
+        setLoading(true);
+        try {
+            const response = await firebaseSingup(email, password1);
+            // set the user data\
+            console.log('response: ', response);
+
+            user.email = email;
+            user.password = password1;
+            user.name = name;
+            user.age = age;
+            user.id = id;
+            user.gender = gender;
+            user.phoneNum = '+20' + phoneNum;
+            // console.log('user: ', user);
+            toggleModalSucess();
+        } catch (error: any) {
+            console.log(error.message);
+            setModalFailureVisible(true);
+        }
+        setLoading(false);
     };
 
 
@@ -227,7 +319,6 @@ export default function SignupScreen({ navigation }: any) {
                                     placeholder="البريد الالكتروني"
                                     aria-label="email"
                                     placeholderTextColor="#8DA9B6"
-                                    // secureTextEntry={true}
                                     onChangeText={text => validateEmail(text)}
                                     value={email}
                                     textAlign="right"
@@ -236,6 +327,42 @@ export default function SignupScreen({ navigation }: any) {
                             </View>
                             {emailError !== '' ? (
                                 <Text style={styles.errorText}>{emailError}</Text>
+                            ) : null}
+                            <View style={styles.inputView}>
+                                <TextInput
+                                    style={styles.inputText}
+                                    placeholder="كلمة المرور بالانجليزية الزامي"
+                                    placeholderTextColor="#8DA9B6"
+                                    secureTextEntry={securePassword1}
+                                    onChangeText={text => passwordValidation1(text)}
+                                    value={password1}
+                                    textAlign="right"
+                                    maxLength={30}
+                                />
+                                <TouchableOpacity onPress={() => setSecurePassword1(!securePassword1)} style={styles.secureBtn}>
+                                    <Ionicons name={securePassword1 ? 'eye-off-outline' : 'eye-outline'} size={20} color="#8DA9B6" />
+                                </TouchableOpacity>
+                            </View>
+                            {passwordError1 !== '' ? (
+                                <Text style={styles.errorText}>{passwordError1}</Text>
+                            ) : null}
+                            <View style={styles.inputView}>
+                                <TextInput
+                                    style={styles.inputText}
+                                    placeholder="تأكيد كلمة المرور"
+                                    placeholderTextColor="#8DA9B6"
+                                    secureTextEntry={securePassword2}
+                                    onChangeText={text => passwordValidation2(text)}
+                                    value={password2}
+                                    textAlign="right"
+                                    maxLength={30}
+                                />
+                                <TouchableOpacity onPress={() => setSecurePassword2(!securePassword2)} style={styles.secureBtn}>
+                                    <Ionicons name={securePassword2 ? 'eye-off-outline' : 'eye-outline'} size={20} color="#8DA9B6" />
+                                </TouchableOpacity>
+                            </View>
+                            {passwordError2 !== '' ? (
+                                <Text style={styles.errorText}>{passwordError2}</Text>
                             ) : null}
                             <View style={styles.inputView}>
                                 <TextInput
@@ -270,8 +397,9 @@ export default function SignupScreen({ navigation }: any) {
                                 <Text style={styles.errorText}>{ageError}</Text>
                             ) : null}
                             <View style={{
-                                // flexDirection: 'row-reverse',
-                                justifyContent: 'space-between',
+                                flexDirection: 'row',
+                                justifyContent: 'space-evenly',
+                                alignItems: 'center',
                                 width: '100%',
                             }}>
                                 <Text style={{
@@ -279,23 +407,25 @@ export default function SignupScreen({ navigation }: any) {
                                     fontSize: 20,
                                     fontWeight: 'bold',
                                     textAlign: 'center',
-                                }}>الجنس</Text>
-                                <RadioGroup
-                                    radioButtons={radioButtons}
-                                    onPress={chooseGender}
-                                    selectedId={selectedId}
-                                    containerStyle={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-evenly',
-                                        alignItems: 'center',
-                                    }}
-                                />
-
+                                }}>الجنس:</Text>
+                                <View>
+                                    <RadioGroup
+                                        radioButtons={radioButtons}
+                                        onPress={chooseGender}
+                                        selectedId={selectedId}
+                                        containerStyle={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-evenly',
+                                            alignItems: 'center',
+                                        }}
+                                    />
+                                </View>
                             </View>
                         </View>
-                        <TouchableOpacity style={styles.loginBtn} onPress={handleSingup}>
-                            <Text style={styles.loginText}>انشاء حساب</Text>
-                        </TouchableOpacity>
+                        {loading ? <ActivityIndicator size="large" color="#8DA9B6" /> :
+                            <TouchableOpacity style={styles.loginBtn} onPress={handleSingup}>
+                                <Text style={styles.loginText}>انشاء حساب</Text>
+                            </TouchableOpacity>}
                         <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
                             <View style={styles.successContent}>
                                 <Ionicons name="checkmark-done-circle" size={100} color="white" />
@@ -306,15 +436,20 @@ export default function SignupScreen({ navigation }: any) {
                                     <TouchableOpacity onPress={
                                         () => {
                                             toggleModalSucess();
-                                            // set the user data\
-                                            user.id = id;
-                                            user.phoneNum = phoneNum;
-                                            console.log('user: ', user);
-                                            // TODO: should send request to get the user data to login
-                                            // and save the user data in the shared prefrences
+
                                             setID('');
                                             setPhoneNum('');
-                                            navigation.navigate('MainScreen');
+                                            setPassword1('');
+                                            setPassword2('');
+                                            setEmail('');
+                                            setName('');
+                                            setAge('');
+                                            setSelectedId('');
+                                            setSecurePassword1(true);
+                                            setSecurePassword2(true);
+                                            setGender('');
+                                            console.log('user', user);
+                                            navigation.navigate('Otp');
                                         }
                                     }>
                                         <Text style={styles.successBtnText}>الاستمرار</Text>
@@ -378,8 +513,7 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        // marginTop: -40,
-        // marginBottom: 10,
+        marginTop: -70,
     },
     loginText: {
         color: 'white',
@@ -388,13 +522,13 @@ const styles = StyleSheet.create({
     logoImgView: {
         alignItems: 'center',
         transform: [{ scale: 0.8 }],
-        marginTop: -60,
+        marginTop: -120,
 
     },
     allInputs: {
         width: '100%',
         alignItems: 'center',
-        marginTop: -50,
+        marginTop: -90,
     },
     titleImg: {
         alignItems: 'center',
@@ -495,5 +629,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffe6e6',
         borderRadius: 5,
         marginBottom: 10,
+    },
+    secureBtn: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
     },
 });
