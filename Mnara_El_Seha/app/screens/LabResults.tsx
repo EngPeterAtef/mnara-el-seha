@@ -6,12 +6,25 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function LabResultsScreen({navigation}: any) {
   const [dateFrom, setDateFrom]: [Date | null, any] = useState(null);
   const [dateTo, setDateTo]: [Date | null, any] = useState(null);
-  const [openFrom, setOpenFrom] = useState(false);
-  const [openTo, setOpenTo] = useState(false);
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>النتائج المخبرية</Text>
+      <DateInput
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        setDateTo={setDateTo}
+        setDateFrom={setDateFrom}
+      />
+    </View>
+  );
+}
+
+const DateInput = ({dateFrom, setDateFrom, dateTo, setDateTo}: any) => {
+  const [openFrom, setOpenFrom] = useState(false);
+  const [openTo, setOpenTo] = useState(false);
+  return (
+    <>
       <View style={{flexDirection: 'row'}}>
         <View style={styles.inputContainer}>
           <TextInput
@@ -93,9 +106,9 @@ export default function LabResultsScreen({navigation}: any) {
         style={styles.datePicker}
         title={'اختر التاريخ الي'}
       />
-    </View>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
