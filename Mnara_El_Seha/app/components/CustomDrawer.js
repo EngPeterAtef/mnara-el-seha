@@ -17,6 +17,7 @@ import Colors from '../assets/values/Colors';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
+
 const CustomDrawer = props => {
   const navigation = useNavigation();
   return (

@@ -185,7 +185,7 @@ export default function LoginScreen({ navigation }: any) {
                 <Ionicons name="checkmark-done-circle" size={100} color="white" />
                 {/* <FontAwesome5 name="laugh" size={100} color="white" /> */}
                 <Text style={styles.popupTitle}>تم!!</Text>
-                <Text style={styles.popupSubTitle}>تم تسجيل الدخول</Text>
+                <Text style={styles.popupSubTitle}>تم تسجيل الدخول بنجاح</Text>
                 <View style={styles.sucessBtnView}>
                   <TouchableOpacity onPress={
                     () => {
@@ -214,7 +214,7 @@ export default function LoginScreen({ navigation }: any) {
                 <Entypo name="circle-with-cross" size={100} color="white" />
                 {/* <Ionicons name="sad-outline" size={100} color="white" /> */}
                 <Text style={styles.popupTitle}>فشل!!</Text>
-                <Text style={styles.popupSubTitle}>يوجد مشكلة في تسجيل الدخول</Text>
+                <Text style={styles.popupSubTitle}>بيانات الدخول غير صحيحة من فضلك أعد المحاولة</Text>
                 <View style={styles.failureBtnView}>
                   <TouchableOpacity onPress={toggleModalFailure}>
                     <Text style={styles.failureBtnText}>الرجوع</Text>
