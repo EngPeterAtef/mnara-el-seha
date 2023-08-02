@@ -171,7 +171,8 @@ const CustomDrawer = props => {
           borderTopEndRadius: 20,
           borderTopStartRadius: 20,
         }}>
-        {!auth().currentUser ? (
+        { //TODO: check if user is logged in or not should be moved to another file
+        !auth().currentUser ? (
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center'}}
             onPress={() => {
@@ -192,6 +193,7 @@ const CustomDrawer = props => {
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center'}}
             onPress={() => {
+              // TODO: logout function should be defined in another file to avoid redundancy
               auth().signOut();
               navigation.navigate('Login');
             }}>
