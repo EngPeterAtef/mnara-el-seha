@@ -153,8 +153,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 100,
-    height: 400,
+    resizeMode: 'contain',
+    width: 40,
+    height: 40,
   },
 });
 const list = [
