@@ -10,6 +10,7 @@ import {
   StatusBar,
   Button,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,6 +28,8 @@ export default function OtpScreen({navigation}: any) {
 
   const [code, setCode] = useState('');
   const [mounted, setMounted] = useState(false);
+  const [wrongCode, setWrongCode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // send the otp when the component is mounted
   useEffect(() => {
@@ -60,12 +63,17 @@ export default function OtpScreen({navigation}: any) {
 
   async function confirmCode(code: any) {
     console.log('Confirming');
+    setIsLoading(true);
+    setWrongCode(false);
     try {
       if (confirm != null) {
         await confirm.confirm(code);
       }
     } catch (error) {
+      setWrongCode(true);
       console.log('Invalid code.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -135,20 +143,27 @@ export default function OtpScreen({navigation}: any) {
               autoFocusOnLoad
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
+              keyboardType="number-pad"
               onCodeFilled={(code: any) => {
                 console.log(`Code is ${code}, you are good to go!`);
                 confirmCode(code);
                 setCode(code);
               }}
             />
+            {isLoading && (
+              <ActivityIndicator size="small" color={Colors.secondary1} />
+            )}
+            {wrongCode && (
+              <Text style={styles.errorText}>رمز التحقق غير صحيح</Text>
+            )}
             <Text style={styles.subText}>{formatTime(counter)}</Text>
 
-            <Text style={styles.subText}>لم يتم استلام الكود؟</Text>
+            <Text style={styles.subText}>لم يتم استلام الرمز؟</Text>
             <TouchableOpacity
               onPress={() => {
                 signInWithPhoneNumber('+201554886299');
               }}>
-              <Text style={styles.subText2}>إعادة إرسال الكود</Text>
+              <Text style={styles.subText2}>إعادة إرسال الرمز؟</Text>
             </TouchableOpacity>
 
             <View style={styles.titleImg}>
@@ -254,7 +269,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
   },
-
   underlineStyleBase: {
     width: 40,
     height: 60,
@@ -264,8 +278,17 @@ const styles = StyleSheet.create({
     color: Colors.primary1,
     fontSize: 20,
   },
-
   underlineStyleHighLighted: {
     borderColor: Colors.secondary1,
+  },
+  errorText: {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: '#ffe6e6',
+    borderRadius: 5,
+    marginBottom: 10,
   },
 });
