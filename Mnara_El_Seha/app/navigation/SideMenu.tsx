@@ -2,11 +2,12 @@ import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
 import CustomDrawer from '../components/CustomDrawer';
-import {LoginScreen, MainScreen} from '../screens';
+import {LoginScreen, MainScreen, OtpScreen} from '../screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import SignupScreen from '../screens/Singup';
 
 const Drawer = createDrawerNavigator();
 
@@ -161,7 +162,21 @@ export default function SideMenu(): JSX.Element {
           name={'Login'}
           component={LoginScreen}
           options={{
-            drawerLabel: () => null,
+            drawerItemStyle: {display: 'none'},
+          }}
+        />
+        <Drawer.Screen
+          name={'Otp'}
+          component={OtpScreen}
+          options={{
+            drawerItemStyle: {display: 'none'},
+          }}
+        />
+        <Drawer.Screen
+          name={'signup'}
+          component={SignupScreen}
+          options={{
+            drawerItemStyle: {display: 'none'},
           }}
         />
       </Drawer.Navigator>
