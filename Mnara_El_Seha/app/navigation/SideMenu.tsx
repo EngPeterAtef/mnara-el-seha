@@ -162,21 +162,21 @@ export default function SideMenu(): JSX.Element {
           name={'Login'}
           component={LoginScreen}
           options={{
-            drawerLabel: () => null,
+            drawerItemStyle: {display: 'none'},
           }}
         />
         <Drawer.Screen
           name={'Otp'}
           component={OtpScreen}
           options={{
-            drawerLabel: () => null,
+            drawerItemStyle: {display: 'none'},
           }}
         />
         <Drawer.Screen
           name={'signup'}
           component={SignupScreen}
           options={{
-            drawerLabel: () => null,
+            drawerItemStyle: {display: 'none'},
           }}
         />
       </Drawer.Navigator>
