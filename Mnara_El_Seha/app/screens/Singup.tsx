@@ -18,7 +18,7 @@ import Modal from 'react-native-modal';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
 import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
-import { FIREBASE_AUTH, firebaseSingup } from '../services/firebase';
+// import { FIREBASE_AUTH, firebaseSingup } from '../services/firebase';
 
 export default function SignupScreen({ navigation }: any) {
     //to avoid using the side menu inside the login screen
@@ -229,9 +229,9 @@ export default function SignupScreen({ navigation }: any) {
         // set the user data\
         setLoading(true);
         try {
-            const response = await firebaseSingup(email, password1);
+            // const response = await firebaseSingup(email, password1);
             // set the user data\
-            console.log('response: ', response);
+            // console.log('response: ', response);
 
             user.email = email;
             user.password = password1;
@@ -239,7 +239,7 @@ export default function SignupScreen({ navigation }: any) {
             user.age = age;
             user.id = id;
             user.gender = gender;
-            user.phoneNum = '+20' + phoneNum;
+            user.phoneNum = '+2' + phoneNum;
             // console.log('user: ', user);
             toggleModalSucess();
         } catch (error: any) {
@@ -322,6 +322,7 @@ export default function SignupScreen({ navigation }: any) {
                                     value={email}
                                     textAlign="right"
                                     maxLength={30}
+                                    keyboardType="email-address"
                                 />
                             </View>
                             {emailError !== '' ? (

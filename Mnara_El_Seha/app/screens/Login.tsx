@@ -44,9 +44,9 @@ export default function LoginScreen({ navigation }: any) {
   const loginAuth = async () => {
     setLoading(true);
     try {
-      const response = await firebaseSignin(email, password);
+      // const response = await firebaseSignin(email, password);
       // set the user data\
-      console.log('response: ', response);
+      // console.log('response: ', response);
       user.email = email;
       user.password = password;
       // console.log('user: ', user);

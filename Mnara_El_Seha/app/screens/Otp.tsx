@@ -164,7 +164,7 @@ export default function OtpScreen({ navigation }: any) {
             <Text style={styles.subText}>لم يتم استلام الرمز؟</Text>
             <TouchableOpacity
               onPress={() => {
-                signInWithPhoneNumber('+201554886298');
+                signInWithPhoneNumber(user.phoneNum);
               }}>
               <Text style={styles.subText2}>إعادة إرسال الرمز؟</Text>
             </TouchableOpacity>
