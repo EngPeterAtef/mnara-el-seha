@@ -16,6 +16,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import auth from '@react-native-firebase/auth';
+import user from '../utils/User';
 
 export default function OtpScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
@@ -33,8 +34,9 @@ export default function OtpScreen({navigation}: any) {
 
   // send the otp when the component is mounted
   useEffect(() => {
+    console.log('user', user);
     if (!mounted) {
-      signInWithPhoneNumber('+201554886298');
+      signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
       setMounted(true);
     }
   }, []);
@@ -161,7 +163,7 @@ export default function OtpScreen({navigation}: any) {
             <Text style={styles.subText}>لم يتم استلام الرمز؟</Text>
             <TouchableOpacity
               onPress={() => {
-                signInWithPhoneNumber('+201554886298');
+                signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
               }}>
               <Text style={styles.subText2}>إعادة إرسال الرمز؟</Text>
             </TouchableOpacity>

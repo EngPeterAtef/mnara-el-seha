@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,68 +9,166 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
-
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
+import { handleGoogleSingIn } from '../services/google';
+import auth from '@react-native-firebase/auth';
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({ headerShown: false, swipeEnabled: false });
+  navigation.setOptions({headerShown: false, swipeEnabled: false});
 
-  const [id, setID] = useState('');
-  const [medFile, setMedFile] = useState('');
-  const [phoneNum, setPhoneNum] = useState('');
+  // const [id, setID] = useState('');
+  // const [medFile, setMedFile] = useState('');
+  // const [phoneNum, setPhoneNum] = useState('');
   const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
   const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
-  const [phoneNumberError, setPhoneNumberError] = useState('');
-  const [idError, setIDError] = useState('');
-  const [medFileError, setMedFileError] = useState('');
-  const [secureMedFile, setSecureMedFile] = useState(true);
+  // const [phoneNumberError, setPhoneNumberError] = useState('');
+  // const [idError, setIDError] = useState('');
+  // const [medFileError, setMedFileError] = useState('');
+  // const [secureMedFile, setSecureMedFile] = useState(true);
 
-  const idValidation = (text: string) => {
-    setID(text);
-    const idRegex = /^\d{14}$/;
-    if (text.length === 0) {
-      setIDError('رقم الهوية مطلوب');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [securePassword, setSecurePassword] = useState(true);
+
+  const [loading, setLoading] = useState(false);
+
+  const loginAuth = async () => {
+    setLoading(true);
+    try {
+      user.email = email;
+      user.password = password;
+      auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(async () => {
+          console.log('User account signed in!');
+          toggleModalSucess();
+          auth()
+            .signOut()
+            .then(() => console.log('User signed out!'));
+        })
+        .catch(error => {
+          console.log(error.message);
+          setModalFailureVisible(true);
+        });
+    } catch (error: any) {
+      console.log(error.message);
+      setModalFailureVisible(true);
     }
-    else if (!idRegex.test(text)) {
-      setIDError('رقم الهوية غير صحيح');
-    }
-    else {
-      setIDError('');
-    }
+    setLoading(false);
   };
 
-  const medFileValidation = (text: string) => {
-    setMedFile(text);
-    // regex of string of 7 characters
-    const medFileRegex = /^\d{7}$/;
-    if (text.length === 0) {
-      setMedFileError('رقم الملف الطبي مطلوب');
+  const signInWithGoogle = async () => {
+    setLoading(true);
+    try {
+      const res = await handleGoogleSingIn();
+      console.log('res: ', res);
+
+      // set the user data\
+      // console.log('response: ', response);
+      user.email = res.user?.email;
+      user.type = 'google';
+    } catch (error: any) {
+      console.log(error.message);
+      setModalFailureVisible(true);
     }
-    else if (!medFileRegex.test(text)) {
-      setMedFileError('رقم الملف الطبي غير صحيح');
-    }
-    else {
-      setMedFileError('');
-    }
+    setLoading(false);
   };
 
-  const validatePhoneNumber = (text: string) => {
-    setPhoneNum(text);
-    const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
-    if (!phoneNumberRegex.test(text)) {
-      setPhoneNumberError('رقم الجوال غير صحيح');
+
+  // const idValidation = (text: string) => {
+  //   setID(text);
+  //   const idRegex = /^\d{14}$/;
+  //   if (text.length === 0) {
+  //     setIDError('رقم الهوية مطلوب');
+  //   }
+  //   else if (!idRegex.test(text)) {
+  //     setIDError('رقم الهوية غير صحيح');
+  //   }
+  //   else {
+  //     setIDError('');
+  //   }
+  // };
+
+  const validateEmail = (text: string) => {
+    setEmail(text);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (text.length === 0) {
+      setEmailError('البريد الالكتروني مطلوب');
+    } else if (!emailRegex.test(text)) {
+      setEmailError('البريد الالكتروني غير صحيح');
     } else {
-      setPhoneNumberError('');
+      setEmailError('');
     }
   };
 
+  // const medFileValidation = (text: string) => {
+  //   setMedFile(text);
+  //   // regex of string of 7 characters
+  //   const medFileRegex = /^\d{7}$/;
+  //   if (text.length === 0) {
+  //     setMedFileError('رقم الملف الطبي مطلوب');
+  //   }
+  //   else if (!medFileRegex.test(text)) {
+  //     setMedFileError('رقم الملف الطبي غير صحيح');
+  //   }
+  //   else {
+  //     setMedFileError('');
+  //   }
+  // };
+
+  const passwordValidation = (text: string) => {
+    setPassword(text);
+    const lowercaseRegex = /[a-z]/;
+    const uppercaseRegex = /[A-Z]/;
+    const numberRegex = /\d/;
+    const specialCharRegex = /[!@#$%^&*()_+=[{\]};:'",.<>?]/;
+    const passwordLengthRegex = /.{8,}/;
+
+    const lowercaseErrorMessage =
+      'كلمة السر يجب ان تحتوي على حرف صغير واحد على الاقل';
+    const uppercaseErrorMessage =
+      'كلمة السر يجب ان تحتوي على حرف كبير واحد على الاقل';
+    const numberErrorMessage = 'كلمة السر يجب ان تحتوي على رقم واحد على الاقل';
+    const specialCharErrorMessage =
+      'كلمة السر يجب ان تحتوي على رمز واحد على الاقل (!@#$%^&*()_+=[{]};:\'",.<>?).';
+    const passwordLengthErrorMessage =
+      'كلمة السر يجب ان تحتوي على 8 احرف على الاقل';
+
+    let passwordErrorTemp = '';
+
+    if (!lowercaseRegex.test(text)) {
+      passwordErrorTemp = lowercaseErrorMessage;
+    } else if (!uppercaseRegex.test(text)) {
+      passwordErrorTemp = uppercaseErrorMessage;
+    } else if (!numberRegex.test(text)) {
+      passwordErrorTemp = numberErrorMessage;
+    } else if (!specialCharRegex.test(text)) {
+      passwordErrorTemp = specialCharErrorMessage;
+    } else if (!passwordLengthRegex.test(text)) {
+      passwordErrorTemp = passwordLengthErrorMessage;
+    }
+
+    setPasswordError(passwordErrorTemp);
+  };
+
+  // const validatePhoneNumber = (text: string) => {
+  //   setPhoneNum(text);
+  //   const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
+  //   if (!phoneNumberRegex.test(text)) {
+  //     setPhoneNumberError('رقم الجوال غير صحيح');
+  //   } else {
+  //     setPhoneNumberError('');
+  //   }
+  // };
 
   const toggleModalSucess = () => {
     setModalSucessVisible(!isModalVisibleSucess);
@@ -82,50 +180,76 @@ export default function LoginScreen({ navigation }: any) {
 
   const handleLogin = () => {
     // Handle login logic here
-    // console.log('id: ', id);
-    // console.log('medFile: ', medFile);
-    // console.log('phoneNum: ', phoneNum);
     // open message to the user to enter the data if there is any missing field
-    if (id === '' || medFile === '' || phoneNumberError !== '' || idError !== '' || medFileError !== '') {
+    if (
+      email === '' ||
+      password === '' ||
+      emailError !== '' ||
+      passwordError !== ''
+    ) {
       toggleModalFailure();
-    }
-    else {
-      toggleModalSucess();
+    } else {
+      loginAuth();
     }
   };
 
   function appBar() {
     return (
       <View style={styles.appBarView}>
-        <TouchableOpacity style={styles.appBar}
+        <TouchableOpacity
+          style={styles.appBar}
           onPress={() => navigation.navigate('MainScreen')}>
-          <Ionicons name="arrow-redo-circle-outline" size={20} color="white" style={styles.backArrow} />
+          <Ionicons
+            name="arrow-redo-circle-outline"
+            size={20}
+            color="white"
+            style={styles.backArrow}
+          />
           <Text style={styles.header}>الرئيسية</Text>
         </TouchableOpacity>
-      </View >
+      </View>
     );
   }
 
   return (
     <SafeAreaView>
-      <StatusBar barStyle="light-content"
-        backgroundColor="#1D5B8C"
-      />
+      <StatusBar barStyle="light-content" backgroundColor="#1D5B8C" />
       {appBar()}
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scroll}>
-        <View style={{
-          backgroundColor: '#1D5B8C',
-          height: '100%',
-          width: '100%',
-        }}>
+        <View
+          style={{
+            backgroundColor: '#1D5B8C',
+            height: '100%',
+            width: '100%',
+          }}>
           <View style={styles.container}>
             <View style={styles.logoImgView}>
               <Image source={require('../assets/images/logoImg.png')} />
             </View>
+            <View style={styles.socialView}>
+              {/* sign in with google */}
+              <TouchableOpacity style={styles.socialBtn} onPress={signInWithGoogle}>
+                <Ionicons name="logo-google" size={30} color="white" />
+                <Text style={styles.socialBtnText}>
+                  تسجيل الدخول بحساب جوجل
+                </Text>
+              </TouchableOpacity>
+              {/* sign in with facebook */}
+              <TouchableOpacity style={styles.socialBtn}>
+                <Ionicons name="logo-facebook" size={30} color="white" />
+                <Text style={styles.socialBtnText}>تسجيل الدخول بحساب فيسبوك</Text>
+              </TouchableOpacity>
+            </View>
+            {/* line separator */}
+            <View style={styles.lineSeparatorView}>
+              <View style={styles.lineSeparator} />
+              <Text style={styles.lineSeparatorText}>أو</Text>
+              <View style={styles.lineSeparator} />
+            </View>
             <View style={styles.allInputs}>
-              <View style={styles.inputView}>
+              {/* <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}
                   placeholder="رقم الهوية الزامي"
@@ -140,8 +264,24 @@ export default function LoginScreen({ navigation }: any) {
               </View>
               {idError !== '' ? (
                 <Text style={styles.errorText}>{idError}</Text>
-              ) : null}
+              ) : null} */}
               <View style={styles.inputView}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="البريد الالكتروني"
+                  aria-label="email"
+                  placeholderTextColor="#8DA9B6"
+                  onChangeText={text => validateEmail(text)}
+                  value={email}
+                  textAlign="right"
+                  maxLength={30}
+                  keyboardType="email-address"
+                />
+              </View>
+              {emailError !== '' ? (
+                <Text style={styles.errorText}>{emailError}</Text>
+              ) : null}
+              {/* <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}
                   placeholder="الملف الطبي الزامي"
@@ -159,8 +299,32 @@ export default function LoginScreen({ navigation }: any) {
               </View>
               {medFileError !== '' ? (
                 <Text style={styles.errorText}>{medFileError}</Text>
-              ) : null}
+              ) : null} */}
               <View style={styles.inputView}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="كلمة المرور بالانجليزية الزامي"
+                  placeholderTextColor="#8DA9B6"
+                  secureTextEntry={securePassword}
+                  onChangeText={text => passwordValidation(text)}
+                  value={password}
+                  textAlign="right"
+                  maxLength={30}
+                />
+                <TouchableOpacity
+                  onPress={() => setSecurePassword(!securePassword)}
+                  style={styles.secureBtn}>
+                  <Ionicons
+                    name={securePassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={20}
+                    color="#8DA9B6"
+                  />
+                </TouchableOpacity>
+              </View>
+              {passwordError !== '' ? (
+                <Text style={styles.errorText}>{passwordError}</Text>
+              ) : null}
+              {/* <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}
                   placeholder="رقم الجوال المسجل بالمدينة اختياري"
@@ -175,35 +339,37 @@ export default function LoginScreen({ navigation }: any) {
               </View>
               {phoneNumberError !== '' ? (
                 <Text style={styles.errorText}>{phoneNumberError}</Text>
-              ) : null}
+              ) : null} */}
             </View>
-            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-              <Text style={styles.loginText}>تسجيل دخول</Text>
-            </TouchableOpacity>
+            {loading ? (
+              <ActivityIndicator size="large" color="#8DA9B6" />
+            ) : (
+              <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+                <Text style={styles.loginText}>تسجيل دخول</Text>
+              </TouchableOpacity>
+            )}
             <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
               <View style={styles.successContent}>
-                <Ionicons name="checkmark-done-circle" size={100} color="white" />
+                <Ionicons
+                  name="checkmark-done-circle"
+                  size={100}
+                  color="white"
+                />
                 {/* <FontAwesome5 name="laugh" size={100} color="white" /> */}
                 <Text style={styles.popupTitle}>تم!!</Text>
                 <Text style={styles.popupSubTitle}>تم تسجيل الدخول بنجاح</Text>
                 <View style={styles.sucessBtnView}>
-                  <TouchableOpacity onPress={
-                    () => {
+                  <TouchableOpacity
+                    onPress={() => {
                       toggleModalSucess();
-                      // set the user data\
-                      user.id = id;
-                      user.medFile = medFile;
-                      user.phoneNum = phoneNum;
-                      console.log('user: ', user);
+
                       // TODO: should send request to get the user data to login
                       // and save the user data in the shared prefrences
-                      setID('');
-                      setMedFile('');
-                      setPhoneNum('');
-                      // TODO: navigate to the next screen here
+                      // setID('');
+                      setEmail('');
+                      setPassword('');
                       navigation.navigate('Otp');
-                    }
-                  }>
+                    }}>
                     <Text style={styles.successBtnText}>الاستمرار</Text>
                   </TouchableOpacity>
                 </View>
@@ -214,7 +380,9 @@ export default function LoginScreen({ navigation }: any) {
                 <Entypo name="circle-with-cross" size={100} color="white" />
                 {/* <Ionicons name="sad-outline" size={100} color="white" /> */}
                 <Text style={styles.popupTitle}>فشل!!</Text>
-                <Text style={styles.popupSubTitle}>بيانات الدخول غير صحيحة من فضلك أعد المحاولة</Text>
+                <Text style={styles.popupSubTitle}>
+                  بيانات الدخول غير صحيحة من فضلك أعد المحاولة
+                </Text>
                 <View style={styles.failureBtnView}>
                   <TouchableOpacity onPress={toggleModalFailure}>
                     <Text style={styles.failureBtnText}>الرجوع</Text>
@@ -268,7 +436,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    // marginTop: 40,
     marginBottom: 10,
   },
   loginText: {
@@ -279,15 +447,18 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '20%',
     alignItems: 'center',
+    transform: [{scale: 0.9}],
   },
   allInputs: {
     width: '100%',
     alignItems: 'center',
+    marginTop: 20,
   },
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{ scale: 0.8 }],
+    transform: [{scale: 0.8}],
+    marginTop: -20,
   },
   scroll: {
     backgroundColor: '#D7EFEE',
@@ -388,5 +559,46 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: 10,
+  },
+  socialBtn: {
+    width: '80%',
+    backgroundColor: '#00AE93',
+    borderRadius: 15,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    flexDirection: 'row',
+  },
+  socialBtnText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginHorizontal: 10,
+  },
+  socialView: {
+    width: '100%',
+    alignItems: 'center',
+    // marginTop: 10,
+  },
+  lineSeparatorView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    marginTop: 10,
+  },
+  lineSeparator: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#124963',
+  },
+  lineSeparatorText: {
+    color: '#124963',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginHorizontal: 10,
   },
 });

@@ -42,7 +42,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="MedicalServices"
+        initialRouteName="MainScreen"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
