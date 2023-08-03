@@ -62,7 +62,7 @@ export default DateInput = ({ dateFrom, setDateFrom, dateTo, setDateTo }) => {
             <DatePicker
                 modal
                 open={openFrom}
-                date={new Date()}
+                date={dateFrom ?? new Date()}
                 mode='date'
                 onConfirm={date => {
                     setOpenFrom(false);
@@ -79,7 +79,7 @@ export default DateInput = ({ dateFrom, setDateFrom, dateTo, setDateTo }) => {
             <DatePicker
                 modal
                 open={openTo}
-                date={new Date()}
+                date={dateTo ?? new Date()}
                 mode='date'
                 onConfirm={date => {
                     setOpenTo(false);

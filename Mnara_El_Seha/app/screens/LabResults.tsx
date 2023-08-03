@@ -15,7 +15,15 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 export default function LabResultsScreen({navigation}: any) {
   const [dateFrom, setDateFrom]: [Date | null, any] = useState(null);
   const [dateTo, setDateTo]: [Date | null, any] = useState(null);
-
+  const [filteredData, setFilteredData]: [any, any] = useState([]);
+  const filterData = () => {
+    if (dateFrom && dateTo) {
+      const filteredData = data.filter((item: any) => {
+        return item.date >= dateFrom && item.date <= dateTo;
+      });
+      setFilteredData(filteredData);
+    }
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -27,11 +35,15 @@ export default function LabResultsScreen({navigation}: any) {
           setDateFrom={setDateFrom}
         />
         <View style={styles.innerContainer}>
-          <TouchableOpacity style={styles.searchBtn}>
+          <TouchableOpacity style={styles.searchBtn} onPress={filterData}>
             <Text style={styles.searchText}>بحث</Text>
           </TouchableOpacity>
           <View style={styles.listContainer}>
-            <FlatList data={data} renderItem={CustomListCardItem} />
+            <FlatList
+              data={filteredData}
+              keyExtractor={(item: any) => item.id}
+              renderItem={CustomListCardItem}
+            />
           </View>
         </View>
       </View>
