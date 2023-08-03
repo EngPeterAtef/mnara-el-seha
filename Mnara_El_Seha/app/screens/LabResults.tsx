@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import Colors from '../assets/values/Colors';
-import DatePicker from 'react-native-date-picker';
 import {useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {DateInput} from '../components';
@@ -18,8 +17,10 @@ export default function LabResultsScreen({navigation}: any) {
   const [filteredData, setFilteredData]: [any, any] = useState([]);
   const filterData = () => {
     if (dateFrom && dateTo) {
+      const prevDay = new Date(dateFrom);
+      prevDay.setDate(prevDay.getDate() - 1);
       const filteredData = data.filter((item: any) => {
-        return item.date >= dateFrom && item.date <= dateTo;
+        return item.date >= prevDay && item.date <= dateTo;
       });
       setFilteredData(filteredData);
     }
