@@ -1,8 +1,13 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
-import CustomDrawer from '../components/CustomDrawer';
-import {LoginScreen, MainScreen, OtpScreen} from '../screens';
+import {CustomDrawer} from '../components';
+import {
+  LoginScreen,
+  MainScreen,
+  MedicalServicesScreen,
+  OtpScreen,
+} from '../screens';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -36,7 +41,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="MainScreen"
+        initialRouteName="MedicalServices"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
@@ -175,6 +180,13 @@ export default function SideMenu(): JSX.Element {
         <Drawer.Screen
           name={'signup'}
           component={SignupScreen}
+          options={{
+            drawerItemStyle: {display: 'none'},
+          }}
+        />
+        <Drawer.Screen
+          name={'MedicalServices'}
+          component={MedicalServicesScreen}
           options={{
             drawerItemStyle: {display: 'none'},
           }}
