@@ -19,7 +19,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
 import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
 import { FIREBASE_AUTH, firebaseSingup } from '../services/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignupScreen({ navigation }: any) {
     //to avoid using the side menu inside the login screen
