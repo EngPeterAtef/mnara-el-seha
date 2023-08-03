@@ -240,6 +240,8 @@ export default function SignupScreen({ navigation }: any) {
             user.id = id;
             user.gender = gender;
             user.phoneNum = '+2' + phoneNum;
+            user.type = 'firebase';
+
             // console.log('user: ', user);
             toggleModalSucess();
         } catch (error: any) {

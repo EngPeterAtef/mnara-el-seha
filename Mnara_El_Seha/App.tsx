@@ -8,6 +8,7 @@ import {initReactI18next} from 'react-i18next';
 
 function App(): JSX.Element {
   init();
+  //TODO: add use effect to read from async storage if the user is logged in or not to know which screen to render
   return <SideMenu />;
   // return <SignupScreen />;
 }

@@ -50,6 +50,7 @@ export default function LoginScreen({ navigation }: any) {
       // console.log('response: ', response);
       user.email = email;
       user.password = password;
+      user.type = 'firebase';
       // console.log('user: ', user);
       toggleModalSucess();
     } catch (error: any) {
