@@ -45,7 +45,7 @@ export default function OtpScreen({navigation}: any) {
   function onAuthStateChanged(user: any) {
     console.log('Auth State Changed', user);
     if (user) {
-      navigation.navigate('MainScreen');
+      navigation.navigate('MedicalServices');
     }
   }
 
@@ -106,7 +106,7 @@ export default function OtpScreen({navigation}: any) {
       <View style={styles.appBarView}>
         <TouchableOpacity
           style={styles.appBar}
-          onPress={() => navigation.navigate('MainScreen')}>
+          onPress={() => navigation.navigate('MedicalServices')}>
           <Ionicons
             name="arrow-redo"
             size={25}
