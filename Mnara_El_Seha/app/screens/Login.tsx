@@ -18,6 +18,7 @@ import Modal from 'react-native-modal';
 import { firebaseSignin } from '../services/firebase';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
+import { handleGoogleSingIn } from '../services/google';
 
 export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
@@ -51,6 +52,23 @@ export default function LoginScreen({ navigation }: any) {
       user.password = password;
       // console.log('user: ', user);
       toggleModalSucess();
+    } catch (error: any) {
+      console.log(error.message);
+      setModalFailureVisible(true);
+    }
+    setLoading(false);
+  };
+
+  const signInWithGoogle = async () => {
+    setLoading(true);
+    try {
+      const res = await handleGoogleSingIn();
+      console.log('res: ', res);
+
+      // set the user data\
+      // console.log('response: ', response);
+      user.email = res.user?.email;
+      user.type = 'google';
     } catch (error: any) {
       console.log(error.message);
       setModalFailureVisible(true);
@@ -199,13 +217,13 @@ export default function LoginScreen({ navigation }: any) {
             </View>
             <View style={styles.socialView}>
               {/* sign in with google */}
-              <TouchableOpacity style={styles.socialBtn}>
+              <TouchableOpacity style={styles.socialBtn} onPress={signInWithGoogle}>
                 <Ionicons name="logo-google" size={30} color="white" />
                 <Text style={styles.socialBtnText}>تسجيل الدخول بحساب جوجل</Text>
               </TouchableOpacity>
               {/* sign in with facebook */}
               <TouchableOpacity style={styles.socialBtn}>
-                <Ionicons name="logo-facebook" size={30} color="white"/>
+                <Ionicons name="logo-facebook" size={30} color="white" />
                 <Text style={styles.socialBtnText}>تسجيل الدخول بحساب فيسبوك</Text>
               </TouchableOpacity>
             </View>

@@ -3,7 +3,7 @@
 // all the attributes are public
 // the user has id, name, email, age, gender, medFile, and phoneNum
 class User {
-  constructor(id, name, email, age, gender, password, phoneNum, medFile) {
+  constructor(id, name, email, age, gender, password, phoneNum, medFile,type) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -12,6 +12,7 @@ class User {
     this.password = password;
     this.phoneNum = phoneNum;
     this.medFile = medFile;
+    this.type = type;
   }
 }
 
