@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,11 +17,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import auth from '@react-native-firebase/auth';
 import user from '../utils/User';
-import { use } from 'i18next';
 
-export default function OtpScreen({ navigation }: any) {
+export default function OtpScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({ headerShown: false, swipeEnabled: false });
+  navigation.setOptions({headerShown: false, swipeEnabled: false});
   const [counter, setCounter] = useState(60);
 
   // If null, no SMS has been sent
@@ -37,7 +36,7 @@ export default function OtpScreen({ navigation }: any) {
   useEffect(() => {
     console.log('user', user);
     if (!mounted) {
-      signInWithPhoneNumber(user.phoneNum);
+      signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
       setMounted(true);
     }
   }, []);
@@ -141,7 +140,7 @@ export default function OtpScreen({ navigation }: any) {
               <Text style={styles.subText2}>ادخل رمز التحقق</Text>
             </TouchableOpacity>
             <OTPInputView
-              style={{ width: '80%', height: '20%' }}
+              style={{width: '80%', height: '20%'}}
               pinCount={6}
               autoFocusOnLoad
               codeInputFieldStyle={styles.underlineStyleBase}
@@ -164,7 +163,7 @@ export default function OtpScreen({ navigation }: any) {
             <Text style={styles.subText}>لم يتم استلام الرمز؟</Text>
             <TouchableOpacity
               onPress={() => {
-                signInWithPhoneNumber(user.phoneNum);
+                signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
               }}>
               <Text style={styles.subText2}>إعادة إرسال الرمز؟</Text>
             </TouchableOpacity>
@@ -224,14 +223,14 @@ const styles = StyleSheet.create({
   logoImgView: {
     alignItems: 'center',
     marginVertical: 20,
-    transform: [{ scale: 0.8 }],
+    transform: [{scale: 0.8}],
     marginTop: -30,
   },
 
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{ scale: 0.8 }],
+    transform: [{scale: 0.8}],
     marginBottom: 110,
   },
   scroll: {

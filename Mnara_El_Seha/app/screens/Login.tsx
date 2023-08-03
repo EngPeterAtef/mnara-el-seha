@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -15,13 +15,13 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
-import { firebaseSignin } from '../services/firebase';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
+import { handleGoogleSingIn } from '../services/google';
+import auth from '@react-native-firebase/auth';
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({ headerShown: false, swipeEnabled: false });
+  navigation.setOptions({headerShown: false, swipeEnabled: false});
 
   // const [id, setID] = useState('');
   // const [medFile, setMedFile] = useState('');
@@ -44,13 +44,38 @@ export default function LoginScreen({ navigation }: any) {
   const loginAuth = async () => {
     setLoading(true);
     try {
-      // const response = await firebaseSignin(email, password);
-      // set the user data\
-      // console.log('response: ', response);
       user.email = email;
       user.password = password;
-      // console.log('user: ', user);
-      toggleModalSucess();
+      auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(async () => {
+          console.log('User account signed in!');
+          toggleModalSucess();
+          auth()
+            .signOut()
+            .then(() => console.log('User signed out!'));
+        })
+        .catch(error => {
+          console.log(error.message);
+          setModalFailureVisible(true);
+        });
+    } catch (error: any) {
+      console.log(error.message);
+      setModalFailureVisible(true);
+    }
+    setLoading(false);
+  };
+
+  const signInWithGoogle = async () => {
+    setLoading(true);
+    try {
+      const res = await handleGoogleSingIn();
+      console.log('res: ', res);
+
+      // set the user data\
+      // console.log('response: ', response);
+      user.email = res.user?.email;
+      user.type = 'google';
     } catch (error: any) {
       console.log(error.message);
       setModalFailureVisible(true);
@@ -78,11 +103,9 @@ export default function LoginScreen({ navigation }: any) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (text.length === 0) {
       setEmailError('البريد الالكتروني مطلوب');
-    }
-    else if (!emailRegex.test(text)) {
+    } else if (!emailRegex.test(text)) {
       setEmailError('البريد الالكتروني غير صحيح');
-    }
-    else {
+    } else {
       setEmailError('');
     }
   };
@@ -147,7 +170,6 @@ export default function LoginScreen({ navigation }: any) {
   //   }
   // };
 
-
   const toggleModalSucess = () => {
     setModalSucessVisible(!isModalVisibleSucess);
   };
@@ -159,10 +181,14 @@ export default function LoginScreen({ navigation }: any) {
   const handleLogin = () => {
     // Handle login logic here
     // open message to the user to enter the data if there is any missing field
-    if (email === '' || password === '' || emailError !== '' || passwordError !== '') {
+    if (
+      email === '' ||
+      password === '' ||
+      emailError !== '' ||
+      passwordError !== ''
+    ) {
       toggleModalFailure();
-    }
-    else {
+    } else {
       loginAuth();
     }
   };
@@ -170,42 +196,49 @@ export default function LoginScreen({ navigation }: any) {
   function appBar() {
     return (
       <View style={styles.appBarView}>
-        <TouchableOpacity style={styles.appBar}
+        <TouchableOpacity
+          style={styles.appBar}
           onPress={() => navigation.navigate('MainScreen')}>
-          <Ionicons name="arrow-redo-circle-outline" size={20} color="white" style={styles.backArrow} />
+          <Ionicons
+            name="arrow-redo-circle-outline"
+            size={20}
+            color="white"
+            style={styles.backArrow}
+          />
           <Text style={styles.header}>الرئيسية</Text>
         </TouchableOpacity>
-      </View >
+      </View>
     );
   }
 
   return (
     <SafeAreaView>
-      <StatusBar barStyle="light-content"
-        backgroundColor="#1D5B8C"
-      />
+      <StatusBar barStyle="light-content" backgroundColor="#1D5B8C" />
       {appBar()}
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scroll}>
-        <View style={{
-          backgroundColor: '#1D5B8C',
-          height: '100%',
-          width: '100%',
-        }}>
+        <View
+          style={{
+            backgroundColor: '#1D5B8C',
+            height: '100%',
+            width: '100%',
+          }}>
           <View style={styles.container}>
             <View style={styles.logoImgView}>
               <Image source={require('../assets/images/logoImg.png')} />
             </View>
             <View style={styles.socialView}>
               {/* sign in with google */}
-              <TouchableOpacity style={styles.socialBtn}>
+              <TouchableOpacity style={styles.socialBtn} onPress={signInWithGoogle}>
                 <Ionicons name="logo-google" size={30} color="white" />
-                <Text style={styles.socialBtnText}>تسجيل الدخول بحساب جوجل</Text>
+                <Text style={styles.socialBtnText}>
+                  تسجيل الدخول بحساب جوجل
+                </Text>
               </TouchableOpacity>
               {/* sign in with facebook */}
               <TouchableOpacity style={styles.socialBtn}>
-                <Ionicons name="logo-facebook" size={30} color="white"/>
+                <Ionicons name="logo-facebook" size={30} color="white" />
                 <Text style={styles.socialBtnText}>تسجيل الدخول بحساب فيسبوك</Text>
               </TouchableOpacity>
             </View>
@@ -278,8 +311,14 @@ export default function LoginScreen({ navigation }: any) {
                   textAlign="right"
                   maxLength={30}
                 />
-                <TouchableOpacity onPress={() => setSecurePassword(!securePassword)} style={styles.secureBtn}>
-                  <Ionicons name={securePassword ? 'eye-off-outline' : 'eye-outline'} size={20} color="#8DA9B6" />
+                <TouchableOpacity
+                  onPress={() => setSecurePassword(!securePassword)}
+                  style={styles.secureBtn}>
+                  <Ionicons
+                    name={securePassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={20}
+                    color="#8DA9B6"
+                  />
                 </TouchableOpacity>
               </View>
               {passwordError !== '' ? (
@@ -302,19 +341,26 @@ export default function LoginScreen({ navigation }: any) {
                 <Text style={styles.errorText}>{phoneNumberError}</Text>
               ) : null} */}
             </View>
-            {loading ? <ActivityIndicator size="large" color="#8DA9B6" />
-              : <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+            {loading ? (
+              <ActivityIndicator size="large" color="#8DA9B6" />
+            ) : (
+              <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
                 <Text style={styles.loginText}>تسجيل دخول</Text>
-              </TouchableOpacity>}
+              </TouchableOpacity>
+            )}
             <Modal isVisible={isModalVisibleSucess} style={styles.mainModel}>
               <View style={styles.successContent}>
-                <Ionicons name="checkmark-done-circle" size={100} color="white" />
+                <Ionicons
+                  name="checkmark-done-circle"
+                  size={100}
+                  color="white"
+                />
                 {/* <FontAwesome5 name="laugh" size={100} color="white" /> */}
                 <Text style={styles.popupTitle}>تم!!</Text>
                 <Text style={styles.popupSubTitle}>تم تسجيل الدخول بنجاح</Text>
                 <View style={styles.sucessBtnView}>
-                  <TouchableOpacity onPress={
-                    () => {
+                  <TouchableOpacity
+                    onPress={() => {
                       toggleModalSucess();
 
                       // TODO: should send request to get the user data to login
@@ -323,8 +369,7 @@ export default function LoginScreen({ navigation }: any) {
                       setEmail('');
                       setPassword('');
                       navigation.navigate('Otp');
-                    }
-                  }>
+                    }}>
                     <Text style={styles.successBtnText}>الاستمرار</Text>
                   </TouchableOpacity>
                 </View>
@@ -335,7 +380,9 @@ export default function LoginScreen({ navigation }: any) {
                 <Entypo name="circle-with-cross" size={100} color="white" />
                 {/* <Ionicons name="sad-outline" size={100} color="white" /> */}
                 <Text style={styles.popupTitle}>فشل!!</Text>
-                <Text style={styles.popupSubTitle}>بيانات الدخول غير صحيحة من فضلك أعد المحاولة</Text>
+                <Text style={styles.popupSubTitle}>
+                  بيانات الدخول غير صحيحة من فضلك أعد المحاولة
+                </Text>
                 <View style={styles.failureBtnView}>
                   <TouchableOpacity onPress={toggleModalFailure}>
                     <Text style={styles.failureBtnText}>الرجوع</Text>
@@ -400,7 +447,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '20%',
     alignItems: 'center',
-    transform: [{ scale: 0.9 }],
+    transform: [{scale: 0.9}],
   },
   allInputs: {
     width: '100%',
@@ -410,7 +457,7 @@ const styles = StyleSheet.create({
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{ scale: 0.8 }],
+    transform: [{scale: 0.8}],
     marginTop: -20,
   },
   scroll: {
