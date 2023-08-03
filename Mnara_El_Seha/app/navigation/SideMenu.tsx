@@ -3,6 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
 import {CustomDrawer} from '../components';
 import {
+  LabResultsScreen,
   LoginScreen,
   MainScreen,
   MedicalServicesScreen,
@@ -187,6 +188,13 @@ export default function SideMenu(): JSX.Element {
         <Drawer.Screen
           name={'MedicalServices'}
           component={MedicalServicesScreen}
+          options={{
+            drawerItemStyle: {display: 'none'},
+          }}
+        />
+        <Drawer.Screen
+          name={'LabResults'}
+          component={LabResultsScreen}
           options={{
             drawerItemStyle: {display: 'none'},
           }}

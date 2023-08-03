@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 export default function MedicalServicesScreen({navigation}: any) {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -113,7 +114,7 @@ function MedicalServicesContent({navigation}: any) {
                 style={styles.image}
               />
             }
-            onPress={() => navigation.navigate('MedicalServices')}
+            onPress={() => navigation.navigate('LabResults')}
           />
           <CustomCard
             title={list[5]}
