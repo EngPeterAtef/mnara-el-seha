@@ -18,6 +18,7 @@ import Modal from 'react-native-modal';
 import user from '../utils/User';
 import { handleGoogleSingIn } from '../services/google';
 import auth from '@react-native-firebase/auth';
+import { handleFacebookSingIn } from '../services/facebook';
 
 export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
@@ -46,6 +47,7 @@ export default function LoginScreen({ navigation }: any) {
     try {
       user.email = email;
       user.password = password;
+      user.type = 'email';
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(async () => {
@@ -88,6 +90,22 @@ export default function LoginScreen({ navigation }: any) {
     setLoading(false);
   };
 
+  const signInWithFacebook = async () => {
+    setLoading(true);
+    try {
+      const res = await handleFacebookSingIn();
+      console.log('facebook res: ', res);
+
+      // set the user data\
+
+      toggleModalSucess();
+    }
+    catch (error: any) {
+      console.log(error.message);
+      setModalFailureVisible(true);
+    }
+    setLoading(false);
+  };
 
   // const idValidation = (text: string) => {
   //   setID(text);
@@ -242,7 +260,7 @@ export default function LoginScreen({ navigation }: any) {
                 </Text>
               </TouchableOpacity>
               {/* sign in with facebook */}
-              <TouchableOpacity style={styles.socialBtn}>
+              <TouchableOpacity style={styles.socialBtn} onPress={signInWithFacebook}>
                 <Ionicons name="logo-facebook" size={30} color="white" />
                 <Text style={styles.socialBtnText}>تسجيل الدخول بحساب فيسبوك</Text>
               </TouchableOpacity>
@@ -373,7 +391,7 @@ export default function LoginScreen({ navigation }: any) {
                       // setID('');
                       setEmail('');
                       setPassword('');
-                      navigation.navigate('Otp');
+                      user.type === 'email' ? navigation.navigate('Otp') : navigation.navigate('MedicalServices');
                     }}>
                     <Text style={styles.successBtnText}>الاستمرار</Text>
                   </TouchableOpacity>
