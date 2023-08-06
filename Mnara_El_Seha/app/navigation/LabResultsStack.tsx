@@ -2,6 +2,7 @@ import {LabResultsScreen} from '../screens';
 import LabResultsMasterDetails from '../screens/LabResultsMasterDetails';
 import {createStackNavigator} from '@react-navigation/stack';
 import Colors from '../assets/values/Colors';
+import React from 'react';
 
 const Stack = createStackNavigator();
 
