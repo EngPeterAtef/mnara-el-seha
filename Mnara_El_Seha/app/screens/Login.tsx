@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,13 +16,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
 import user from '../utils/User';
-import { handleGoogleSingIn } from '../services/google';
+import {handleGoogleSingIn} from '../services/google';
 import auth from '@react-native-firebase/auth';
-import { handleFacebookSingIn } from '../services/facebook';
+import {handleFacebookSingIn} from '../services/facebook';
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({ headerShown: false, swipeEnabled: false });
+  navigation.setOptions({headerShown: false, swipeEnabled: false});
 
   // const [id, setID] = useState('');
   // const [medFile, setMedFile] = useState('');
@@ -42,6 +42,34 @@ export default function LoginScreen({ navigation }: any) {
 
   const [loading, setLoading] = useState(false);
 
+  function onAuthStateChanged(user_: any) {
+    console.log('Auth State Changed', user_);
+    if (user_) {
+    }
+  }
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  useEffect(() => {
+    if (auth().currentUser) {
+      if (!isModalVisibleSucess) {
+        if (user.type === 'email') {
+          auth()
+            .signOut()
+            .then(() => {
+              console.log('Navigating to Otp');
+              navigation.navigate('Otp');
+            });
+        } else {
+          console.log('Navigating to MedicalServices');
+          navigation.navigate('MedicalServices');
+        }
+      }
+    }
+  }, [isModalVisibleSucess]);
+
   const loginAuth = async () => {
     setLoading(true);
     try {
@@ -53,9 +81,6 @@ export default function LoginScreen({ navigation }: any) {
         .then(async () => {
           console.log('User account signed in!');
           toggleModalSucess();
-          auth()
-            .signOut()
-            .then(() => console.log('User signed out!'));
         })
         .catch(error => {
           console.log(error.message);
@@ -99,8 +124,7 @@ export default function LoginScreen({ navigation }: any) {
       // set the user data\
 
       toggleModalSucess();
-    }
-    catch (error: any) {
+    } catch (error: any) {
       console.log(error.message);
       setModalFailureVisible(true);
     }
@@ -253,16 +277,22 @@ export default function LoginScreen({ navigation }: any) {
             </View>
             <View style={styles.socialView}>
               {/* sign in with google */}
-              <TouchableOpacity style={styles.socialBtn} onPress={signInWithGoogle}>
+              <TouchableOpacity
+                style={styles.socialBtn}
+                onPress={signInWithGoogle}>
                 <Ionicons name="logo-google" size={30} color="white" />
                 <Text style={styles.socialBtnText}>
                   تسجيل الدخول بحساب جوجل
                 </Text>
               </TouchableOpacity>
               {/* sign in with facebook */}
-              <TouchableOpacity style={styles.socialBtn} onPress={signInWithFacebook}>
+              <TouchableOpacity
+                style={styles.socialBtn}
+                onPress={signInWithFacebook}>
                 <Ionicons name="logo-facebook" size={30} color="white" />
-                <Text style={styles.socialBtnText}>تسجيل الدخول بحساب فيسبوك</Text>
+                <Text style={styles.socialBtnText}>
+                  تسجيل الدخول بحساب فيسبوك
+                </Text>
               </TouchableOpacity>
             </View>
             {/* line separator */}
@@ -391,7 +421,6 @@ export default function LoginScreen({ navigation }: any) {
                       // setID('');
                       setEmail('');
                       setPassword('');
-                      user.type === 'email' ? navigation.navigate('Otp') : navigation.navigate('MedicalServices');
                     }}>
                     <Text style={styles.successBtnText}>الاستمرار</Text>
                   </TouchableOpacity>
@@ -470,7 +499,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '20%',
     alignItems: 'center',
-    transform: [{ scale: 0.9 }],
+    transform: [{scale: 0.9}],
   },
   allInputs: {
     width: '100%',
@@ -480,7 +509,7 @@ const styles = StyleSheet.create({
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{ scale: 0.8 }],
+    transform: [{scale: 0.8}],
     marginTop: -20,
   },
   scroll: {
