@@ -43,7 +43,7 @@ const ProfileInfo = () => {
         alignItems: 'center',
         padding: 10,
       }}>
-      <View style={{width: 300}}>
+      <View style={{width: 200}}>
         <Text style={{color: Colors.white, textAlign: 'right'}}>
           {user?.displayName}
         </Text>
