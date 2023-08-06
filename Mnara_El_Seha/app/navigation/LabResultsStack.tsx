@@ -5,7 +5,7 @@ import Colors from '../assets/values/Colors';
 
 const Stack = createStackNavigator();
 
-const LabResultsStack = () => (
+const LabResultsStack = ({navigation}: any) => (
   <Stack.Navigator
     initialRouteName="LabResults"
     screenOptions={{
@@ -16,11 +16,13 @@ const LabResultsStack = () => (
       name="LabResults"
       component={LabResultsScreen}
       options={{headerShown: false}}
+      initialParams={{nav: navigation}}
     />
     <Stack.Screen
       name="LabResultsMasterDetails"
-      component={LabResultsMasterDetails} // Replace this with the actual component for details screen
+      component={LabResultsMasterDetails}
       options={{headerShown: false}}
+      initialParams={{nav: navigation}}
     />
   </Stack.Navigator>
 );

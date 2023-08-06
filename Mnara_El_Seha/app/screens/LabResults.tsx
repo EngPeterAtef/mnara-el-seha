@@ -9,9 +9,15 @@ import {
 import Colors from '../assets/values/Colors';
 import {useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {DateInput} from '../components';
+import {CustomHeaderIcon, DateInput} from '../components';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
-export default function LabResultsScreen({navigation}: any) {
+export default function LabResultsScreen({navigation, route}: any) {
+  route.params.nav.setOptions({
+    headerShown: true,
+    headerLeft: () => <CustomHeaderIcon onPress={navigation.openDrawer} />,
+    swipeEnabled: true,
+  });
+
   const [dateFrom, setDateFrom]: [Date | null, any] = useState(null);
   const [dateTo, setDateTo]: [Date | null, any] = useState(null);
   const [filteredData, setFilteredData]: [any, any] = useState([]);

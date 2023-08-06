@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
-import {CustomDrawer} from '../components';
+import {CustomDrawer, CustomHeaderIcon} from '../components';
 import {
   LabResultsMasterDetailsScreen,
   LabResultsScreen,
@@ -27,17 +27,6 @@ function Home() {
     </SafeAreaView>
   );
 }
-const CustomHeaderIcon = ({onPress}: any) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 15}}>
-      <Image
-        source={require('../assets/images/menu_icon.png')}
-        style={{width: 30, height: 30, transform: [{scaleX: -1}]}}
-        tintColor={Colors.primary2}
-      />
-    </TouchableOpacity>
-  );
-};
 
 export default function SideMenu(): JSX.Element {
   return (
