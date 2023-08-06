@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -19,9 +19,9 @@ import user from '../utils/User';
 import { handleGoogleSingIn } from '../services/google';
 import auth from '@react-native-firebase/auth';
 
-export default function LoginScreen({navigation}: any) {
+export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({headerShown: false, swipeEnabled: false});
+  navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
   // const [id, setID] = useState('');
   // const [medFile, setMedFile] = useState('');
@@ -70,12 +70,17 @@ export default function LoginScreen({navigation}: any) {
     setLoading(true);
     try {
       const res = await handleGoogleSingIn();
-      console.log('res: ', res);
+      console.log('google res: ', res);
 
       // set the user data\
       // console.log('response: ', response);
       user.email = res.user?.email;
+      user.name = res.user?.displayName;
+      user.phoneNum = res.user?.phoneNumber;
+      user.id = res.user?.uid;
+
       user.type = 'google';
+      toggleModalSucess();
     } catch (error: any) {
       console.log(error.message);
       setModalFailureVisible(true);
@@ -447,7 +452,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '20%',
     alignItems: 'center',
-    transform: [{scale: 0.9}],
+    transform: [{ scale: 0.9 }],
   },
   allInputs: {
     width: '100%',
@@ -457,7 +462,7 @@ const styles = StyleSheet.create({
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
     marginTop: -20,
   },
   scroll: {
