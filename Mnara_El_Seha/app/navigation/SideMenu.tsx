@@ -1,8 +1,9 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
-import {CustomDrawer} from '../components';
+import {CustomDrawer, CustomHeaderIcon} from '../components';
 import {
+  LabResultsMasterDetailsScreen,
   LabResultsScreen,
   LoginScreen,
   MainScreen,
@@ -14,6 +15,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SignupScreen from '../screens/Singup';
+import LabResultsStack from './LabResultsStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,24 +27,13 @@ function Home() {
     </SafeAreaView>
   );
 }
-const CustomHeaderIcon = ({onPress}: any) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 15}}>
-      <Image
-        source={require('../assets/images/menu_icon.png')}
-        style={{width: 30, height: 30, transform: [{scaleX: -1}]}}
-        tintColor={Colors.primary2}
-      />
-    </TouchableOpacity>
-  );
-};
 
 export default function SideMenu(): JSX.Element {
   return (
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="MainScreen"
+        initialRouteName="LabResultsStack"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
@@ -193,8 +184,8 @@ export default function SideMenu(): JSX.Element {
           }}
         />
         <Drawer.Screen
-          name={'LabResults'}
-          component={LabResultsScreen}
+          name={'LabResultsStack'}
+          component={LabResultsStack}
           options={{
             drawerItemStyle: {display: 'none'},
           }}
