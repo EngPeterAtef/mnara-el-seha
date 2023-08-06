@@ -35,7 +35,7 @@ export default function LabResultsMasterDetailsScreen({
           <Text style={styles.text}>اسم النتيجة: {item.text}</Text>
           <Text style={styles.text}>تفاصيل النتيجة: {item.description}</Text>
           <Text style={styles.text}>
-            حالة النتيجة: {item.official ? 'معتمدة' : 'غير معتمدة'}
+            حالة النتيجة: {!item.official ? 'معتمدة' : 'غير معتمدة'}
           </Text>
           <Text style={styles.text}>معلومة1: {item.field1}</Text>
           <Text style={styles.text}>معلومة2: {item.field2}</Text>
