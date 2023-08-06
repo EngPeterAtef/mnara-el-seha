@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,8 +16,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
 import user from '../utils/User';
-import { handleGoogleSingIn } from '../services/google';
+import {handleGoogleSingIn} from '../services/google';
 import auth from '@react-native-firebase/auth';
+import {handleFacebookSingIn} from '../services/facebook';
 
 export default function LoginScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
@@ -41,19 +42,45 @@ export default function LoginScreen({navigation}: any) {
 
   const [loading, setLoading] = useState(false);
 
+  function onAuthStateChanged(user_: any) {
+    console.log('Auth State Changed', user_);
+    if (user_) {
+    }
+  }
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  useEffect(() => {
+    if (auth().currentUser) {
+      if (!isModalVisibleSucess) {
+        if (user.type === 'email') {
+          auth()
+            .signOut()
+            .then(() => {
+              console.log('Navigating to Otp');
+              navigation.navigate('Otp');
+            });
+        } else {
+          console.log('Navigating to MedicalServices');
+          navigation.navigate('MedicalServices');
+        }
+      }
+    }
+  }, [isModalVisibleSucess]);
+
   const loginAuth = async () => {
     setLoading(true);
     try {
       user.email = email;
       user.password = password;
+      user.type = 'email';
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(async () => {
           console.log('User account signed in!');
           toggleModalSucess();
-          auth()
-            .signOut()
-            .then(() => console.log('User signed out!'));
         })
         .catch(error => {
           console.log(error.message);
@@ -70,12 +97,17 @@ export default function LoginScreen({navigation}: any) {
     setLoading(true);
     try {
       const res = await handleGoogleSingIn();
-      console.log('res: ', res);
+      console.log('google res: ', res);
 
       // set the user data\
       // console.log('response: ', response);
       user.email = res.user?.email;
+      user.name = res.user?.displayName;
+      user.phoneNum = res.user?.phoneNumber;
+      user.id = res.user?.uid;
+      user.photo = res.user?.photoURL;
       user.type = 'google';
+      toggleModalSucess();
     } catch (error: any) {
       console.log(error.message);
       setModalFailureVisible(true);
@@ -83,6 +115,21 @@ export default function LoginScreen({navigation}: any) {
     setLoading(false);
   };
 
+  const signInWithFacebook = async () => {
+    setLoading(true);
+    try {
+      const res = await handleFacebookSingIn();
+      console.log('facebook res: ', res);
+
+      // set the user data\
+
+      toggleModalSucess();
+    } catch (error: any) {
+      console.log(error.message);
+      setModalFailureVisible(true);
+    }
+    setLoading(false);
+  };
 
   // const idValidation = (text: string) => {
   //   setID(text);
@@ -230,16 +277,22 @@ export default function LoginScreen({navigation}: any) {
             </View>
             <View style={styles.socialView}>
               {/* sign in with google */}
-              <TouchableOpacity style={styles.socialBtn} onPress={signInWithGoogle}>
+              <TouchableOpacity
+                style={styles.socialBtn}
+                onPress={signInWithGoogle}>
                 <Ionicons name="logo-google" size={30} color="white" />
                 <Text style={styles.socialBtnText}>
                   تسجيل الدخول بحساب جوجل
                 </Text>
               </TouchableOpacity>
               {/* sign in with facebook */}
-              <TouchableOpacity style={styles.socialBtn}>
+              <TouchableOpacity
+                style={styles.socialBtn}
+                onPress={signInWithFacebook}>
                 <Ionicons name="logo-facebook" size={30} color="white" />
-                <Text style={styles.socialBtnText}>تسجيل الدخول بحساب فيسبوك</Text>
+                <Text style={styles.socialBtnText}>
+                  تسجيل الدخول بحساب فيسبوك
+                </Text>
               </TouchableOpacity>
             </View>
             {/* line separator */}
@@ -368,7 +421,6 @@ export default function LoginScreen({navigation}: any) {
                       // setID('');
                       setEmail('');
                       setPassword('');
-                      navigation.navigate('Otp');
                     }}>
                     <Text style={styles.successBtnText}>الاستمرار</Text>
                   </TouchableOpacity>

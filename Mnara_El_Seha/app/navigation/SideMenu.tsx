@@ -14,7 +14,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SignupScreen from '../screens/Singup';
+import SignupScreen from '../screens/Signup';
 import LabResultsStack from './LabResultsStack';
 import auth from '@react-native-firebase/auth';
 
@@ -43,7 +43,7 @@ const ProfileInfo = () => {
         alignItems: 'center',
         padding: 10,
       }}>
-      <View style={{width: 300}}>
+      <View style={{width: 200}}>
         <Text style={{color: Colors.white, textAlign: 'right'}}>
           {user?.displayName}
         </Text>
@@ -72,7 +72,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="LabResultsStack"
+        initialRouteName="MainScreen"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,

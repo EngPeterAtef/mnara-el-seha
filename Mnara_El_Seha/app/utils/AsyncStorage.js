@@ -1,7 +1,7 @@
 // a class tp access the async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-class AsyncStorageClass {
+export class AsyncStorageClass {
   // initi
   static init() {
     AsyncStorageClass.user = null;

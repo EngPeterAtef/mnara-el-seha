@@ -114,7 +114,7 @@ function MedicalServicesContent({navigation}: any) {
                 style={styles.image}
               />
             }
-            onPress={() => navigation.navigate('LabResults')}
+            onPress={() => navigation.navigate('LabResultsStack')}
           />
           <CustomCard
             title={list[5]}

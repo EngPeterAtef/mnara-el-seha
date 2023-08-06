@@ -8,24 +8,25 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
-  Button,
-  TextInput,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import auth from '@react-native-firebase/auth';
 import user from '../utils/User';
+import Clipboard from '@react-native-community/clipboard';
 
 export default function OtpScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
   navigation.setOptions({headerShown: false, swipeEnabled: false});
   const [counter, setCounter] = useState(60);
-
+  
   // If null, no SMS has been sent
   // const [confirm, setConfirm] = useState(null);
   const [confirm, setConfirm]: [any, any] = useState();
+  const [changed, setChanged] = useState(0);
 
   const [code, setCode] = useState('');
   const [mounted, setMounted] = useState(false);
@@ -37,6 +38,7 @@ export default function OtpScreen({navigation}: any) {
     console.log('user', user);
     if (!mounted) {
       signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
+      Keyboard.dismiss();
       setMounted(true);
     }
   }, []);
@@ -65,6 +67,7 @@ export default function OtpScreen({navigation}: any) {
 
   async function confirmCode(code: any) {
     console.log('Confirming');
+    setChanged(changed + 1);
     setIsLoading(true);
     setWrongCode(false);
     try {
@@ -105,7 +108,7 @@ export default function OtpScreen({navigation}: any) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [counter]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -118,7 +121,7 @@ export default function OtpScreen({navigation}: any) {
       <View style={styles.appBarView}>
         <TouchableOpacity
           style={styles.appBar}
-          onPress={() => navigation.navigate('MedicalServices')}>
+          onPress={() => navigation.navigate('MainScreen')}>
           <Ionicons
             name="arrow-redo"
             size={25}
@@ -152,16 +155,18 @@ export default function OtpScreen({navigation}: any) {
               <Text style={styles.subText2}>ادخل رمز التحقق</Text>
             </TouchableOpacity>
             <OTPInputView
+              key={changed}
               style={{width: '80%', height: '20%'}}
               pinCount={6}
-              autoFocusOnLoad
+              autoFocusOnLoad={true}
+              editable={true}
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
               keyboardType="number-pad"
               onCodeFilled={(code: any) => {
                 console.log(`Code is ${code}, you are good to go!`);
                 confirmCode(code);
-                setCode(code);
+                Clipboard.setString('');
               }}
             />
             {isLoading && (
@@ -171,14 +176,17 @@ export default function OtpScreen({navigation}: any) {
               <Text style={styles.errorText}>رمز التحقق غير صحيح</Text>
             )}
             <Text style={styles.subText}>{formatTime(counter)}</Text>
-
-            <Text style={styles.subText}>لم يتم استلام الرمز؟</Text>
-            <TouchableOpacity
-              onPress={() => {
-                signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
-              }}>
-              <Text style={styles.subText2}>إعادة إرسال الرمز؟</Text>
-            </TouchableOpacity>
+            {counter === 0 && (
+              <>
+                <Text style={styles.subText}>لم يتم استلام الرمز؟</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
+                  }}>
+                  <Text style={styles.subText2}>إعادة إرسال الرمز؟</Text>
+                </TouchableOpacity>
+              </>
+            )}
 
             <View style={styles.titleImg}>
               <Image source={require('../assets/images/title.png')} />
