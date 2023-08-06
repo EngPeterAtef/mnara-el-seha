@@ -45,7 +45,7 @@ export default function OtpScreen({navigation}: any) {
   function onAuthStateChanged(user: any) {
     console.log('Auth State Changed', user);
     if (user) {
-      navigation.navigate('MainScreen');
+      navigation.navigate('MedicalServices');
     }
   }
 
@@ -70,6 +70,18 @@ export default function OtpScreen({navigation}: any) {
     try {
       if (confirm != null) {
         await confirm.confirm(code);
+        if (user.name) {
+          await auth().currentUser?.updateProfile({
+            displayName: user.name,
+          });
+        }
+        if (user.email) {
+          await auth().currentUser?.updateEmail(user.email);
+        }
+        if (user.password) {
+          await auth().currentUser?.updatePassword(user.password);
+        }
+        console.log('Confirmed');
       }
     } catch (error) {
       setWrongCode(true);
@@ -106,7 +118,7 @@ export default function OtpScreen({navigation}: any) {
       <View style={styles.appBarView}>
         <TouchableOpacity
           style={styles.appBar}
-          onPress={() => navigation.navigate('MainScreen')}>
+          onPress={() => navigation.navigate('MedicalServices')}>
           <Ionicons
             name="arrow-redo"
             size={25}

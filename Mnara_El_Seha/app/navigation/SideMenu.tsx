@@ -1,8 +1,10 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
-import {CustomDrawer} from '../components';
+import {CustomDrawer, CustomHeaderIcon} from '../components';
 import {
+  LabResultsMasterDetailsScreen,
+  LabResultsScreen,
   LoginScreen,
   MainScreen,
   MedicalServicesScreen,
@@ -13,6 +15,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SignupScreen from '../screens/Singup';
+import LabResultsStack from './LabResultsStack';
+import auth from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,15 +28,42 @@ function Home() {
     </SafeAreaView>
   );
 }
-const CustomHeaderIcon = ({onPress}: any) => {
+
+const ProfileInfo = () => {
+  const user = auth().currentUser;
+  if (!user) {
+    return null;
+  }
   return (
-    <TouchableOpacity onPress={onPress} style={{paddingHorizontal: 15}}>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+      }}>
+      <View style={{width: 300}}>
+        <Text style={{color: Colors.white, textAlign: 'right'}}>
+          {user?.displayName}
+        </Text>
+        <Text style={{color: Colors.white}}>{user?.phoneNumber}</Text>
+      </View>
       <Image
-        source={require('../assets/images/menu_icon.png')}
-        style={{width: 30, height: 30, transform: [{scaleX: -1}]}}
-        tintColor={Colors.primary2}
+        source={
+          user?.photoURL
+            ? {uri: user?.photoURL}
+            : require('../assets/images/php.webp')
+        }
+        style={{
+          resizeMode: 'contain',
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          marginHorizontal: 10,
+        }}
       />
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -41,7 +72,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="MainScreen"
+        initialRouteName="LabResultsStack"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
@@ -64,6 +95,7 @@ export default function SideMenu(): JSX.Element {
           headerLeft: () => (
             <CustomHeaderIcon onPress={navigation.openDrawer} />
           ),
+          headerRight: () => <ProfileInfo />,
           sceneContainerStyle: {
             backgroundColor: Colors.primary2,
           },
@@ -187,6 +219,13 @@ export default function SideMenu(): JSX.Element {
         <Drawer.Screen
           name={'MedicalServices'}
           component={MedicalServicesScreen}
+          options={{
+            drawerItemStyle: {display: 'none'},
+          }}
+        />
+        <Drawer.Screen
+          name={'LabResultsStack'}
+          component={LabResultsStack}
           options={{
             drawerItemStyle: {display: 'none'},
           }}
