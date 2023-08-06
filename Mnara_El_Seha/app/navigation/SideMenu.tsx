@@ -16,6 +16,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SignupScreen from '../screens/Singup';
 import LabResultsStack from './LabResultsStack';
+import auth from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
 
@@ -27,6 +28,44 @@ function Home() {
     </SafeAreaView>
   );
 }
+
+const ProfileInfo = () => {
+  const user = auth().currentUser;
+  if (!user) {
+    return null;
+  }
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+      }}>
+      <View style={{width: 300}}>
+        <Text style={{color: Colors.white, textAlign: 'right'}}>
+          {user?.displayName}
+        </Text>
+        <Text style={{color: Colors.white}}>{user?.phoneNumber}</Text>
+      </View>
+      <Image
+        source={
+          user?.photoURL
+            ? {uri: user?.photoURL}
+            : require('../assets/images/php.webp')
+        }
+        style={{
+          resizeMode: 'contain',
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          marginHorizontal: 10,
+        }}
+      />
+    </View>
+  );
+};
 
 export default function SideMenu(): JSX.Element {
   return (
@@ -56,6 +95,7 @@ export default function SideMenu(): JSX.Element {
           headerLeft: () => (
             <CustomHeaderIcon onPress={navigation.openDrawer} />
           ),
+          headerRight: () => <ProfileInfo />,
           sceneContainerStyle: {
             backgroundColor: Colors.primary2,
           },

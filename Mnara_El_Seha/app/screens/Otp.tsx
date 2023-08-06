@@ -70,6 +70,18 @@ export default function OtpScreen({navigation}: any) {
     try {
       if (confirm != null) {
         await confirm.confirm(code);
+        if (user.name) {
+          await auth().currentUser?.updateProfile({
+            displayName: user.name,
+          });
+        }
+        if (user.email) {
+          await auth().currentUser?.updateEmail(user.email);
+        }
+        if (user.password) {
+          await auth().currentUser?.updatePassword(user.password);
+        }
+        console.log('Confirmed');
       }
     } catch (error) {
       setWrongCode(true);
