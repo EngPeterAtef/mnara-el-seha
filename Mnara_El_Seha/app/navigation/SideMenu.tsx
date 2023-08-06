@@ -3,6 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Colors from '../assets/values/Colors';
 import {CustomDrawer} from '../components';
 import {
+  LabResultsMasterDetailsScreen,
   LabResultsScreen,
   LoginScreen,
   MainScreen,
@@ -14,6 +15,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SignupScreen from '../screens/Singup';
+import LabResultsStack from './LabResultsStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -42,7 +44,7 @@ export default function SideMenu(): JSX.Element {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
-        initialRouteName="LabResults"
+        initialRouteName="LabResultsStack"
         screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
@@ -193,8 +195,8 @@ export default function SideMenu(): JSX.Element {
           }}
         />
         <Drawer.Screen
-          name={'LabResults'}
-          component={LabResultsScreen}
+          name={'LabResultsStack'}
+          component={LabResultsStack}
           options={{
             drawerItemStyle: {display: 'none'},
           }}
