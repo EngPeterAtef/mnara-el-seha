@@ -15,12 +15,17 @@ export default function LabResultsScreen({navigation}: any) {
   const [dateFrom, setDateFrom]: [Date | null, any] = useState(null);
   const [dateTo, setDateTo]: [Date | null, any] = useState(null);
   const [filteredData, setFilteredData]: [any, any] = useState([]);
+  const [pressed, setPressed] = useState(false);
   const filterData = () => {
     if (dateFrom && dateTo) {
       const prevDay = new Date(dateFrom);
       prevDay.setDate(prevDay.getDate() - 1);
       const filteredData = data.filter((item: any) => {
-        return item.date >= prevDay && item.date <= dateTo;
+        return (
+          item.date >= prevDay &&
+          item.date <= dateTo &&
+          item.official === pressed
+        );
       });
       setFilteredData(filteredData);
     }
@@ -39,6 +44,54 @@ export default function LabResultsScreen({navigation}: any) {
           <TouchableOpacity style={styles.searchBtn} onPress={filterData}>
             <Text style={styles.searchText}>بحث</Text>
           </TouchableOpacity>
+          <View style={styles.border}></View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderWidth: 2,
+              borderRadius: 10,
+              marginTop: 30,
+              marginHorizontal: 20,
+              borderColor: Colors.primary1,
+            }}>
+            <TouchableOpacity
+              style={[
+                {
+                  borderRadius: 7,
+                  width: '50%',
+                },
+                !pressed
+                  ? {backgroundColor: Colors.primary2}
+                  : {backgroundColor: Colors.primary1},
+              ]}
+              onPress={() => {
+                setPressed(true);
+                filterData();
+              }}>
+              <Text
+                style={[styles.tabText, !pressed ? {} : {color: Colors.white}]}>
+                المعتمدة
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                {width: '50%', borderRadius: 7},
+                pressed
+                  ? {backgroundColor: Colors.primary2}
+                  : {backgroundColor: Colors.primary1},
+              ]}
+              onPress={() => {
+                setPressed(false);
+                filterData();
+              }}>
+              <Text
+                style={[styles.tabText, pressed ? {} : {color: Colors.white}]}>
+                قيد الاعتماد
+              </Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.listContainer}>
             <FlatList
               data={filteredData}
@@ -179,6 +232,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
   },
+  tabText: {
+    color: Colors.primary1,
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+  },
   image: {
     resizeMode: 'contain',
     width: 40,
@@ -199,6 +260,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 100,
   },
+  border: {
+    borderBottomColor: Colors.grey,
+    borderBottomWidth: 1.5,
+    width: '90%',
+    marginVertical: 10,
+  },
 });
 
 const data = [
@@ -206,101 +273,120 @@ const data = [
     id: 1,
     date: new Date('2021-05-01'),
     text: 'نتيجة 1',
+    official: true,
   },
   {
     id: 2,
     date: new Date('2021-05-01'),
     text: 'نتيجة 2',
+    official: false,
   },
   {
     id: 3,
     date: new Date('2021-05-02'),
     text: 'نتيجة 3',
+    official: true,
   },
   {
     id: 4,
     date: new Date('2021-05-03'),
     text: 'نتيجة 4',
+    official: false,
   },
-  // Add more elements here with different dates and values
   {
     id: 5,
     date: new Date('2021-05-04'),
     text: 'نتيجة 5',
+    official: true,
   },
   {
     id: 6,
     date: new Date('2021-05-05'),
     text: 'نتيجة 6',
+    official: false,
   },
   {
     id: 7,
     date: new Date('2021-05-06'),
     text: 'نتيجة 7',
+    official: true,
   },
   {
     id: 8,
     date: new Date('2021-05-07'),
     text: 'نتيجة 8',
+    official: false,
   },
   {
     id: 9,
     date: new Date('2021-05-08'),
     text: 'نتيجة 9',
+    official: true,
   },
   {
     id: 10,
     date: new Date('2021-05-09'),
     text: 'نتيجة 10',
+    official: false,
   },
   {
     id: 11,
     date: new Date('2021-05-10'),
     text: 'نتيجة 11',
+    official: true,
   },
   {
     id: 12,
     date: new Date('2021-05-11'),
     text: 'نتيجة 12',
+    official: false,
   },
   {
     id: 13,
     date: new Date('2021-05-12'),
     text: 'نتيجة 13',
+    official: true,
   },
   {
     id: 14,
     date: new Date('2021-05-13'),
     text: 'نتيجة 14',
+    official: false,
   },
   {
     id: 15,
     date: new Date('2021-05-14'),
     text: 'نتيجة 15',
+    official: true,
   },
   {
     id: 16,
     date: new Date('2021-05-15'),
     text: 'نتيجة 16',
+    official: false,
   },
   {
     id: 17,
     date: new Date('2021-05-16'),
     text: 'نتيجة 17',
+    official: true,
   },
   {
     id: 18,
     date: new Date('2021-05-17'),
     text: 'نتيجة 18',
+    official: false,
   },
   {
     id: 19,
     date: new Date('2021-05-18'),
     text: 'نتيجة 19',
+    official: true,
   },
   {
     id: 20,
     date: new Date('2021-05-19'),
     text: 'نتيجة 20',
+    official: false,
   },
 ];
