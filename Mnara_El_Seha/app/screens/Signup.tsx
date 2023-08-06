@@ -235,6 +235,7 @@ export default function SignupScreen({navigation}: any) {
       user.phoneNum = phoneNum;
       user.email = email;
       user.password = password1;
+      user.type = 'email';
       await auth()
         .createUserWithEmailAndPassword(email, password1)
         .then(async () => {

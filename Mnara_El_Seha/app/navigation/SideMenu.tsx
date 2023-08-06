@@ -14,7 +14,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SignupScreen from '../screens/Singup';
+import SignupScreen from '../screens/Signup';
 import LabResultsStack from './LabResultsStack';
 import auth from '@react-native-firebase/auth';
 

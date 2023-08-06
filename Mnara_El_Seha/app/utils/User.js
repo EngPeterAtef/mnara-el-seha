@@ -13,6 +13,8 @@ class User {
     this.phoneNum = phoneNum;
     this.medFile = medFile;
     this.type = type;
+    this.loggedIn = false;
+    this.photo = null;
   }
 }
 

@@ -80,7 +80,7 @@ export default function LoginScreen({ navigation }: any) {
       user.name = res.user?.displayName;
       user.phoneNum = res.user?.phoneNumber;
       user.id = res.user?.uid;
-
+      user.photo = res.user?.photoURL;
       user.type = 'google';
       toggleModalSucess();
     } catch (error: any) {
