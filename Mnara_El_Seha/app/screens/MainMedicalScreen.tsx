@@ -5,7 +5,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Image} from 'react-native-elements';
 import {CustomCard} from '../components';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import React from 'react';
 const Tab = createBottomTabNavigator();
 
 export default function MedicalServicesScreen({navigation}: any) {
