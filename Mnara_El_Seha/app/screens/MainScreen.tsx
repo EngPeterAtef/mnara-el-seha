@@ -1,12 +1,15 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Image} from 'react-native-elements';
-import React from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Image } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
 import user from '../utils/User';
+// import NetInfo from '@react-native-community/netinfo';
+// import Modal from 'react-native-modal';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const CustomCard = ({title, icons, onPress}: any) => {
+const CustomCard = ({ title, icons, onPress }: any) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
       <View style={styles.cardIcon}>{icons}</View>
@@ -15,7 +18,32 @@ const CustomCard = ({title, icons, onPress}: any) => {
   );
 };
 
-export default function MainScreen({navigation}: any) {
+export default function MainScreen({ navigation }: any) {
+  // const [connected, setConnected] = useState(false);
+  // const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
+  // const [prevConnected, setPrevConnected] = useState(false);
+  // useEffect(() => {
+  //   const unsubscribe = NetInfo.addEventListener((state) => {
+  //     // setPrevConnected(connected);
+  //     setConnected(state.isConnected ?? false);
+  //     console.log(`Connection type: ${state.type}`);
+  //     console.log(`Is connected? ${state.isConnected}`);
+  //     // console.log(`Is internet reachable? ${state.isInternetReachable}`);
+  //     // console.log(`prevConnected: ${prevConnected}`);
+  //     console.log(`connected: ${connected}`);
+  //     console.log('-------------------');
+  //   });
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+  // use setTimout to show the message for 3 seconds then hide it
+  // useEffect(() => {
+  //   setDisplayNetworkMessage(true);
+  //   setTimeout(() => {
+  //     setDisplayNetworkMessage(false);
+  //   }, 5000);
+  // }, [connected]);
   console.log(`user: ${user}`);
   return (
     <View style={styles.container}>
@@ -27,7 +55,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large1.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Hospitals')}
@@ -37,7 +65,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large2.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Donation')}
@@ -47,7 +75,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large3.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Referral')}
@@ -57,7 +85,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large4.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('EarlyDetection')}
@@ -67,7 +95,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large5.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Experience')}
@@ -77,7 +105,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large6.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Instructions')}
@@ -87,7 +115,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large7.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('MedicalEducation')}
@@ -97,7 +125,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large8.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('VisitorRequests')}
@@ -107,7 +135,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large9.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Complaints')}
@@ -117,7 +145,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large10.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('ContactUs')}
@@ -139,6 +167,31 @@ export default function MainScreen({navigation}: any) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {/* {
+        // use setTimout to show the message for 3 seconds then hide it
+        <View style={{
+          backgroundColor: connected ? 'green' : 'red',
+          padding: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: displayNetworkMessage ? 'flex' : 'none',
+        }}>
+          <Text style={{
+            color: 'white',
+            fontSize: 15,
+            fontWeight: 'bold',
+          }}>{connected ? 'تم الاتصال بالانترنت' : 'فشل في الاتصال بالانترنت'}</Text>
+        </View>
+      }
+      <Modal isVisible={!connected} style={styles.mainModel}>
+        <View style={styles.failureContent}>
+          <MaterialIcons name="signal-wifi-connected-no-internet-4" size={100} color="white" />
+          <Text style={styles.popupTitle}>فشل في الاتصال بالانترنت!!</Text>
+          <Text style={styles.popupSubTitle}>
+            من فضلك اعد الاتصال بالانترنت وحاول مرة اخرى
+          </Text>
+        </View>
+      </Modal> */}
     </View>
   );
 }
@@ -212,6 +265,44 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 20,
     marginBottom: 20,
+  },
+  mainModel: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  failureContent: {
+    backgroundColor: '#D50000',
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    width: '95%',
+  },
+  popupTitle: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  popupSubTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 5,
+  },
+  failureBtnView: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    paddingVertical: 5,
+    width: '95%',
+    marginVertical: 10,
+  },
+  failureBtnText: {
+    color: '#D50000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 const list = [
