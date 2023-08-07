@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-  ActivityIndicator,
+  View,
 } from 'react-native';
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Modal from 'react-native-modal';
-import user from '../utils/User';
-import { handleGoogleSingIn } from '../services/Google';
 import auth from '@react-native-firebase/auth';
+import Modal from 'react-native-modal';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { handleFacebookSingIn } from '../services/Facebook';
+import { handleGoogleSingIn } from '../services/Google';
+import user from '../utils/User';
 // import {handleTwitterSingIn} from '../services/twitter';
 
 export default function LoginScreen({ navigation }: any) {

@@ -1,22 +1,20 @@
+import auth from '@react-native-firebase/auth';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
 import { CustomDrawer, CustomHeaderIcon } from '../components';
 import {
-  LabResultsMasterDetailsScreen,
-  LabResultsScreen,
   LoginScreen,
   MainScreen,
   MedicalServicesScreen,
   OtpScreen,
 } from '../screens';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import SignupScreen from '../screens/Signup';
 import LabResultsStack from './LabResultsStack';
-import auth from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
 

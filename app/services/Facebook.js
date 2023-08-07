@@ -1,6 +1,5 @@
 import auth from '@react-native-firebase/auth';
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
-import { Settings } from 'react-native-fbsdk-next';
+import { AccessToken, LoginManager, Settings } from 'react-native-fbsdk-next';
 
 // Setting the facebook app id using setAppID
 Settings.setAppID('1400337294031459');

@@ -1,14 +1,13 @@
-import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
-import SideMenu from './app/navigation/SideMenu';
-import { I18nManager } from 'react-native';
 import i18n from 'i18next';
+import React, { useEffect } from 'react';
 import { initReactI18next } from 'react-i18next';
+import { I18nManager } from 'react-native';
+import 'react-native-gesture-handler';
+import SideMenu from './app/navigation/SideMenu';
 import {
-  requestUserPermission,
   NotificationListener,
-  setMessageHandler,
   getFCMToken,
+  requestUserPermission,
 } from './app/services/FirebaseNotifications';
 
 function App(): JSX.Element {

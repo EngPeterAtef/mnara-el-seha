@@ -1,6 +1,6 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PushNotification, { Importance } from 'react-native-push-notification';
 
 const channelId = '123';

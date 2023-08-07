@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
@@ -17,11 +17,11 @@ export default DateInput = ({ dateFrom, setDateFrom, dateTo, setDateTo }) => {
               dateFrom == null
                 ? ''
                 : dateFrom.toLocaleDateString('ar-EG-u-nu-latn', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })
             }
             placeholder="التاريخ من"
             onTouchStart={() => setOpenFrom(true)}
@@ -40,11 +40,11 @@ export default DateInput = ({ dateFrom, setDateFrom, dateTo, setDateTo }) => {
               dateTo == null
                 ? ''
                 : dateTo.toLocaleDateString('ar-EG-u-nu-latn', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })
             }
             placeholder="التاريخ الي"
             onTouchStart={() => setOpenTo(true)}

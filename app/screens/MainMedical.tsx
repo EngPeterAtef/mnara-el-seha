@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Colors from '../assets/values/Colors';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Image } from 'react-native-elements';
-import { CustomCard } from '../components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Image } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Colors from '../assets/values/Colors';
+import { CustomCard } from '../components';
 const Tab = createBottomTabNavigator();
 
 export default function MedicalServicesScreen({ navigation }: any) {

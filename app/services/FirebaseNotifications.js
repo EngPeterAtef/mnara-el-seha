@@ -1,5 +1,5 @@
-import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 import PushNotification, { Importance } from 'react-native-push-notification';
 
 const channelId = '1234';
@@ -139,4 +139,4 @@ const NotificationListener = () => {
   });
 };
 
-export { requestUserPermission, getFCMToken, NotificationListener };
+export { NotificationListener, getFCMToken, requestUserPermission };

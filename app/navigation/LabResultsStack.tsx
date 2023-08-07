@@ -1,8 +1,8 @@
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import Colors from '../assets/values/Colors';
 import { LabResultsScreen } from '../screens';
 import LabResultsMasterDetails from '../screens/LabResultsMasterDetails';
-import { createStackNavigator } from '@react-navigation/stack';
-import Colors from '../assets/values/Colors';
-import React from 'react';
 
 const Stack = createStackNavigator();
 

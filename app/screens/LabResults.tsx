@@ -1,16 +1,9 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Colors from '../assets/values/Colors';
 import { useState } from 'react';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { CustomHeaderIcon, DateInput } from '../components';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Colors from '../assets/values/Colors';
+import { CustomHeaderIcon, DateInput } from '../components';
 export default function LabResultsScreen({ navigation, route }: any) {
   route.params.nav.setOptions({
     headerShown: true,

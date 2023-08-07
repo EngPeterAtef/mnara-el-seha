@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from '../assets/values/Colors';
 export default CustomCard = ({ title, icons, onPress }) => {
   return (

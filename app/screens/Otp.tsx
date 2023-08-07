@@ -1,22 +1,22 @@
+import Clipboard from '@react-native-community/clipboard';
+import auth from '@react-native-firebase/auth';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, { useEffect, useState } from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Image,
+  Keyboard,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-  ActivityIndicator,
-  Keyboard,
+  View,
 } from 'react-native';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
-import auth from '@react-native-firebase/auth';
 import user from '../utils/User';
-import Clipboard from '@react-native-community/clipboard';
 
 export default function OtpScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen

@@ -1,9 +1,8 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Colors from '../assets/values/Colors';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Image } from 'react-native-elements';
 import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
+import Colors from '../assets/values/Colors';
 import user from '../utils/User';
 
 const CustomCard = ({ title, icons, onPress }: any) => {
