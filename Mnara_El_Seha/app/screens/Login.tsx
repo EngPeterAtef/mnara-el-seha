@@ -19,6 +19,7 @@ import user from '../utils/User';
 import {handleGoogleSingIn} from '../services/google';
 import auth from '@react-native-firebase/auth';
 import {handleFacebookSingIn} from '../services/facebook';
+// import {handleTwitterSingIn} from '../services/twitter';
 
 export default function LoginScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
@@ -131,6 +132,27 @@ export default function LoginScreen({navigation}: any) {
     setLoading(false);
   };
 
+  // const signInWithTwitter = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await handleTwitterSingIn();
+  //     console.log('twitter res: ', res);
+
+  //     // set the user data\
+  //     // console.log('response: ', response);
+  //     // user.email = res.user?.email;
+  //     // user.name = res.user?.displayName;
+  //     // user.phoneNum = res.user?.phoneNumber;
+  //     // user.id = res.user?.uid;
+  //     // user.photo = res.user?.photoURL;
+  //     user.type = 'twitter';
+  //     toggleModalSucess();
+  //   } catch (error: any) {
+  //     console.log(error.message);
+  //     setModalFailureVisible(true);
+  //   }
+  //   setLoading(false);
+  // };
   // const idValidation = (text: string) => {
   //   setID(text);
   //   const idRegex = /^\d{14}$/;
@@ -294,6 +316,15 @@ export default function LoginScreen({navigation}: any) {
                   تسجيل الدخول بحساب فيسبوك
                 </Text>
               </TouchableOpacity>
+              {/* sign in with twitter */}
+              {/* <TouchableOpacity
+                style={styles.socialBtn}
+                onPress={signInWithTwitter}>
+                <Ionicons name="logo-twitter" size={30} color="white" />
+                <Text style={styles.socialBtnText}>
+                  تسجيل الدخول بحساب تويتر
+                </Text>
+              </TouchableOpacity> */}
             </View>
             {/* line separator */}
             <View style={styles.lineSeparatorView}>
