@@ -25,7 +25,7 @@ function App(): JSX.Element {
 
   //TODO: add use effect to read from async storage if the user is logged in or not to know which screen to render
   const [connected, setConnected] = useState(false);
-  const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
+  // const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
   // const [prevConnected, setPrevConnected] = useState(false);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
