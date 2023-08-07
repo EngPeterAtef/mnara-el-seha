@@ -8,9 +8,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
 import Modal from 'react-native-modal';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {
+  requestUserPermission,
+  NotificationListener,
+  // setMessageHandler,
+  getFCMToken,
+} from './app/services/firebaseNotifications';
 
 function App(): JSX.Element {
   init();
+
+  useEffect(() => {
+    requestUserPermission();
+    getFCMToken();
+    NotificationListener();
+  }, []);
+
   //TODO: add use effect to read from async storage if the user is logged in or not to know which screen to render
   const [connected, setConnected] = useState(false);
   const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
