@@ -5,13 +5,7 @@ import {
 } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Badge } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -65,7 +59,7 @@ const CustomDrawer = (props) => {
             paddingVertical: 10,
             paddingHorizontal: 20,
           }}>
-          <TouchableOpacity onPress={() => { }} style={{ paddingVertical: 15 }}>
+          <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={require('../assets/images/menu_icon9.png')} />
               <Text
@@ -80,7 +74,7 @@ const CustomDrawer = (props) => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { }} style={{ paddingVertical: 15 }}>
+          <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={require('../assets/images/menu_icon10.png')} />
               <Text
@@ -108,7 +102,7 @@ const CustomDrawer = (props) => {
           style={{
             padding: 20,
           }}>
-          <TouchableOpacity onPress={() => { }} style={{ paddingVertical: 15 }}>
+          <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={require('../assets/images/menu_icon11.png')} />
               <Text

@@ -8,10 +8,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
-export default function LabResultsMasterDetailsScreen({
-  navigation,
-  route,
-}: any) {
+export default function LabResultsMasterDetailsScreen({ route }: any) {
   const item = route.params.item;
   route.params.nav.setOptions({
     headerShown: true,

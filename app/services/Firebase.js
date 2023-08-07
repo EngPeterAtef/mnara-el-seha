@@ -1,7 +1,11 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore } from '@firebase/firestore';
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 import {
   API_KEY,

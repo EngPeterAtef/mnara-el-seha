@@ -166,6 +166,7 @@ export default function OtpScreen({ navigation }: any) {
               onCodeFilled={(code: any) => {
                 console.log(`Code is ${code}, you are good to go!`);
                 confirmCode(code);
+                setCode(code);
                 Clipboard.setString('');
               }}
             />
