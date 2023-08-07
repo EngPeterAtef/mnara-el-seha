@@ -16,9 +16,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
 import user from '../utils/User';
-import {handleGoogleSingIn} from '../services/google';
+import {handleGoogleSingIn} from '../services/Google';
 import auth from '@react-native-firebase/auth';
-import {handleFacebookSingIn} from '../services/facebook';
+import {handleFacebookSingIn} from '../services/Facebook';
 // import {handleTwitterSingIn} from '../services/twitter';
 
 export default function LoginScreen({navigation}: any) {

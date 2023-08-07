@@ -9,7 +9,7 @@ import {
   NotificationListener,
   setMessageHandler,
   getFCMToken,
-} from './app/services/firebaseNotifications';
+} from './app/services/FirebaseNotifications';
 
 function App(): JSX.Element {
   init();

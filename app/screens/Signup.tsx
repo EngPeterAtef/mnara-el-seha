@@ -20,7 +20,7 @@ import user from '../utils/User';
 import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
 import auth from '@react-native-firebase/auth';
 import {use} from 'i18next';
-import { FIREBASE_AUTH, firebaseSingup } from '../services/firebase';
+import {FIREBASE_AUTH, firebaseSingup} from '../services/Firebase';
 
 export default function SignupScreen({navigation}: any) {
   //to avoid using the side menu inside the login screen
