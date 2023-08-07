@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import PushNotification, {Importance} from 'react-native-push-notification';
+import PushNotification, { Importance } from 'react-native-push-notification';
 
 const channelId = '123';
 
@@ -65,7 +65,7 @@ PushNotification.createChannel(
     importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
     vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
   },
-  created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+  (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
 );
 const testPushNotification = () => {
   PushNotification.localNotification({

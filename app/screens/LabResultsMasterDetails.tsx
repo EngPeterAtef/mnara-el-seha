@@ -1,13 +1,13 @@
+import React from 'react';
 import {
   ScrollView,
-  View,
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import Colors from '../assets/values/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import Colors from '../assets/values/Colors';
 export default function LabResultsMasterDetailsScreen({
   navigation,
   route,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
 });
 
-import {LogBox} from 'react-native';
+import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',

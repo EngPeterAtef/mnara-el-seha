@@ -7,11 +7,11 @@ import {
   View,
 } from 'react-native';
 import Colors from '../assets/values/Colors';
-import {useState} from 'react';
+import { useState } from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {CustomHeaderIcon, DateInput} from '../components';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
-export default function LabResultsScreen({navigation, route}: any) {
+import { CustomHeaderIcon, DateInput } from '../components';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+export default function LabResultsScreen({ navigation, route }: any) {
   route.params.nav.setOptions({
     headerShown: true,
     headerLeft: () => <CustomHeaderIcon onPress={navigation.openDrawer} />,
@@ -37,7 +37,7 @@ export default function LabResultsScreen({navigation, route}: any) {
     }
   };
 
-  const CustomListCardItem = ({item}: any) => {
+  const CustomListCardItem = ({ item }: any) => {
     const date = item.date;
     const text = item.text;
     const formattedDate = date
@@ -52,7 +52,7 @@ export default function LabResultsScreen({navigation, route}: any) {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('LabResultsMasterDetails', {item});
+          navigation.navigate('LabResultsMasterDetails', { item });
         }}>
         <View style={styles.listItem}>
           <View
@@ -115,7 +115,7 @@ export default function LabResultsScreen({navigation, route}: any) {
               height: '100%',
               paddingHorizontal: 20,
             }}>
-            <Text style={{color: Colors.primary1, fontWeight: 'bold'}}>
+            <Text style={{ color: Colors.primary1, fontWeight: 'bold' }}>
               {text}
             </Text>
             <FontAwesome5
@@ -162,31 +162,37 @@ export default function LabResultsScreen({navigation, route}: any) {
                   width: '50%',
                 },
                 !pressed
-                  ? {backgroundColor: Colors.primary2}
-                  : {backgroundColor: Colors.primary1},
+                  ? { backgroundColor: Colors.primary2 }
+                  : { backgroundColor: Colors.primary1 },
               ]}
               onPress={() => {
                 setPressed(true);
                 filterData();
               }}>
               <Text
-                style={[styles.tabText, !pressed ? {} : {color: Colors.white}]}>
+                style={[
+                  styles.tabText,
+                  !pressed ? {} : { color: Colors.white },
+                ]}>
                 المعتمدة
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
-                {width: '50%', borderRadius: 7},
+                { width: '50%', borderRadius: 7 },
                 pressed
-                  ? {backgroundColor: Colors.primary2}
-                  : {backgroundColor: Colors.primary1},
+                  ? { backgroundColor: Colors.primary2 }
+                  : { backgroundColor: Colors.primary1 },
               ]}
               onPress={() => {
                 setPressed(false);
                 filterData();
               }}>
               <Text
-                style={[styles.tabText, pressed ? {} : {color: Colors.white}]}>
+                style={[
+                  styles.tabText,
+                  pressed ? {} : { color: Colors.white },
+                ]}>
                 قيد الاعتماد
               </Text>
             </TouchableOpacity>

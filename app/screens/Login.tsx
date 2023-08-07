@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,14 +16,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Modal from 'react-native-modal';
 import user from '../utils/User';
-import {handleGoogleSingIn} from '../services/Google';
+import { handleGoogleSingIn } from '../services/Google';
 import auth from '@react-native-firebase/auth';
-import {handleFacebookSingIn} from '../services/Facebook';
+import { handleFacebookSingIn } from '../services/Facebook';
 // import {handleTwitterSingIn} from '../services/twitter';
 
-export default function LoginScreen({navigation}: any) {
+export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({headerShown: false, swipeEnabled: false});
+  navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
   // const [id, setID] = useState('');
   // const [medFile, setMedFile] = useState('');
@@ -83,7 +83,7 @@ export default function LoginScreen({navigation}: any) {
           console.log('User account signed in!');
           toggleModalSucess();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
           setModalFailureVisible(true);
         });
@@ -355,7 +355,7 @@ export default function LoginScreen({navigation}: any) {
                   placeholder="البريد الالكتروني"
                   aria-label="email"
                   placeholderTextColor="#8DA9B6"
-                  onChangeText={text => validateEmail(text)}
+                  onChangeText={(text) => validateEmail(text)}
                   value={email}
                   textAlign="right"
                   maxLength={30}
@@ -390,7 +390,7 @@ export default function LoginScreen({navigation}: any) {
                   placeholder="كلمة المرور بالانجليزية الزامي"
                   placeholderTextColor="#8DA9B6"
                   secureTextEntry={securePassword}
-                  onChangeText={text => passwordValidation(text)}
+                  onChangeText={(text) => passwordValidation(text)}
                   value={password}
                   textAlign="right"
                   maxLength={30}
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '20%',
     alignItems: 'center',
-    transform: [{scale: 0.9}],
+    transform: [{ scale: 0.9 }],
   },
   allInputs: {
     width: '100%',
@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
     marginTop: -20,
   },
   scroll: {

@@ -1,14 +1,14 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Image} from 'react-native-elements';
-import {CustomCard} from '../components';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Image } from 'react-native-elements';
+import { CustomCard } from '../components';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 const Tab = createBottomTabNavigator();
 
-export default function MedicalServicesScreen({navigation}: any) {
+export default function MedicalServicesScreen({ navigation }: any) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -31,7 +31,7 @@ export default function MedicalServicesScreen({navigation}: any) {
         component={MyCalender}
         options={{
           title: 'تقويمي',
-          tabBarIcon: ({color, size}: any) => (
+          tabBarIcon: ({ color, size }: any) => (
             <FontAwesome5 name="calendar" color={color} size={size} />
           ),
         }}
@@ -41,7 +41,7 @@ export default function MedicalServicesScreen({navigation}: any) {
         component={MedicalServicesContent}
         options={{
           title: 'الرئيسية',
-          tabBarIcon: ({color, size}: any) => (
+          tabBarIcon: ({ color, size }: any) => (
             <FontAwesome5 name="star" color={color} size={size} />
           ),
         }}
@@ -51,7 +51,7 @@ export default function MedicalServicesScreen({navigation}: any) {
         component={ProfileScreen}
         options={{
           title: 'الملف الشخصي',
-          tabBarIcon: ({color, size}: any) => (
+          tabBarIcon: ({ color, size }: any) => (
             <FontAwesome5 name="user" color={color} size={size} />
           ),
         }}
@@ -60,7 +60,7 @@ export default function MedicalServicesScreen({navigation}: any) {
   );
 }
 
-function MedicalServicesContent({navigation}: any) {
+function MedicalServicesContent({ navigation }: any) {
   return (
     <View style={styles.container}>
       <ScrollView>

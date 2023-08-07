@@ -1,5 +1,5 @@
-import {NativeModules} from 'react-native';
-const {RNTwitterSignIn} = NativeModules;
+import { NativeModules } from 'react-native';
+const { RNTwitterSignIn } = NativeModules;
 import auth from '@react-native-firebase/auth';
 
 RNTwitterSignIn.init(
@@ -9,7 +9,7 @@ RNTwitterSignIn.init(
 
 export async function handleTwitterSingIn() {
   // Perform the login request
-  const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
+  const { authToken, authTokenSecret } = await RNTwitterSignIn.logIn();
 
   // Create a Twitter credential with the tokens
   const twitterCredential = auth.TwitterAuthProvider.credential(

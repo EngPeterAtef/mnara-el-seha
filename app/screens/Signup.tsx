@@ -1,30 +1,26 @@
-import React, {useState, useMemo} from 'react';
+import auth from '@react-native-firebase/auth';
+import React, { useMemo, useState } from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Modal from 'react-native-modal';
+import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Modal from 'react-native-modal';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import user from '../utils/User';
-import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
-import auth from '@react-native-firebase/auth';
-import {use} from 'i18next';
-import {FIREBASE_AUTH, firebaseSingup} from '../services/Firebase';
 
-export default function SignupScreen({navigation}: any) {
+export default function SignupScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({headerShown: false, swipeEnabled: false});
+  navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
   const [id, setID] = useState('');
   const [name, setName] = useState('');
@@ -59,14 +55,14 @@ export default function SignupScreen({navigation}: any) {
         label: 'ذكر',
         value: 'male',
         color: '#1fab91',
-        labelStyle: {fontSize: 18, color: '#1D5B8C'},
+        labelStyle: { fontSize: 18, color: '#1D5B8C' },
       },
       {
         id: '2',
         label: 'انثي',
         value: 'female',
         color: '#1fab91',
-        labelStyle: {fontSize: 18, color: '#1D5B8C'},
+        labelStyle: { fontSize: 18, color: '#1D5B8C' },
       },
     ],
     [],
@@ -75,7 +71,7 @@ export default function SignupScreen({navigation}: any) {
   const chooseGender = (selected: string) => {
     setSelectedId(selected);
     // get tha value of the selected radio button from radioButtons
-    radioButtons.map(button => {
+    radioButtons.map((button) => {
       if (button.id === selected) {
         setGender(button.value ?? '');
       }
@@ -308,7 +304,7 @@ export default function SignupScreen({navigation}: any) {
                   style={styles.inputText}
                   placeholder="رقم الهوية من 14 رقم"
                   placeholderTextColor="#8DA9B6"
-                  onChangeText={text => idValidation(text)}
+                  onChangeText={(text) => idValidation(text)}
                   value={id}
                   // start writing from the right side
                   textAlign="right"
@@ -325,7 +321,7 @@ export default function SignupScreen({navigation}: any) {
                   placeholder="الاسم بالكامل بالعربية"
                   placeholderTextColor="#8DA9B6"
                   // secureTextEntry={true}
-                  onChangeText={text => nameValidation(text)}
+                  onChangeText={(text) => nameValidation(text)}
                   value={name}
                   textAlign="right"
                   maxLength={20}
@@ -340,7 +336,7 @@ export default function SignupScreen({navigation}: any) {
                   placeholder="البريد الالكتروني"
                   aria-label="email"
                   placeholderTextColor="#8DA9B6"
-                  onChangeText={text => validateEmail(text)}
+                  onChangeText={(text) => validateEmail(text)}
                   value={email}
                   textAlign="right"
                   maxLength={30}
@@ -356,7 +352,7 @@ export default function SignupScreen({navigation}: any) {
                   placeholder="كلمة المرور بالانجليزية الزامي"
                   placeholderTextColor="#8DA9B6"
                   secureTextEntry={securePassword1}
-                  onChangeText={text => passwordValidation1(text)}
+                  onChangeText={(text) => passwordValidation1(text)}
                   value={password1}
                   textAlign="right"
                   maxLength={30}
@@ -380,7 +376,7 @@ export default function SignupScreen({navigation}: any) {
                   placeholder="تأكيد كلمة المرور"
                   placeholderTextColor="#8DA9B6"
                   secureTextEntry={securePassword2}
-                  onChangeText={text => passwordValidation2(text)}
+                  onChangeText={(text) => passwordValidation2(text)}
                   value={password2}
                   textAlign="right"
                   maxLength={30}
@@ -404,7 +400,7 @@ export default function SignupScreen({navigation}: any) {
                   placeholder=" ادخل رقم الجوال يبدأ بكود الدولة مثال (+201554882699)"
                   placeholderTextColor="#8DA9B6"
                   // secureTextEntry={true}
-                  onChangeText={text => validatePhoneNumber(text)}
+                  onChangeText={(text) => validatePhoneNumber(text)}
                   value={phoneNum}
                   textAlign="right"
                   keyboardType="phone-pad"
@@ -420,7 +416,7 @@ export default function SignupScreen({navigation}: any) {
                   placeholder="العمر"
                   placeholderTextColor="#8DA9B6"
                   // secureTextEntry={true}
-                  onChangeText={text => ageValidation(text)}
+                  onChangeText={(text) => ageValidation(text)}
                   value={age}
                   textAlign="right"
                   maxLength={2}
@@ -566,7 +562,7 @@ const styles = StyleSheet.create({
   },
   logoImgView: {
     alignItems: 'center',
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
     marginTop: -120,
   },
   allInputs: {
@@ -577,7 +573,7 @@ const styles = StyleSheet.create({
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
   },
   scroll: {
     backgroundColor: '#D7EFEE',

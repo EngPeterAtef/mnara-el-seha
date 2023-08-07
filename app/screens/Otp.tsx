@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -18,11 +18,11 @@ import auth from '@react-native-firebase/auth';
 import user from '../utils/User';
 import Clipboard from '@react-native-community/clipboard';
 
-export default function OtpScreen({navigation}: any) {
+export default function OtpScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
-  navigation.setOptions({headerShown: false, swipeEnabled: false});
+  navigation.setOptions({ headerShown: false, swipeEnabled: false });
   const [counter, setCounter] = useState(60);
-  
+
   // If null, no SMS has been sent
   // const [confirm, setConfirm] = useState(null);
   const [confirm, setConfirm]: [any, any] = useState();
@@ -97,7 +97,7 @@ export default function OtpScreen({navigation}: any) {
   // one minute timer
   useEffect(() => {
     const interval = setInterval(() => {
-      setCounter(prevCounter => {
+      setCounter((prevCounter) => {
         if (prevCounter > 0) {
           return prevCounter - 1;
         } else {
@@ -156,7 +156,7 @@ export default function OtpScreen({navigation}: any) {
             </TouchableOpacity>
             <OTPInputView
               key={changed}
-              style={{width: '80%', height: '20%'}}
+              style={{ width: '80%', height: '20%' }}
               pinCount={6}
               autoFocusOnLoad={true}
               editable={true}
@@ -243,14 +243,14 @@ const styles = StyleSheet.create({
   logoImgView: {
     alignItems: 'center',
     marginVertical: 20,
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
     marginTop: -30,
   },
 
   titleImg: {
     alignItems: 'center',
     // modify the size of the image
-    transform: [{scale: 0.8}],
+    transform: [{ scale: 0.8 }],
     marginBottom: 110,
   },
   scroll: {

@@ -1,12 +1,12 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Image} from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Image } from 'react-native-elements';
 import React from 'react';
 import user from '../utils/User';
 
-const CustomCard = ({title, icons, onPress}: any) => {
+const CustomCard = ({ title, icons, onPress }: any) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
       <View style={styles.cardIcon}>{icons}</View>
@@ -15,7 +15,7 @@ const CustomCard = ({title, icons, onPress}: any) => {
   );
 };
 
-export default function MainScreen({navigation}: any) {
+export default function MainScreen({ navigation }: any) {
   console.log(`user: ${user}`);
   return (
     <View style={styles.container}>
@@ -27,7 +27,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large1.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Hospitals')}
@@ -37,7 +37,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large2.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Donation')}
@@ -47,7 +47,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large3.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Referral')}
@@ -57,7 +57,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large4.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('EarlyDetection')}
@@ -67,7 +67,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large5.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Experience')}
@@ -77,7 +77,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large6.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Instructions')}
@@ -87,7 +87,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large7.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('MedicalEducation')}
@@ -97,7 +97,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large8.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('VisitorRequests')}
@@ -107,7 +107,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large9.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('Complaints')}
@@ -117,7 +117,7 @@ export default function MainScreen({navigation}: any) {
             icons={
               <Image
                 source={require('../assets/images/menu_icon_large10.png')}
-                style={{width: 40, height: 40}}
+                style={{ width: 40, height: 40 }}
               />
             }
             onPress={() => navigation.navigate('ContactUs')}

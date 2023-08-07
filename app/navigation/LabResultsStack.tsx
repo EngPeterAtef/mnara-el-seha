@@ -1,29 +1,29 @@
-import {LabResultsScreen} from '../screens';
+import { LabResultsScreen } from '../screens';
 import LabResultsMasterDetails from '../screens/LabResultsMasterDetails';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../assets/values/Colors';
 import React from 'react';
 
 const Stack = createStackNavigator();
 
-const LabResultsStack = ({navigation}: any) => (
+const LabResultsStack = ({ navigation }: any) => (
   <Stack.Navigator
     initialRouteName="LabResults"
     screenOptions={{
       headerShown: false,
-      cardStyle: {backgroundColor: Colors.primary2},
+      cardStyle: { backgroundColor: Colors.primary2 },
     }}>
     <Stack.Screen
       name="LabResults"
       component={LabResultsScreen}
-      options={{headerShown: false}}
-      initialParams={{nav: navigation}}
+      options={{ headerShown: false }}
+      initialParams={{ nav: navigation }}
     />
     <Stack.Screen
       name="LabResultsMasterDetails"
       component={LabResultsMasterDetails}
-      options={{headerShown: false}}
-      initialParams={{nav: navigation}}
+      options={{ headerShown: false }}
+      initialParams={{ nav: navigation }}
     />
   </Stack.Navigator>
 );

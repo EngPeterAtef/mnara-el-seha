@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import SideMenu from './app/navigation/SideMenu';
-import {I18nManager} from 'react-native';
+import { I18nManager } from 'react-native';
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import {
   requestUserPermission,
   NotificationListener,
