@@ -1,13 +1,25 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect} from 'react';
 import SideMenu from './app/navigation/SideMenu';
 import {I18nManager} from 'react-native';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  requestUserPermission,
+  NotificationListener,
+  setMessageHandler,
+  getFCMToken,
+} from './app/services/firebaseNotifications';
 
 function App(): JSX.Element {
   init();
+
+  useEffect(() => {
+    requestUserPermission();
+    getFCMToken();
+    NotificationListener();
+  }, []);
+
   //TODO: add use effect to read from async storage if the user is logged in or not to know which screen to render
   return <SideMenu />;
   // return <SignupScreen />;
