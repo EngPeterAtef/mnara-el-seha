@@ -2,7 +2,7 @@ import auth from '@react-native-firebase/auth';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../assets/values/Colors';
@@ -243,3 +243,44 @@ const list = [
   'التثقيف الطبي',
   'طلبات الزوار',
 ];
+
+const styles = StyleSheet.create({
+  mainModel: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  failureContent: {
+    backgroundColor: '#D50000',
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    width: '95%',
+  },
+  popupTitle: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  popupSubTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 5,
+  },
+  failureBtnView: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    paddingVertical: 5,
+    width: '95%',
+    marginVertical: 10,
+  },
+  failureBtnText: {
+    color: '#D50000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});

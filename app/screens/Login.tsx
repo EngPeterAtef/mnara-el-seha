@@ -19,7 +19,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { handleFacebookSingIn } from '../services/Facebook';
 import { handleGoogleSingIn } from '../services/Google';
 import user from '../utils/User';
-// import {handleTwitterSingIn} from '../services/twitter';
 
 export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
