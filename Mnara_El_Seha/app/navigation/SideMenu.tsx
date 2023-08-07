@@ -1,7 +1,7 @@
-import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../assets/values/Colors';
-import {CustomDrawer, CustomHeaderIcon} from '../components';
+import { CustomDrawer, CustomHeaderIcon } from '../components';
 import {
   LabResultsMasterDetailsScreen,
   LabResultsScreen,
@@ -10,10 +10,10 @@ import {
   MedicalServicesScreen,
   OtpScreen,
 } from '../screens';
-import {NavigationContainer} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import SignupScreen from '../screens/Signup';
 import LabResultsStack from './LabResultsStack';
 import auth from '@react-native-firebase/auth';
@@ -23,8 +23,8 @@ const Drawer = createDrawerNavigator();
 function Home() {
   return (
     <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text style={{color: 'black'}}>Home</Text>
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ color: 'black' }}>Home</Text>
     </SafeAreaView>
   );
 }
@@ -43,16 +43,16 @@ const ProfileInfo = () => {
         alignItems: 'center',
         padding: 10,
       }}>
-      <View style={{width: 200}}>
-        <Text style={{color: Colors.white, textAlign: 'right'}}>
+      <View style={{ width: 200 }}>
+        <Text style={{ color: Colors.white, textAlign: 'right' }}>
           {user?.displayName}
         </Text>
-        <Text style={{color: Colors.white}}>{user?.phoneNumber}</Text>
+        <Text style={{ color: Colors.white }}>{user?.phoneNumber}</Text>
       </View>
       <Image
         source={
           user?.photoURL
-            ? {uri: user?.photoURL}
+            ? { uri: user?.photoURL }
             : require('../assets/images/php.webp')
         }
         style={{
@@ -73,7 +73,7 @@ export default function SideMenu(): JSX.Element {
       <Drawer.Navigator
         drawerContent={(props: any) => <CustomDrawer {...props} />}
         initialRouteName="MainScreen"
-        screenOptions={({navigation}) => ({
+        screenOptions={({ navigation }) => ({
           headerStyle: {
             backgroundColor: Colors.primary1,
             height: 80,
@@ -110,7 +110,7 @@ export default function SideMenu(): JSX.Element {
                 name="home"
                 size={22}
                 color={Colors.primary1}
-                style={{paddingRight: 5}}
+                style={{ paddingRight: 5 }}
               />
             ),
           }}
@@ -199,37 +199,38 @@ export default function SideMenu(): JSX.Element {
           name={'Login'}
           component={LoginScreen}
           options={{
-            drawerItemStyle: {display: 'none'},
+            drawerItemStyle: { display: 'none' },
           }}
         />
         <Drawer.Screen
           name={'Otp'}
           component={OtpScreen}
           options={{
-            drawerItemStyle: {display: 'none'},
+            drawerItemStyle: { display: 'none' },
           }}
         />
         <Drawer.Screen
           name={'signup'}
           component={SignupScreen}
           options={{
-            drawerItemStyle: {display: 'none'},
+            drawerItemStyle: { display: 'none' },
           }}
         />
         <Drawer.Screen
           name={'MedicalServices'}
           component={MedicalServicesScreen}
           options={{
-            drawerItemStyle: {display: 'none'},
+            drawerItemStyle: { display: 'none' },
           }}
         />
         <Drawer.Screen
           name={'LabResultsStack'}
           component={LabResultsStack}
           options={{
-            drawerItemStyle: {display: 'none'},
+            drawerItemStyle: { display: 'none' },
           }}
         />
+
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -245,3 +246,44 @@ const list = [
   'التثقيف الطبي',
   'طلبات الزوار',
 ];
+
+const styles = StyleSheet.create({
+  mainModel: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  failureContent: {
+    backgroundColor: '#D50000',
+    borderRadius: 30,
+    padding: 10,
+    alignItems: 'center',
+    width: '95%',
+  },
+  popupTitle: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  popupSubTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 5,
+  },
+  failureBtnView: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    paddingVertical: 5,
+    width: '95%',
+    marginVertical: 10,
+  },
+  failureBtnText: {
+    color: '#D50000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
