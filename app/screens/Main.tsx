@@ -4,9 +4,6 @@ import { Image } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../assets/values/Colors';
 import user from '../utils/User';
-// import NetInfo from '@react-native-community/netinfo';
-// import Modal from 'react-native-modal';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const CustomCard = ({ title, icons, onPress }: any) => {
   return (
@@ -156,7 +153,9 @@ export default function MainScreen({ navigation }: any) {
           </Text>
           <TouchableOpacity
             style={styles.loginBtn}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => {
+              navigation.navigate('Login');
+            }}>
             <Text style={styles.loginText}>تسجيل دخول</Text>
           </TouchableOpacity>
           <TouchableOpacity

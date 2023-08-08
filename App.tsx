@@ -13,6 +13,8 @@ import {
   getFCMToken,
   requestUserPermission,
 } from './app/services/FirebaseNotifications';
+import { OfflineLocalNotification, OnlineLocalNotification } from './app/services/LocalNotifications';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 function App(): JSX.Element {
   init();
@@ -29,7 +31,6 @@ function App(): JSX.Element {
   // const [prevConnected, setPrevConnected] = useState(false);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
-      // setPrevConnected(connected);
       setConnected(state.isConnected ?? false);
       console.log(`Connection type: ${state.type}`);
       console.log(`Is connected? ${state.isConnected}`);
@@ -37,18 +38,16 @@ function App(): JSX.Element {
       // console.log(`prevConnected: ${prevConnected}`);
       console.log(`connected: ${connected}`);
       console.log('-------------------');
+      if (connected !== state.isConnected && state.isConnected) {
+        OnlineLocalNotification();
+      } else if (connected !== state.isConnected && !state.isConnected) {
+        OfflineLocalNotification();
+      }
     });
     return () => {
       unsubscribe();
     };
   }, []);
-  // use setTimout to show the message for 3 seconds then hide it
-  // useEffect(() => {
-  //   setDisplayNetworkMessage(true);
-  //   setTimeout(() => {
-  //     setDisplayNetworkMessage(false);
-  //   }, 5000);
-  // }, [connected]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -79,11 +78,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   failureContent: {
-    backgroundColor: '#D50000',
     borderRadius: 30,
     padding: 10,
     alignItems: 'center',
     width: '95%',
+    borderWidth: 2,
+    borderColor: 'gray',
   },
   popupTitle: {
     color: 'white',
