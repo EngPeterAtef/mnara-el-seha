@@ -10,7 +10,7 @@ import { Badge } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
-
+import user from '../utils/User';
 const CustomDrawer = (props) => {
   const navigation = useNavigation();
   return (
@@ -164,47 +164,48 @@ const CustomDrawer = (props) => {
           borderTopEndRadius: 20,
           borderTopStartRadius: 20,
         }}>
-        {
-          //TODO: check if user is logged in or not should be moved to another file
-          !auth().currentUser ? (
-            <TouchableOpacity
-              style={{ flexDirection: 'row', alignItems: 'center' }}
-              onPress={() => {
-                navigation.navigate('Login');
+        {!user.loggedIn ? (
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => {
+              navigation.navigate('Login');
+            }}>
+            <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
+            <Text
+              style={{
+                color: Colors.white,
+                paddingHorizontal: 20,
+                fontSize: 18,
+                fontWeight: 'bold',
               }}>
-              <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
-              <Text
-                style={{
-                  color: Colors.white,
-                  paddingHorizontal: 20,
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                }}>
-                تسجيل دخول
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={{ flexDirection: 'row', alignItems: 'center' }}
-              onPress={() => {
-                // TODO: logout function should be defined in another file to avoid redundancy
+              تسجيل دخول
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => {
+              // TODO: logout function should be defined in another file to avoid redundancy
+              if (auth().currentUser) {
                 auth().signOut();
+              } else {
+                user.clear();
+              }
 
-                navigation.navigate('Login');
+              navigation.navigate('MainScreen');
+            }}>
+            <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
+            <Text
+              style={{
+                color: Colors.white,
+                paddingHorizontal: 20,
+                fontSize: 18,
+                fontWeight: 'bold',
               }}>
-              <FontAwesome5 name="sign-in-alt" size={22} color={Colors.white} />
-              <Text
-                style={{
-                  color: Colors.white,
-                  paddingHorizontal: 20,
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                }}>
-                تسجيل خروج
-              </Text>
-            </TouchableOpacity>
-          )
-        }
+              تسجيل خروج
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

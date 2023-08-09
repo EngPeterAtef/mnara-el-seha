@@ -147,23 +147,27 @@ export default function MainScreen({ navigation }: any) {
             onPress={() => navigation.navigate('ContactUs')}
           />
         </View>
-        <View style={styles.user}>
-          <Text style={styles.infoText}>
-            للإستفادة من خدمات المدينة, رجاء تسجيل الدخول{' '}
-          </Text>
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Text style={styles.loginText}>تسجيل دخول</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.loginText}>انشاء حساب جديد</Text>
-          </TouchableOpacity>
-        </View>
+        {!user.loggedIn && (
+          <>
+            <View style={styles.user}>
+              <Text style={styles.infoText}>
+                للإستفادة من خدمات المدينة, رجاء تسجيل الدخول{' '}
+              </Text>
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}>
+                <Text style={styles.loginText}>تسجيل دخول</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => navigation.navigate('signup')}>
+                <Text style={styles.loginText}>انشاء حساب جديد</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </ScrollView>
       {/* {
         // use setTimout to show the message for 3 seconds then hide it

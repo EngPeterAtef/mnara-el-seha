@@ -15,7 +15,7 @@ import {
 } from '../screens';
 import SignupScreen from '../screens/Signup';
 import LabResultsStack from './LabResultsStack';
-
+import user from '../utils/User';
 const Drawer = createDrawerNavigator();
 
 function Home() {
@@ -28,8 +28,8 @@ function Home() {
 }
 
 const ProfileInfo = () => {
-  const user = auth().currentUser;
-  if (!user) {
+  const user_ = auth().currentUser;
+  if (!user_ && !user.loggedIn) {
     return null;
   }
   return (
@@ -43,14 +43,16 @@ const ProfileInfo = () => {
       }}>
       <View style={{ width: 200 }}>
         <Text style={{ color: Colors.white, textAlign: 'right' }}>
-          {user?.displayName}
+          {user_?.displayName ?? user.name}
         </Text>
-        <Text style={{ color: Colors.white }}>{user?.phoneNumber}</Text>
+        <Text style={{ color: Colors.white }}>
+          {user_?.phoneNumber ?? user.phoneNum}
+        </Text>
       </View>
       <Image
         source={
-          user?.photoURL
-            ? { uri: user?.photoURL }
+          user_?.photoURL
+            ? { uri: user_?.photoURL }
             : require('../assets/images/php.webp')
         }
         style={{

@@ -99,9 +99,3 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
 });
-
-import { LogBox } from 'react-native';
-
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);

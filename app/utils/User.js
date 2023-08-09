@@ -16,6 +16,19 @@ class User {
     this.loggedIn = false;
     this.photo = null;
   }
+  clear() {
+    this.id = null;
+    this.name = null;
+    this.email = null;
+    this.age = null;
+    this.gender = null;
+    this.password = null;
+    this.phoneNum = null;
+    this.medFile = null;
+    this.type = null;
+    this.loggedIn = false;
+    this.photo = null;
+  }
 }
 
 // create a static user that will be exported

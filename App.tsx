@@ -13,7 +13,10 @@ import {
   getFCMToken,
   requestUserPermission,
 } from './app/services/FirebaseNotifications';
-import { OfflineLocalNotification, OnlineLocalNotification } from './app/services/LocalNotifications';
+import {
+  OfflineLocalNotification,
+  OnlineLocalNotification,
+} from './app/services/LocalNotifications';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 function App(): JSX.Element {
@@ -132,3 +135,7 @@ function init() {
     I18nManager.forceRTL(i18n.language === 'ar');
   });
 }
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs(true);
