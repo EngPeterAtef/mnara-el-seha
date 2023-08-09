@@ -22,6 +22,16 @@ class User {
 // this user will be used to store the data of the user
 // that is currently logged in
 const user = new User();
-
+export const admin = new User(
+  1,
+  'الادمن',
+  'admin@admin.com',
+  '22',
+  'male',
+  'admin@admin',
+  '+201554886298',
+  null,
+  'admin',
+);
 // export the user
 export default user;

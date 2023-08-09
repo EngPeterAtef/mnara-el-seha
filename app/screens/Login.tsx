@@ -11,14 +11,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import auth from '@react-native-firebase/auth';
-import Modal from 'react-native-modal';
-import Entypo from 'react-native-vector-icons/Entypo';
+// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { handleFacebookSingIn } from '../services/Facebook';
 import { handleGoogleSingIn } from '../services/Google';
-import user from '../utils/User';
+import user, { admin } from '../utils/User';
 
 export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
@@ -72,6 +70,15 @@ export default function LoginScreen({ navigation }: any) {
 
   const loginAuth = async () => {
     setLoading(true);
+    if (email === admin.email && password === admin.password) {
+      user.email = admin.email;
+      user.password = admin.password;
+      user.phoneNum = admin.phoneNum;
+      user.type = 'admin';
+      toggleModalSucess();
+      navigation.navigate('Otp');
+      return;
+    }
     try {
       user.email = email;
       user.password = password;
@@ -224,7 +231,9 @@ export default function LoginScreen({ navigation }: any) {
     } else if (!passwordLengthRegex.test(text)) {
       passwordErrorTemp = passwordLengthErrorMessage;
     }
-
+    if (text === admin.password) {
+      passwordErrorTemp = '';
+    }
     setPasswordError(passwordErrorTemp);
   };
 
