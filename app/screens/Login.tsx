@@ -11,28 +11,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import auth from '@react-native-firebase/auth';
 import Modal from 'react-native-modal';
 import Entypo from 'react-native-vector-icons/Entypo';
+import auth from '@react-native-firebase/auth';
+// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { handleFacebookSingIn } from '../services/Facebook';
 import { handleGoogleSingIn } from '../services/Google';
-import user from '../utils/User';
+import user, { admin } from '../utils/User';
 
 export default function LoginScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
   navigation.setOptions({ headerShown: false, swipeEnabled: false });
 
-  // const [id, setID] = useState('');
-  // const [medFile, setMedFile] = useState('');
-  // const [phoneNum, setPhoneNum] = useState('');
   const [isModalVisibleSucess, setModalSucessVisible] = useState(false);
   const [isModalVisibleFailure, setModalFailureVisible] = useState(false);
-  // const [phoneNumberError, setPhoneNumberError] = useState('');
-  // const [idError, setIDError] = useState('');
-  // const [medFileError, setMedFileError] = useState('');
-  // const [secureMedFile, setSecureMedFile] = useState(true);
+  const [changed, setChanged] = useState(0);
 
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -68,10 +62,32 @@ export default function LoginScreen({ navigation }: any) {
         }
       }
     }
+    if (user.loggedIn) {
+      if (!isModalVisibleSucess) {
+        setLoading(false);
+        // reset all
+        setEmail('');
+        setPassword('');
+        setEmailError('');
+        setPasswordError('');
+        setChanged(changed + 1);
+        navigation.navigate('Otp');
+      }
+    }
   }, [isModalVisibleSucess]);
 
   const loginAuth = async () => {
     setLoading(true);
+    if (email === admin.email && password === admin.password) {
+      user.email = admin.email;
+      user.password = admin.password;
+      user.phoneNum = admin.phoneNum;
+      user.type = 'admin';
+      user.name = admin.name;
+      user.loggedIn = true;
+      toggleModalSucess();
+      return;
+    }
     try {
       user.email = email;
       user.password = password;
@@ -80,7 +96,9 @@ export default function LoginScreen({ navigation }: any) {
         .signInWithEmailAndPassword(email, password)
         .then(async () => {
           console.log('User account signed in!');
+          user.loggedIn = true;
           toggleModalSucess();
+          setChanged(changed + 1);
         })
         .catch((error) => {
           console.log(error.message);
@@ -131,41 +149,6 @@ export default function LoginScreen({ navigation }: any) {
     setLoading(false);
   };
 
-  // const signInWithTwitter = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await handleTwitterSingIn();
-  //     console.log('twitter res: ', res);
-
-  //     // set the user data\
-  //     // console.log('response: ', response);
-  //     // user.email = res.user?.email;
-  //     // user.name = res.user?.displayName;
-  //     // user.phoneNum = res.user?.phoneNumber;
-  //     // user.id = res.user?.uid;
-  //     // user.photo = res.user?.photoURL;
-  //     user.type = 'twitter';
-  //     toggleModalSucess();
-  //   } catch (error: any) {
-  //     console.log(error.message);
-  //     setModalFailureVisible(true);
-  //   }
-  //   setLoading(false);
-  // };
-  // const idValidation = (text: string) => {
-  //   setID(text);
-  //   const idRegex = /^\d{14}$/;
-  //   if (text.length === 0) {
-  //     setIDError('رقم الهوية مطلوب');
-  //   }
-  //   else if (!idRegex.test(text)) {
-  //     setIDError('رقم الهوية غير صحيح');
-  //   }
-  //   else {
-  //     setIDError('');
-  //   }
-  // };
-
   const validateEmail = (text: string) => {
     setEmail(text);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -177,21 +160,6 @@ export default function LoginScreen({ navigation }: any) {
       setEmailError('');
     }
   };
-
-  // const medFileValidation = (text: string) => {
-  //   setMedFile(text);
-  //   // regex of string of 7 characters
-  //   const medFileRegex = /^\d{7}$/;
-  //   if (text.length === 0) {
-  //     setMedFileError('رقم الملف الطبي مطلوب');
-  //   }
-  //   else if (!medFileRegex.test(text)) {
-  //     setMedFileError('رقم الملف الطبي غير صحيح');
-  //   }
-  //   else {
-  //     setMedFileError('');
-  //   }
-  // };
 
   const passwordValidation = (text: string) => {
     setPassword(text);
@@ -224,19 +192,11 @@ export default function LoginScreen({ navigation }: any) {
     } else if (!passwordLengthRegex.test(text)) {
       passwordErrorTemp = passwordLengthErrorMessage;
     }
-
+    if (text === admin.password) {
+      passwordErrorTemp = '';
+    }
     setPasswordError(passwordErrorTemp);
   };
-
-  // const validatePhoneNumber = (text: string) => {
-  //   setPhoneNum(text);
-  //   const phoneNumberRegex = /^(015|012|010|011)\d{8}$/;
-  //   if (!phoneNumberRegex.test(text)) {
-  //     setPhoneNumberError('رقم الجوال غير صحيح');
-  //   } else {
-  //     setPhoneNumberError('');
-  //   }
-  // };
 
   const toggleModalSucess = () => {
     setModalSucessVisible(!isModalVisibleSucess);
@@ -280,7 +240,7 @@ export default function LoginScreen({ navigation }: any) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView key={changed}>
       <StatusBar barStyle="light-content" backgroundColor="#1D5B8C" />
       {appBar()}
       <ScrollView
@@ -315,15 +275,6 @@ export default function LoginScreen({ navigation }: any) {
                   تسجيل الدخول بحساب فيسبوك
                 </Text>
               </TouchableOpacity>
-              {/* sign in with twitter */}
-              {/* <TouchableOpacity
-                style={styles.socialBtn}
-                onPress={signInWithTwitter}>
-                <Ionicons name="logo-twitter" size={30} color="white" />
-                <Text style={styles.socialBtnText}>
-                  تسجيل الدخول بحساب تويتر
-                </Text>
-              </TouchableOpacity> */}
             </View>
             {/* line separator */}
             <View style={styles.lineSeparatorView}>
@@ -332,22 +283,6 @@ export default function LoginScreen({ navigation }: any) {
               <View style={styles.lineSeparator} />
             </View>
             <View style={styles.allInputs}>
-              {/* <View style={styles.inputView}>
-                <TextInput
-                  style={styles.inputText}
-                  placeholder="رقم الهوية الزامي"
-                  placeholderTextColor="#8DA9B6"
-                  onChangeText={text => idValidation(text)}
-                  value={id}
-                  // start writing from the right side
-                  textAlign="right"
-                  keyboardType="numeric"
-                  maxLength={14}
-                />
-              </View>
-              {idError !== '' ? (
-                <Text style={styles.errorText}>{idError}</Text>
-              ) : null} */}
               <View style={styles.inputView}>
                 <TextInput
                   style={styles.inputText}

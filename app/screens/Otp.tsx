@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
-import user from '../utils/User';
+import user, { admin } from '../utils/User';
 
 export default function OtpScreen({ navigation }: any) {
   //to avoid using the side menu inside the login screen
@@ -37,9 +37,11 @@ export default function OtpScreen({ navigation }: any) {
   useEffect(() => {
     console.log('user', user);
     if (!mounted) {
-      signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
-      Keyboard.dismiss();
-      setMounted(true);
+      if (user.type !== 'admin') {
+        signInWithPhoneNumber(user.phoneNum ?? '+201554886298');
+        Keyboard.dismiss();
+        setMounted(true);
+      }
     }
   }, []);
 
@@ -70,6 +72,20 @@ export default function OtpScreen({ navigation }: any) {
     setChanged(changed + 1);
     setIsLoading(true);
     setWrongCode(false);
+    if (user.type === 'admin') {
+      // check that code is 123456
+      if (code === '123456') {
+        console.log('Admin confirmed');
+        admin.loggedIn = true;
+        navigation.navigate('MedicalServices');
+        return;
+      } else {
+        // wrong code
+        setWrongCode(true);
+        setIsLoading(false);
+        return;
+      }
+    }
     try {
       if (confirm != null) {
         await confirm.confirm(code);

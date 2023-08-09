@@ -15,31 +15,6 @@ const CustomCard = ({ title, icons, onPress }: any) => {
 };
 
 export default function MainScreen({ navigation }: any) {
-  // const [connected, setConnected] = useState(false);
-  // const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
-  // const [prevConnected, setPrevConnected] = useState(false);
-  // useEffect(() => {
-  //   const unsubscribe = NetInfo.addEventListener((state) => {
-  //     // setPrevConnected(connected);
-  //     setConnected(state.isConnected ?? false);
-  //     console.log(`Connection type: ${state.type}`);
-  //     console.log(`Is connected? ${state.isConnected}`);
-  //     // console.log(`Is internet reachable? ${state.isInternetReachable}`);
-  //     // console.log(`prevConnected: ${prevConnected}`);
-  //     console.log(`connected: ${connected}`);
-  //     console.log('-------------------');
-  //   });
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-  // use setTimout to show the message for 3 seconds then hide it
-  // useEffect(() => {
-  //   setDisplayNetworkMessage(true);
-  //   setTimeout(() => {
-  //     setDisplayNetworkMessage(false);
-  //   }, 5000);
-  // }, [connected]);
   console.log(`user: ${user}`);
   return (
     <View style={styles.container}>
@@ -147,23 +122,27 @@ export default function MainScreen({ navigation }: any) {
             onPress={() => navigation.navigate('ContactUs')}
           />
         </View>
-        <View style={styles.user}>
-          <Text style={styles.infoText}>
-            للإستفادة من خدمات المدينة, رجاء تسجيل الدخول{' '}
-          </Text>
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Text style={styles.loginText}>تسجيل دخول</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.loginText}>انشاء حساب جديد</Text>
-          </TouchableOpacity>
-        </View>
+        {!user.loggedIn && (
+          <>
+            <View style={styles.user}>
+              <Text style={styles.infoText}>
+                للإستفادة من خدمات المدينة, رجاء تسجيل الدخول{' '}
+              </Text>
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}>
+                <Text style={styles.loginText}>تسجيل دخول</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => navigation.navigate('signup')}>
+                <Text style={styles.loginText}>انشاء حساب جديد</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </ScrollView>
       {/* {
         // use setTimout to show the message for 3 seconds then hide it

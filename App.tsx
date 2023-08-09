@@ -13,8 +13,10 @@ import {
   getFCMToken,
   requestUserPermission,
 } from './app/services/FirebaseNotifications';
-import { OfflineLocalNotification, OnlineLocalNotification } from './app/services/LocalNotifications';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {
+  OfflineLocalNotification,
+  OnlineLocalNotification,
+} from './app/services/LocalNotifications';
 
 function App(): JSX.Element {
   init();
@@ -25,10 +27,7 @@ function App(): JSX.Element {
     NotificationListener();
   }, []);
 
-  //TODO: add use effect to read from async storage if the user is logged in or not to know which screen to render
   const [connected, setConnected] = useState(false);
-  // const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
-  // const [prevConnected, setPrevConnected] = useState(false);
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setConnected(state.isConnected ?? false);
@@ -52,7 +51,7 @@ function App(): JSX.Element {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <SideMenu />
-      <Modal isVisible={!connected} style={styles.mainModel}>
+      <Modal isVisible={false} style={styles.mainModel}>
         <View style={styles.failureContent}>
           <MaterialIcons
             name="signal-wifi-connected-no-internet-4"
@@ -132,3 +131,7 @@ function init() {
     I18nManager.forceRTL(i18n.language === 'ar');
   });
 }
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs(true);
