@@ -38,6 +38,7 @@
     "react-native-fbsdk-next": "^7.2.0",
     "react-native-gesture-handler": "^2.12.0",
     "react-native-modal": "^13.0.1",
+    "react-native-otp-inputs": "^7.4.0",
     "react-native-push-notification": "^8.1.1",
     "react-native-radio-buttons-group": "^3.0.2",
     "react-native-reanimated": "^3.4.1",

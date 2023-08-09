@@ -14,8 +14,8 @@ import {
   OtpScreen,
 } from '../screens';
 import SignupScreen from '../screens/Signup';
-import LabResultsStack from './LabResultsStack';
 import user from '../utils/User';
+import LabResultsStack from './LabResultsStack';
 const Drawer = createDrawerNavigator();
 
 function Home() {

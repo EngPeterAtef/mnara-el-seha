@@ -1,6 +1,5 @@
 import Clipboard from '@react-native-community/clipboard';
 import auth from '@react-native-firebase/auth';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -14,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import OtpInputs from 'react-native-otp-inputs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../assets/values/Colors';
 import user, { admin } from '../utils/User';
@@ -78,6 +78,7 @@ export default function OtpScreen({ navigation }: any) {
         console.log('Admin confirmed');
         admin.loggedIn = true;
         navigation.navigate('MedicalServices');
+        setIsLoading(false);
         return;
       } else {
         // wrong code
@@ -170,20 +171,27 @@ export default function OtpScreen({ navigation }: any) {
             <TouchableOpacity onPress={() => confirmCode(code)}>
               <Text style={styles.subText2}>ادخل رمز التحقق</Text>
             </TouchableOpacity>
-            <OTPInputView
+            <OtpInputs
               key={changed}
-              style={{ width: '80%', height: '20%' }}
-              pinCount={6}
-              autoFocusOnLoad={true}
-              editable={true}
-              codeInputFieldStyle={styles.underlineStyleBase}
-              codeInputHighlightStyle={styles.underlineStyleHighLighted}
-              keyboardType="number-pad"
-              onCodeFilled={(code: any) => {
-                console.log(`Code is ${code}, you are good to go!`);
-                confirmCode(code);
-                setCode(code);
-                Clipboard.setString('');
+              handleChange={(code) => {
+                setWrongCode(false);
+                if (code.length === 6) {
+                  console.log(`Code is ${code}, you are good to go!`);
+                  confirmCode(code);
+                  setCode(code);
+                  Clipboard.setString('');
+                }
+              }}
+              numberOfInputs={6}
+              autofillFromClipboard={true}
+              inputStyles={{
+                ...styles.underlineStyleBase,
+                ...styles.underlineStyleHighLighted,
+                ...(wrongCode && { borderColor: 'red' }),
+              }}
+              style={{
+                flexDirection: 'row-reverse',
+                justifyContent: 'center',
               }}
             />
             {isLoading && (
@@ -309,13 +317,15 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   underlineStyleBase: {
-    width: 40,
+    width: 45,
     height: 60,
     borderWidth: 1,
     backgroundColor: Colors.white,
     borderRadius: 10,
     color: Colors.primary1,
     fontSize: 20,
+    margin: 5,
+    textAlign: 'center',
   },
   underlineStyleHighLighted: {
     borderColor: Colors.secondary1,
