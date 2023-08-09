@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -23,12 +23,15 @@ export default function LabResultsScreen({ navigation, route }: any) {
         return (
           item.date >= prevDay &&
           item.date <= dateTo &&
-          item.official === pressed
+          item.official === !pressed
         );
       });
       setFilteredData(filteredData);
     }
   };
+  useEffect(() => {
+    filterData();
+  }, [pressed]);
 
   const CustomListCardItem = ({ item }: any) => {
     const date = item.date;
@@ -160,7 +163,6 @@ export default function LabResultsScreen({ navigation, route }: any) {
               ]}
               onPress={() => {
                 setPressed(true);
-                filterData();
               }}>
               <Text
                 style={[
@@ -179,7 +181,6 @@ export default function LabResultsScreen({ navigation, route }: any) {
               ]}
               onPress={() => {
                 setPressed(false);
-                filterData();
               }}>
               <Text
                 style={[
@@ -325,7 +326,7 @@ const data = [
   {
     id: 5,
     date: new Date('2021-05-04'),
-    text: 'نتيجة 5',
+    text: 'نتيجة 50',
     description: 'هذه هي النتيجة الخامسة',
     official: true,
     field1: 'بيانات الحقل 1 للعنصر 5',

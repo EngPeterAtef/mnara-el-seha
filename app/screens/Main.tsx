@@ -15,31 +15,6 @@ const CustomCard = ({ title, icons, onPress }: any) => {
 };
 
 export default function MainScreen({ navigation }: any) {
-  // const [connected, setConnected] = useState(false);
-  // const [displayNetworkMessage, setDisplayNetworkMessage] = useState(false);
-  // const [prevConnected, setPrevConnected] = useState(false);
-  // useEffect(() => {
-  //   const unsubscribe = NetInfo.addEventListener((state) => {
-  //     // setPrevConnected(connected);
-  //     setConnected(state.isConnected ?? false);
-  //     console.log(`Connection type: ${state.type}`);
-  //     console.log(`Is connected? ${state.isConnected}`);
-  //     // console.log(`Is internet reachable? ${state.isInternetReachable}`);
-  //     // console.log(`prevConnected: ${prevConnected}`);
-  //     console.log(`connected: ${connected}`);
-  //     console.log('-------------------');
-  //   });
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-  // use setTimout to show the message for 3 seconds then hide it
-  // useEffect(() => {
-  //   setDisplayNetworkMessage(true);
-  //   setTimeout(() => {
-  //     setDisplayNetworkMessage(false);
-  //   }, 5000);
-  // }, [connected]);
   console.log(`user: ${user}`);
   return (
     <View style={styles.container}>

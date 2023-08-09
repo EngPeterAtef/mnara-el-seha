@@ -117,7 +117,7 @@ export default function SideMenu(): JSX.Element {
         />
         <Drawer.Screen
           name={'Home'}
-          component={Home}
+          component={MedicalServicesScreen}
           options={{
             title: list[0],
             drawerIcon: () => (
